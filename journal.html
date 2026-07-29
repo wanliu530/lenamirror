@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✧⋆ Lena's Mirror Journal ˚‧₊˚✧⋆</title>
+    <style>
+        /* 仅woff2，移除ttf */
+        @font-face {
+            font-family: "Font_Loading";
+            src: url("./assets/fonts/font_loading.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_SiteTitle";
+            src: url("./assets/fonts/font_title.woff2") format("woff2");
+            font-weight: normal;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_BodyEN";
+            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_BodyCN";
+            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
+            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
+            font-display: swap;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url("./assets/images/cursor_pixel.gif"), auto;
+        }
+        body {
+            font-family: "Font_BodyEN", "Font_BodyCN", sans-serif;
+            overflow-x: hidden;
+            background: #fff5fb;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
+        }
+        a:hover, button:hover, select:hover, input, textarea {
+            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
+        }
+        .y2k-neon-panel {
+            border: 3px solid #ff77bb;
+            box-shadow: 0 0 10px #ff77bb40, 0 0 20px #ffbbee30, inset 0 0 12px #ffcce020;
+            backdrop-filter: blur(3px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px !important;
+            background: transparent;
+        }
+        .y2k-neon-panel::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
+            animation: soft-scan 3.5s linear infinite;
+        }
+        @keyframes soft-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        /* 子页面彻底隐藏加载动画 */
+        .loading-screen, .gold-vintage-mirror, .blink-rose, .progress-container, .load-text {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .main-wrapper {
+            display: block !important;
+        }
+        /* 顶部横幅 */
+        .top-cat-banner {
+            width: 100%;
+            height: 440px;
+            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
+            position: relative;
+            padding: 30px;
+            overflow: hidden;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+        }
+        .float-sticker {
+            position: absolute;
+            pointer-events: none;
+            animation: slow-float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px #ffbbee);
+        }
+        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay:0.5s; }
+        .sticker-daisy { top:60px; left:75%; width:70px; animation-delay:1.2s; }
+        .sticker-heart { bottom:80px; left:20%; width:100px; animation-delay:2s; }
+        @keyframes slow-float {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(-3deg); }
+        }
+        .site-title-glitter {
+            position: absolute;
+            right: 40px;
+            bottom: 30px;
+            font-size: 74px;
+            font-family: "Font_SiteTitle";
+            font-weight: 950;
+            letter-spacing: 5px;
+            font-style: italic;
+            color: #b81e60;
+            animation: title-shine 1.4s infinite alternate;
+            text-shadow: 3px 3px 0 #ffffff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 0 0 14px #ff4488, 0 0 28px #c82266, 0 0 42px #a01850;
+            transform: rotate(-2deg);
+        }
+        @keyframes title-shine {
+            from { filter: drop-shadow(0 0 6px #ff99cc); }
+            to { filter: drop-shadow(0 0 22px #b81e60); }
+        }
+        .star-deco-left {
+            position: absolute;
+            right: calc(100% + 12px);
+            top: 10px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate;
+        }
+        .star-deco-right {
+            position: absolute;
+            left: calc(100% + 12px);
+            bottom: 8px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate 0.4s;
+        }
+        @keyframes star-blink {
+            from { opacity:0.5; transform:scale(0.9); }
+            to { opacity:1; transform:scale(1.2); }
+        }
+        /* 页面布局 */
+        .content-container {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start;
+            width: 92%;
+            max-width: 1420px;
+            margin: 45px auto;
+            gap: 40px;
+        }
+        .left-sidebar-wrap {
+            flex-shrink: 0 !important;
+            width: 230px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .sidebar-nav {
+            width: 100%;
+            padding: 32px 22px;
+            z-index: 10;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 30px 0;
+            text-decoration: none;
+            font-size: 22px;
+            color: #801048 !important;
+            font-weight: bold;
+            transition: all 0.2s;
+            padding: 8px 10px;
+            border-radius: 6;
+        }
+        .nav-link:hover {
+            transform: translateX(6px);
+            color: #ff2277 !important;
+        }
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
+        .main-content-area {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+        /* 日历模块 */
+        .y2k-full-calendar {
+            width: 100%;
+            padding: 18px 14px;
+            background: #ffe6f2;
+            border: 3px solid #ff66b2;
+            border-radius: 18px;
+            box-shadow: 0 0 15px #ff80bf70;
+            position: relative;
+            overflow: hidden;
+        }
+        .y2k-full-calendar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 90% 20%, rgba(216, 130, 255, 0.42), transparent 40%),
+                        radial-gradient(circle at 10% 10%, rgba(255, 175, 225, 0.5), transparent 35%),
+                        radial-gradient(circle at 15% 85%, rgba(200, 120, 255, 0.35), transparent 35%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .cal-select-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        .cal-select-bar select {
+            padding: 6px 10px;
+            background: #fff0f8;
+            border: 2px solid #ff99dd;
+            color: #b3246c;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: "Font_BodyEN", sans-serif;
+        }
+        .cal-week-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+        .cal-week-text {
+            text-align: center;
+            font-size: 15px;
+            color: #cc3377;
+            padding: 4px 0;
+        }
+        .cal-day-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            position: relative;
+            z-index: 2;
+        }
+        .cal-day-normal {
+            text-align: center;
+            padding: 7px 0;
+            font-size: 15px;
+            color: #ff99c2;
+        }
+        .cal-day-has-post {
+            text-align: center;
+            padding: 7px 0;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff2288;
+            text-shadow: 0 0 6px #ff44bb;
+        }
+        /* 随笔笔记本 */
+        .journal-post-container {
+            width: 100%;
+            min-height: 500px;
+            background: #fff8fc;
+            background-image: linear-gradient(#ffd8e8 1px, transparent 1px);
+            background-size: 32px 32px;
+            border-left: 20px solid #e8b8d0;
+            border-radius: 14px;
+            padding: 30px 32px;
+            color: #902050;
+        }
+        .notebook-header-block {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 24px;
+            border-bottom: 1px dashed #ffb8d0;
+        }
+        .local-header-img {
+            width: 70%;
+            max-width: 420px;
+            height: auto;
+            object-fit: contain;
+            border: none;
+            margin-bottom: 18px;
+        }
+        .journal-main-title {
+            font-size: 46px;
+            font-family: "Font_SiteTitle";
+            color: #d03070;
+            letter-spacing: 5px;
+            text-shadow: 0 0 8px #ffb8e8;
+            margin-bottom: 16px;
+        }
+        .admin-upload-btn {
+            padding:10px 24px;
+            background:linear-gradient(90deg,#ff66aa,#cc4488);
+            color:#fff;
+            border:none;
+            border-radius:12px;
+            font-size:17px;
+            margin-bottom:20px;
+        }
+        .single-journal-card {
+            margin-bottom: 24px;
+            border-bottom: 1px dashed #ffb8d0;
+            padding-bottom: 20px;
+            cursor:pointer;
+        }
+        .single-journal-card:last-child {
+            border-bottom: none;
+        }
+        .card-post-date {
+            text-align: right;
+            font-size: 18px;
+            color: #c04080;
+            margin-bottom: 10px;
+        }
+        .card-post-title {
+            font-size: 23px;
+            font-weight: bold;
+            color: #d03070;
+            margin-bottom: 12px;
+        }
+        .card-preview-text {
+            font-size: 19px;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .post-image-wrap {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .card-post-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #ffc8e0;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+        }
+        .empty-journal-tip {
+            text-align: center;
+            font-size: 20px;
+            padding: 80px 0;
+            color: #c04080;
+        }
+        .page-switch-btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .page-switch-btn {
+            padding: 8px 22px;
+            background: #ffe0ef;
+            border: 2px solid #ff66b2;
+            border-radius: 10px;
+            font-size: 18px;
+            color: #a02060;
+        }
+        .page-switch-btn:disabled {
+            opacity: 0.4;
+        }
+        /* 随笔弹窗 */
+        .journal-detail-modal {
+            position: fixed;
+            inset:0;
+            background:rgba(0,0,0,0.75);
+            z-index:9998;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:30px;
+        }
+        .journal-detail-modal.active{
+            display:flex;
+        }
+        .modal-inner-box {
+            width:100%;
+            max-width:960px;
+            background:#fff8fc;
+            background-image: linear-gradient(#ffd8e8 1px, transparent 1px);
+            background-size:32px 32px;
+            border-left:16px solid #e8b8d0;
+            border-radius:16px;
+            padding:36px;
+        }
+        .modal-top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:24px;
+            padding-bottom:16px;
+            border-bottom:1px dashed #ffb8d0;
+        }
+        .modal-close{
+            width:36px;
+            height:36px;
+            border:2px solid #ff77bb;
+            background:#ffe0ef;
+            border-radius:6px;
+            font-size:20px;
+            color:#a02060;
+            cursor:pointer;
+        }
+        .modal-date{
+            font-size:17px;
+            color:#c04080;
+        }
+        .modal-title{
+            font-size:34px;
+            font-family:"Font_SiteTitle";
+            color:#d03070;
+            margin-bottom:20px;
+        }
+        .modal-full-text{
+            font-size:20px;
+            line-height:1.8;
+            white-space:pre-line;
+            margin-bottom:30px;
+        }
+        .modal-img-wrap{
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+            gap:14px;
+            margin-bottom:40px;
+        }
+        .modal-img{
+            width:100%;
+            border-radius:10px;
+            border:2px solid #ffc8e0;
+        }
+        .comment-area{
+            margin-top:40px;
+            padding-top:24px;
+            border-top:1px dashed #ffb8d0;
+        }
+        .comment-input{
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            margin-bottom:20px;
+        }
+        .comment-name,.comment-text{
+            width:100%;
+            padding:10px 14px;
+            border:2px solid #ff99dd;
+            border-radius:10px;
+            background:#fff;
+            color:#6b2e82;
+        }
+        .comment-text{
+            min-height:90px;
+            resize:vertical;
+        }
+        .send-comment{
+            align-self:flex-end;
+            padding:9px 22px;
+            background:linear-gradient(90deg,#ff99cc,#cc66ff);
+            border:none;
+            border-radius:10px;
+            color:#fff;
+            font-weight:bold;
+        }
+        .comment-list{
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+        .comment-item{
+            padding:12px 16px;
+            background:#fffafd;
+            border:2px solid #ffcce0;
+            border-radius:12px;
+        }
+        .cmt-name{
+            font-weight:bold;
+            color:#d03070;
+            margin-bottom:6px;
+        }
+        .cmt-time{
+            font-size:12px;
+            color:#b888a0;
+            text-align:right;
+            margin-top:6px;
+        }
+        .empty-cmt{
+            text-align:center;
+            color:#b888a0;
+            padding:20px;
+        }
+        /* 底部时间 */
+        .footer-time-bar {
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            background: rgba(255, 205, 228, 0.65);
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+            color: #881f4f;
+            font-size: 19px;
+            letter-spacing: 1.2px;
+            margin-top: 60px;
+            text-shadow: 0 0 5px #ffbbee;
+        }
+        /* BGM按钮 */
+        .bgm-toggle-button {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border: 4px double #ff66aa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            box-shadow: 0 0 12px rgba(255,120,180,0.4);
+        }
+        .gramophone-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px #ffbbee);
+        }
+        .sparkle-particle-layer {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
+        @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
+        /* 移动端 */
+        @media(max-width: 840px) {
+            .content-container { flex-direction: column !important; }
+            .left-sidebar-wrap { width: 100%; }
+            .top-cat-banner { height: 320px; }
+            .site-title-glitter { font-size: 48px; right: 10px; }
+            .star-deco-left,.star-deco-right { font-size:22px; }
+            .sticker-butterfly { width: 120px; }
+            .sticker-heart { width:70px; }
+            .cal-week-text, .cal-day-normal, .cal-day-has-post { font-size: 16px; }
+            .journal-post-container { border-left:12px; padding:20px 24px; }
+            .journal-main-title { font-size: 28px; }
+            .local-header-img { width: 100%; height: 200px; }
+            .modal-inner-box { padding:24px 18px; }
+            .modal-title { font-size:26px; }
+        }
+    </style>
+</head>
+<body class="sub-page">
+    <div class="sparkle-particle-layer"></div>
+    <!-- 加载层已隐藏 -->
+    <div class="loading-screen" id="loadScreen">
+        <img class="gold-vintage-mirror" src="./assets/images/mirror.png" alt="mirror">
+        <img class="blink-rose" src="./assets/images/rose.png" alt="rose">
+        <p class="load-text">Loading Memories...</p>
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </div>
+    <div class="main-wrapper" id="mainPage">
+        <div class="top-cat-banner">
+            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="butterfly">
+            <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="26" fill="#fff8c8" />
+                <circle cx="32" cy="14" r="14" fill="#ffdd66" />
+                <circle cx="20" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="20" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="18" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="46" r="8" fill="#fff8c8" />
+                <circle cx="18" cy="32" r="8" fill="#fff8c8" />
+                <circle cx="46" cy="32" r="8" fill="#fff8c8" />
+            </svg>
+            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="heart">
+            <div class="site-title-glitter">
+                <span class="star-deco-left">✦</span>
+                Lena's Mirror
+                <span class="star-deco-right">✦</span>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="left-sidebar-wrap">
+                <aside class="sidebar-nav y2k-neon-panel">
+                    <a href="index.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_home.gif">Home 首页
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_journal.gif">Journal 随笔
+                    </a>
+                    <a href="gallery.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_gallery.gif">Gallery 相册
+                    </a>
+                    <a href="guestbook.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_message.gif">Guestbook 留言板
+                    </a>
+                </aside>
+                <!-- 日历区域 -->
+                <div class="y2k-full-calendar">
+                    <div class="cal-select-bar">
+                        <select id="calYearSel">
+                            <option value="2025">2025</option>
+                            <option value="2026" selected>2026</option>
+                        </select>
+                        <select id="calMonthSel">
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7" selected>Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                    </div>
+                    <div class="cal-week-row">
+                        <div class="cal-week-text">S</div>
+                        <div class="cal-week-text">M</div>
+                        <div class="cal-week-text">T</div>
+                        <div class="cal-week-text">W</div>
+                        <div class="cal-week-text">T</div>
+                        <div class="cal-week-text">F</div>
+                        <div class="cal-week-text">S</div>
+                    </div>
+                    <div class="cal-day-grid" id="calDayWrap"></div>
+                </div>
+            </div>
+            <!-- 随笔主体 -->
+            <div class="main-content-area">
+                <div class="journal-post-container">
+                    <div class="notebook-header-block">
+                        <img class="local-header-img" src="./assets/images/journal-header.png">
+                        <h2 class="journal-main-title">My Sweet Journal</h2>
+                        <button class="admin-upload-btn" id="uploadJournalBtn">管理员上传随笔(GitHub)</button>
+                    </div>
+                    <div id="postRenderWrap"></div>
+                </div>
+                <div class="page-switch-btn-group">
+                    <button class="page-switch-btn" id="prevPage">上一页</button>
+                    <button class="page-switch-btn" id="nextPage">下一页</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-time-bar" id="timeDisplay"></div>
+    </div>
+    <!-- 随笔弹窗 -->
+    <div class="journal-detail-modal" id="detailModal">
+        <div class="modal-inner-box">
+            <div class="modal-top-bar">
+                <span class="modal-date" id="modalDate"></span>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <div class="modal-full-text" id="modalText"></div>
+            <div class="modal-img-wrap" id="modalImgBox"></div>
+            <div class="comment-area">
+                <div class="comment-input">
+                    <input class="comment-name" id="cmtName" placeholder="昵称">
+                    <textarea class="comment-text" id="cmtText" placeholder="写下留言"></textarea>
+                    <button class="send-comment" id="sendCmt">发送留言</button>
+                </div>
+                <div class="comment-list" id="cmtList"></div>
+            </div>
+        </div>
+    </div>
+    <!-- BGM按钮 -->
+    <button class="bgm-toggle-button" id="bgmBtn">
+        <img class="gramophone-icon" src="./assets/images/gramophone.png">
+    </button>
+    <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
+        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+    <script>
+        const GITHUB_USER = "你的GitHub用户名";
+        const GITHUB_REPO = "你的仓库名称";
+        const GITHUB_BRANCH = "main";
+        const JOURNAL_FOLDER = "assets/journal/";
+        let allJournalPosts = [];
+        const pageSize = 4;
+        let currentPage = 0;
+        let currentPostId = "";
+
+        // DOM元素
+        const uploadJournalBtn = document.getElementById("uploadJournalBtn");
+        const postRenderWrap = document.getElementById("postRenderWrap");
+        const prevPage = document.getElementById("prevPage");
+        const nextPage = document.getElementById("detailModal");
+        const detailModal = document.getElementById("detailModal");
+        const closeModal = document.getElementById("closeModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDate = document.getElementById("modalDate");
+        const modalText = document.getElementById("modalText");
+        const modalImgBox = document.getElementById("modalImgBox");
+        const cmtName = document.getElementById("cmtName");
+        const cmtText = document.getElementById("cmtText");
+        const sendCmt = document.getElementById("sendCmt");
+        const cmtList = document.getElementById("cmtList");
+        const calYearSel = document.getElementById("calYearSel");
+        const calMonthSel = document.getElementById("calMonthSel");
+        const calDayWrap = document.getElementById("calDayWrap");
+        const bgmAudio = document.getElementById("bgmAudio");
+        const bgmBtn = document.getElementById("bgmBtn");
+
+        // 上传跳转
+        uploadJournalBtn.addEventListener("click", () => {
+            const uploadUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/upload/${GITHUB_BRANCH}/${JOURNAL_FOLDER}`;
+            window.open(uploadUrl, "_blank");
+            alert("仅仓库管理员可上传，访客无法操作，上传后刷新页面");
+        });
+
+        // ========== 修复日历核心函数（解决无日期BUG）==========
+        function renderCalendar() {
+            const year = Number(calYearSel.value);
+            const realMonth = Number(calMonthSel.value);
+            const monthIndex = realMonth - 1;
+            const lastDay = new Date(year, monthIndex + 1, 0).getDate();
+            const firstDayWeek = new Date(year, monthIndex, 1).getDay();
+            calDayWrap.innerHTML = "";
+            // 前置空白格子
+            for (let i = 0; i < firstDayWeek; i++) {
+                const empty = document.createElement("div");
+                empty.className = "cal-day-normal";
+                calDayWrap.appendChild(empty);
+            }
+            // 日期数字
+            const postDates = allJournalPosts.map(p => p.postDate);
+            for (let d = 1; d <= lastDay; d++) {
+                const dayBox = document.createElement("div");
+                dayBox.textContent = d;
+                const fullDate = `${year}-${String(realMonth).padStart(2, "-")}-${String(d).padStart(2, "0")}`;
+                dayBox.className = postDates.includes(fullDate) ? "cal-day-has-post" : "cal-day-normal";
+                calDayWrap.appendChild(dayBox);
+            }
+        }
+        // 年月切换触发重绘
+        calYearSel.addEventListener("change", renderCalendar);
+        calMonthSel.addEventListener("change", renderCalendar);
+
+        // 渲染随笔列表（修复pageData变量错误）
+        function renderJournalList() {
+            postRenderWrap.innerHTML = "";
+            const totalPages = Math.ceil(allJournalPosts.length / pageSize);
+            prevPage.disabled = currentPage <= 0;
+            nextPage.disabled = currentPage >= totalPages - 1;
+            const startIndex = currentPage * pageSize;
+            const pageData = allJournalPosts.slice(startIndex, startIndex + pageSize);
+            if (pageData.length === 0) {
+                postRenderWrap.innerHTML = `<div class="empty-journal-tip">暂无随笔，点击上方按钮前往GitHub上传</div>`;
+                return;
+            }
+            pageData.forEach(post => {
+                const card = document.createElement("div");
+                card.className = "single-journal-card";
+                card.dataset.pid = post.id;
+                card.innerHTML = `
+                    <div class="card-post-date">${post.postDate}</div>
+                    <h3 class="card-post-title">${post.title}</h3>
+                    <div class="card-preview-text">${getPreview(post.content)}</div>
+                    ${renderImgs(post.imgs)}
+                `;
+                card.onclick = () => openPost(post);
+                postRenderWrap.appendChild(card);
+            });
+        }
+        function getPreview(text) {
+            return text.split("\n").slice(0, 5).join("\n");
+        }
+        function renderImgs(imgArr) {
+            if (!imgArr || imgArr.length === 0) return "";
+            let html = `<div class="post-image-wrap">`;
+            imgArr.forEach(src => html += `<img class="card-post-img" src="${src}">`);
+            return html + `</div>`;
+        }
+        // 打开随笔弹窗
+        function openPost(post) {
+            currentPostId = post.id;
+            modalTitle.innerText = post.title;
+            modalDate.innerText = post.postDate;
+            modalText.innerText = post.content;
+            modalImgBox.innerHTML = "";
+            post.imgs.forEach(src => {
+                const img = document.createElement("img");
+                img.className = "modal-img";
+                img.src = src;
+                modalImgBox.appendChild(img);
+            });
+            loadComments();
+            detailModal.classList.add("active");
+        }
+        closeModal.onclick = () => detailModal.classList.remove("active");
+        detailModal.onclick = (e) => {
+            if (e.target === detailModal) detailModal.classList.remove("active");
+        };
+        // 留言本地存储
+        function getCmtKey() {
+            return `journal_cmt_${currentPostId}`;
+        }
+        function loadComments() {
+            const raw = localStorage.getItem(getCmtKey());
+            const list = raw ? JSON.parse(raw) : [];
+            cmtList.innerHTML = "";
+            if (list.length === 0) {
+                cmtList.innerHTML = `<div class="empty-cmt">暂无留言</div>`;
+                return;
+            }
+            list.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "comment-item";
+                div.innerHTML = `
+                    <div class="cmt-name">${item.name}</div>
+                    <div class="cmt-content">${item.content}</div>
+                    <div class="cmt-time">${item.time}</div>
+                `;
+                cmtList.appendChild(div);
+            });
+        }
+        sendCmt.onclick = () => {
+            const name = cmtName.value.trim() || "Anonymous";
+            const text = cmtText.value.trim();
+            if (!text) return alert("留言不能为空");
+            const now = new Date();
+            const time = `${now.getFullYear()}-${now.getMonth()+1}-${now.getHours()}:${now.getMinutes()}`;
+            const all = JSON.parse(local.getItem(getCmtKey()) || "[]");
+            all.unshift({ name, content: text, time });
+            localStorage.setItem(getCmtKey(), JSON.stringify(all));
+            loadComments();
+            cmtText.value = "";
+        };
+        // 分页
+        prevPage.addEventListener("click", () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderJournalList();
+            }
+        });
+        nextPage.addEventListener("click", () => {
+            const total = Math.ceil(allJournalPosts.length / pageSize);
+            if (currentPage < total - 1) {
+                currentPage++;
+                renderJournalList();
+            }
+        });
+        // 底部时间
+        function refreshTime() {
+            const now = new Date();
+            const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
+            const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            const y = now.getFullYear();
+            const mNum = now.getMonth() + 1;
+            const d = now.getDate();
+            const wIdx = now.getDay();
+            const show = `${y}年${mNum}月${d} ${weekCN[wIdx]} ${weekEN[wIdx]} ${monthEN[now.getMonth()]} ${d} ${y}`;
+            document.getElementById("timeDisplay").innerText = show;
+        }
+        refreshTime();
+        setInterval(refreshTime, 1000);
+        // 星光粒子
+        const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+        function createSpark() {
+            const size = Math.random() * 14 + 4;
+            const div = document.createElement("div");
+            div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
+            sparkleWrap.appendChild(div);
+            setTimeout(()=>div.remove(),15000);
+        }
+        setInterval(createSpark, 180);
+        const keyframeStyle = document.createElement("style");
+        keyframeStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
+        document.head.appendChild(keyframeStyle);
+        // BGM控制
+        let musicPlaying = true;
+        bgmBtn.addEventListener("click", () => {
+            if (musicPlaying) {
+                bgmAudio.pause();
+                musicPlaying = false;
+                bgmBtn.style.background = "#ffd6ec";
+            } else {
+                bgmAudio.play();
+                musicPlaying = true;
+                bgmBtn.style.background = "#ffffff";
+            }
+        });
+        document.body.addEventListener("click", () => {
+            bgmAudio.muted = false;
+            bgmAudio.play();
+        }, { once: true });
+        // 页面初始化，强制渲染日历
+        function pageInit() {
+            renderCalendar();
+            renderJournalList();
+        }
+        pageInit();
+    </script>
+</body>
+</html>

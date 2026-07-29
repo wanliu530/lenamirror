@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✧⋆ Guestbook 留言板 ˚‧₊˚✧⋆</title>
+    <style>
+        /* 仅woff字体，移除ttf */
+        @font-face {
+            font-family: "Font_Loading";
+            src: url("./assets/fonts/font_loading.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_SiteTitle";
+            src: url("./assets/fonts/font_title.woff2") format("woff2");
+            font-weight: normal;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_BodyEN";
+            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_BodyCN";
+            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
+            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
+            font-display: swap;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url("./assets/images/cursor_pixel.gif"), auto;
+        }
+        body {
+            font-family: "Font_BodyEN", "Font_BodyCN", sans-serif;
+            overflow-x: hidden;
+            background: #fff5fb;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
+        }
+        a:hover, button:hover, input:hover, textarea:hover, select:hover {
+            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
+        }
+        .y2k-neon-panel {
+            border: 3px solid #ff77bb;
+            box-shadow: 0 0 10px #ff77bb40, 0 0 20px #ffbbee30, inset 0 0 12px #ffcce020;
+            backdrop-filter: blur(3px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px !important;
+            background: transparent;
+        }
+        .y2k-neon-panel::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
+            animation: soft-scan 3.5s linear infinite;
+        }
+        @keyframes soft-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 30px 0;
+            text-decoration: none;
+            font-size: 22px;
+            color: #801048 !important;
+            font-weight: bold;
+            transition: all 0.2s;
+            padding: 8px 10px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            transform: translateX(6px);
+            color: #ff2277 !important;
+        }
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
+        .load-text {
+            margin-top: 30px;
+            font-size: 26px;
+            font-family: "Font_Loading";
+            color: #a02260;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px #ffb0dd;
+        }
+        .site-title-glitter {
+            position: absolute;
+            right: 40px;
+            bottom: 30px;
+            font-size: 74px;
+            font-family: "Font_SiteTitle";
+            font-weight: 950;
+            letter-spacing: 5px;
+            font-style: italic;
+            color: #b81e60;
+            animation: title-shine 1.4s infinite alternate;
+            text-shadow: 3px 3px 0 #ffffff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 0 0 14px #ff4488, 0 0 28px #c82266, 0 0 42px #a01850;
+            transform: rotate(-2deg);
+        }
+        @keyframes title-shine {
+            from { filter: drop-shadow(0 0 6px #ff99cc); }
+            to { filter: drop-shadow(0 0 22px #b81e60); }
+        }
+        .gb-window-title {
+            font-size: 60px;
+            font-family: "Font_SiteTitle";
+            color: #ff0066;
+            text-align: center;
+            padding: 20px 0;
+            letter-spacing: 4px;
+            text-shadow: 0 0 8px #ff3399, 0 0 16px #ff66cc, 0 0 24px #ff99dd;
+        }
+        /* 子页面直接隐藏加载动画，彻底避免冲突 */
+        .loading-screen {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gold-vintage-mirror, .blink-rose, .progress-container {
+            display: none;
+        }
+        .main-wrapper {
+            display: block !important; /* 强制页面主体显示，不再依赖JS */
+        }
+        .top-cat-banner {
+            width: 100%;
+            height: 440px;
+            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
+            position: relative;
+            padding: 30px;
+            overflow: hidden;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+        }
+        .float-sticker {
+            position: absolute;
+            pointer-events: none;
+            animation: slow-float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px #ffbbee);
+        }
+        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay:0.5s; }
+        .sticker-daisy { top:60px; left:75%; width:70px; animation-delay:1.2s; }
+        .sticker-heart { bottom:80px; left:20%; width:100px; animation-delay:2s; }
+        @keyframes slow-float {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(-3deg); }
+        }
+        .star-deco-left {
+            position: absolute;
+            right: calc(100% + 12px);
+            top: 10px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate;
+        }
+        .star-deco-right {
+            position: absolute;
+            left: calc(100% + 12px);
+            bottom: 8px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate 0.4s;
+        }
+        @keyframes star-blink {
+            from { opacity:0.5; transform:scale(0.9); }
+            to { opacity:1; transform:scale(1.2); }
+        }
+        .content-container {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start;
+            width: 92%;
+            max-width: 1420px;
+            margin: 45px auto;
+            gap: 40px;
+        }
+        .left-sidebar-wrap {
+            flex-shrink: 0 !important;
+            width: 230px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .sidebar-nav {
+            width: 100%;
+            padding: 32px 22px;
+            z-index: 10;
+        }
+        .y2k-full-calendar {
+            display: none;
+        }
+        .guestbook-main-area {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+        .gb-window-card {
+            background-image: linear-gradient(#ffd9e8 1px, transparent 1px), linear-gradient(90deg, #ffd9e8 1px, transparent 1px);
+            background-size: 36px 36px;
+            background-color: #fff8fc;
+            border: 6px solid #ff3399;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 18px #ff339977, 0 0 36px #ff66cc44, inset 0 0 20px #ff99dd22;
+        }
+        .gb-window-header {
+            background: linear-gradient(90deg, #ff3399, #ff66cc);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .traffic-lights {
+            display: flex;
+            gap: 10px;
+        }
+        .light-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.18), inset 0 3px 4px rgba(255,255,0.45);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        .dot-close { background: #ff5f57; }
+        .dot-min { background: #ffbd2e; }
+        .dot-max { background: #28c840; }
+        .light-dot:hover {
+            transform: scale(1.12);
+            filter: brightness(1.2);
+        }
+        .gb-scroll-list {
+            height: 420px;
+            overflow-y: auto;
+            padding: 0 24px;
+        }
+        .gb-scroll-list::-webkit-scrollbar { width:10px; }
+        .gb-scroll-list::-webkit-scrollbar-thumb { background:#ffb8d0; border-radius:6px; }
+        .gb-preview-item {
+            margin:22px 0;
+            border-bottom:1px dashed #ffc0dd;
+            padding-bottom:16px;
+        }
+        .preview-name { font-size:20px; color:#b3246c; font-weight:bold; }
+        .preview-msg { font-size:19px; color:#601a3c; margin:4px 0; line-height:1.6; white-space:pre-line; }
+        .preview-time { text-align:right; color:#a84477; font-size:16px; }
+        .gb-send-box {
+            padding:24px;
+            border-top:2px solid #ff3399;
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+        .input-row { display:flex; gap:12px; align-items:center; }
+        .input-row input {
+            flex:1; padding:10px 14px; border:2px solid #ffb8d0; border-radius:10px;
+            background:#fff; font-size:16px; color:#6b2e82;
+        }
+        .msg-textarea {
+            width:100%; min-height:120px; padding:12px 14px; border:2px solid #ffb8d0;
+            border-radius:10px; background:#fff; font-size:16px; color:#6b2e82; resize:vertical;
+        }
+        .send-btn {
+            align-self:flex-end; padding:10px 32px; background:linear-gradient(90deg,#ff3399,#ff66cc);
+            border:none; border-radius:10px; color:#fff; font-size:18px; font-weight:bold;
+            box-shadow:0 0 10px #ff339950;
+        }
+        .footer-time-bar {
+            width: 100%; text-align: center; padding: 14px;
+            background: rgba(255, 205, 228, 0.65);
+            border-top: 3px solid transparent; border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+            color: #881f4f; font-size: 19px; letter-spacing: 1.2px; margin-top: 60px;
+            text-shadow: 0 0 5px #ffbbee;
+        }
+        .bgm-toggle-button {
+            position: fixed; bottom: 28px; right: 28px; width: 60px; height: 60px;
+            background: #fff; border: 4px double #ff66aa; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; z-index: 999;
+            box-shadow: 0 0 12px rgba(255,120,180,0.4);
+        }
+        .gramophone-icon {
+            width: 36px; height: 36px; object-fit: contain;
+            filter: drop-shadow(0 0 4px #ffbbee);
+        }
+        .sparkle-particle-layer {
+            position: fixed; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;
+        }
+        @media(max-width: 840px) {
+            .content-container { flex-direction: column !important; }
+            .left-sidebar-wrap { width: 100%; }
+            .top-cat-banner { height: 320px; }
+            .site-title-glitter { font-size: 48px; right: 10px; }
+            .gb-window-title { font-size:36px; }
+            .gb-scroll-list { height:300px; }
+            .input-row { flex-direction:column; align-items:stretch; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle-particle-layer"></div>
+    <!-- 加载层直接隐藏，无需JS判断 -->
+    <div class="loading-screen" id="loadScreen">
+        <img class="gold-vintage-mirror" src="./assets/images/mirror.png" alt="mirror">
+        <img class="blink-rose" src="./assets/images/rose.png" alt="rose">
+        <p class="load-text">Loading Memories...</p>
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </div>
+    <!-- 页面主体CSS强制显示，不再依赖JS切换class -->
+    <div class="main-wrapper" id="mainPage">
+        <div class="top-cat-banner">
+            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="butterfly">
+            <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="26" fill="#fff8c8" />
+                <circle cx="32" cy="14" r="14" fill="#ffdd66" />
+                <circle cx="20" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="20" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="18" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="46" r="8" fill="#fff8c8" />
+                <circle cx="18" cy="32" r="8" fill="#fff8c8" />
+                <circle cx="46" cy="32" r="8" fill="#fff8c8" />
+            </svg>
+            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="heart">
+            <div class="site-title-glitter">
+                <span class="star-deco-left">✦</span>
+                Lena's Mirror
+                <span class="star-deco-right">✦</span>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="left-sidebar-wrap">
+                <aside class="sidebar-nav y2k-neon-panel">
+                    <a href="index.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_home.gif">Home 首页
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_journal.gif">Journal 随笔
+                    </a>
+                    <a href="gallery.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_gallery.gif">Gallery 相册
+                    </a>
+                    <a href="guestbook.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_message.gif">Guestbook 留言板
+                    </a>
+                </aside>
+            </div>
+            <div class="guestbook-main-area">
+                <div class="gb-window-card">
+                    <div class="gb-window-header">
+                        <div class="traffic-lights">
+                            <div class="light-dot dot-close"></div>
+                            <div class="light-dot dot-min"></div>
+                            <div class="light-dot dot-max"></div>
+                        </div>
+                        <div></div>
+                    </div>
+                    <h1 class="gb-window-title">#GUESTBOOK</h1>
+                    <div class="gb-scroll-list" id="previewScrollList"></div>
+                    <div class="gb-send-box">
+                        <div class="input-row">
+                            <input id="inputName" placeholder="你的昵称" value="Anonymous">
+                            <input id="inputEmail" placeholder="邮箱（选填）">
+                        </div>
+                        <textarea class="msg-textarea" id="inputMsg" placeholder="写下你的留言，Shift+Enter换行"></textarea>
+                        <button class="send-btn" id="sendBtn">发送留言</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-time-bar" id="timeDisplay"></div>
+    </div>
+    <button class="bgm-toggle-button" id="bgmBtn">
+        <img class="gramophone-icon" src="./assets/images/gramophone.png">
+    </button>
+    <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
+        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+    <script>
+        const GB_STORAGE_KEY = "site_guestbook_msg_list";
+        let allGuestMsg = [];
+        const previewScrollList = document.getElementById("previewScrollList");
+        const inputName = document.getElementById("inputName");
+        const inputEmail = document.getElementById("inputEmail");
+        const inputMsg = document.getElementById("inputMsg");
+        const sendBtn = document.getElementById("sendBtn");
+        const bgmAudio = document.getElementById("bgmAudio");
+        const bgmBtn = document.getElementById("bgmBtn");
+
+        function loadGuestMsgData() {
+            const raw = localStorage.getItem(GB_STORAGE_KEY);
+            if(raw) allGuestMsg = JSON.parse(raw);
+            renderPreview();
+        }
+        function saveData() {
+            localStorage.setItem(GB_STORAGE_KEY, JSON.stringify(allGuestMsg));
+        }
+        function renderPreview() {
+            previewScrollList.innerHTML = "";
+            const reverseList = [...allGuestMsg].reverse();
+            if(reverseList.length === 0) {
+                previewScrollList.innerHTML = `<div style="text-align:center;padding:40px;color:#b3246c;">暂无留言，快来第一条吧~</div>`;
+                return;
+            }
+            reverseList.forEach(item=>{
+                const div = document.createElement("div");
+                div.className = "gb-preview-item";
+                div.innerHTML = `
+                    <div class="preview-name">${item.name}</div>
+                    <div class="preview-msg">${item.msg}</div>
+                    <div class="preview-time">${item.time}</div>
+                `;
+                previewScrollList.appendChild(div);
+            })
+        }
+        function submitMessage() {
+            const name = inputName.value.trim() || "Anonymous";
+            const msg = inputMsg.value.trim();
+            if(!msg) return alert("留言内容不能为空！");
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")} ${now.getHours()}:${now.getMinutes()}`;
+            allGuestMsg.push({name, email: inputEmail.value.trim(), msg, time: timeStr});
+            saveData();
+            inputMsg.value = "";
+            renderPreview();
+            previewScrollList.scrollTop = 0;
+        }
+        inputMsg.addEventListener("keydown", function(e) {
+            if(e.key === "Enter" && !e.shiftKey) e.preventDefault();
+        })
+        sendBtn.addEventListener("click", submitMessage);
+
+        // 时间
+        function refreshTime(){
+            const now = new Date();
+            const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
+            const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            const y = now.getFullYear();
+            const mNum = now.getMonth() + 1;
+            const d = now.getDate();
+            const wIndex = now.getDay();
+            const wCn = weekCN[wIndex];
+            const wEn = weekEN[wIndex];
+            const monthEng = monthEN[now.getMonth()];
+            const showText = `${y}年${mNum}月${d} ${wCn} ${wEn} ${monthEng} ${d} ${y}`;
+            document.getElementById("timeDisplay").innerText = showText;
+        }
+        refreshTime();
+        setInterval(refreshTime, 1000);
+
+        // 粒子
+        const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+        function createSparkle(){
+            const size = Math.random()*14+4;
+            const div = document.createElement("div");
+            div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards, twinkle 1s infinite alternate;`;
+            sparkleWrap.appendChild(div);
+            setTimeout(()=>div.remove(),15000);
+        }
+        setInterval(createSparkle,180);
+        const keyframe = document.createElement("style");
+        keyframe.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
+        document.head.appendChild(keyframe);
+
+        // BGM 修复闭合括号！！
+        let musicPlaying = true;
+        bgmBtn.addEventListener("click",()=>{
+            if (musicPlaying){
+                bgmAudio.pause();
+                musicPlaying = false;
+                bgmBtn.style.background="#ffd6ec";
+            }else{
+                bgmAudio.play();
+                musicPlaying = true;
+                bgmBtn.style.background="#ffffff";
+            }
+        }); // 补上缺失的闭合 });
+
+        document.body.addEventListener("click",()=>{
+            bgmAudio.muted = false;
+            bgmAudio.play();
+        },{once:true})
+
+        // 页面初始化直接执行，不再依赖加载动画判断
+        function pageInit(){
+            loadGuestMsgData();
+        }
+        pageInit();
+    </script>
+</body>
+</html>

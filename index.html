@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✧⋆ Lena's Mirror Home ˚‧₊˚✧⋆</title>
+    <style>
+        /* ====================== 6套字体 仅woff2 无ttf ====================== */
+        @font-face {
+            font-family: "Font_Loading";
+            src: url("./assets/fonts/font_loading.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_SiteTitle";
+            src: url("./assets/fonts/font_title.woff2") format("woff2");
+            font-weight: normal;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_Nav_EN";
+            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_Nav_CN";
+            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
+            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_Body_EN";
+            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font_Body_CN";
+            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
+            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
+            font-display: swap;
+        }
+        /* ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url("./assets/images/cursor_pixel.gif"), auto;
+        }
+        body {
+            font-family: "Font_Body_EN", "Font_Body_CN", sans-serif;
+            overflow-x: hidden;
+            background: #fff5fb;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
+        }
+        a:hover, button:hover, .nav-link:hover {
+            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
+        }
+        .nav-link {
+            font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
+        }
+        .y2k-neon-panel {
+            border: 3px solid #ff77bb;
+            box-shadow:
+                0 0 10px #ff77bb40,
+                0 0 20px #ffbbee30,
+                inset 0 0 12px #ffcce020;
+            backdrop-filter: blur(3px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            background: transparent;
+        }
+        .y2k-neon-panel::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
+            animation: soft-scan 3.5s linear infinite;
+        }
+        @keyframes soft-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        /* 开场加载 */
+        .loading-screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(140deg, #ffd6ec, #ffc8e2, #f8d6ff);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s ease;
+            background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M25 25 L27 31 L33 31 L28 35 L30 41 L25 38 L20 41 L22 35 L17 31 L23 31 Z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .loading-screen.hide-load {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gold-vintage-mirror {
+            width: 340px;
+            height: auto;
+            position: relative;
+            filter: drop-shadow(0 0 25px #ffb0ee) drop-shadow(0 0 40px #ff88dd);
+        }
+        .blink-rose {
+            position: absolute;
+            width: 110px;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rose-flicker 1.1s infinite alternate;
+        }
+        @keyframes rose-flicker {
+            from { opacity: 0.4; filter: brightness(0.7); }
+            to { opacity: 1; filter: brightness(1.6) drop-shadow(0 0 18px #ff66aa); }
+        }
+        .load-text {
+            margin-top: 30px;
+            font-size: 26px;
+            font-family: "Font_Loading";
+            color: #a02260;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px #ffb0dd;
+        }
+        .progress-container {
+            width: 320px;
+            height: 16px;
+            background: #fff;
+            border: 3px double #ff77bb;
+            border-radius: 14px;
+            margin-top: 14px;
+            overflow: hidden;
+            box-shadow: inset 0 0 6px #ffcce0;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff5599, #e866cc, #dd55bb);
+            transition: width 0.06s linear;
+            border-radius: 12px;
+            box-shadow: 0 0 12px #ff44aa;
+        }
+        .main-wrapper {
+            display: none;
+        }
+        .main-wrapper.show {
+            display: block;
+        }
+        /* 顶部横幅 */
+        .top-cat-banner {
+            width: 100%;
+            height: 440px;
+            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
+            position: relative;
+            padding: 30px;
+            overflow: hidden;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+        }
+        .float-sticker {
+            position: absolute;
+            pointer-events: none;
+            animation: slow-float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px #ffbbee);
+        }
+        .sticker-butterfly {
+            top: 20px;
+            left: 10%;
+            width: 180px;
+            animation-delay: 0.5s;
+        }
+        .sticker-daisy {
+            top: 60px;
+            left: 75%;
+            width: 70px;
+            animation-delay: 1.2s;
+        }
+        .sticker-heart {
+            bottom: 80px;
+            left: 20%;
+            width: 100px;
+            animation-delay: 2s;
+        }
+        @keyframes slow-float {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(-3deg); }
+        }
+        .site-title-glitter {
+            position: absolute;
+            right: 40px;
+            bottom: 30px;
+            font-size: 74px;
+            font-family: "Font_SiteTitle";
+            font-weight: 950;
+            letter-spacing: 5px;
+            font-style: italic;
+            color: #b81e60;
+            animation: title-shine 1.4s infinite alternate;
+            text-shadow:
+                3px 3px 0 #ffffff,
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                0 0 14px #ff4488,
+                0 0 28px #c82266,
+                0 0 42px #a01850;
+            transform: rotate(-2deg);
+        }
+        .star-deco-left {
+            position: absolute;
+            right: calc(100% + 12px);
+            top: 10px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate;
+        }
+        .star-deco-right {
+            position: absolute;
+            left: calc(100% + 12px);
+            bottom: 8px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate 0.4s;
+        }
+        @keyframes star-blink {
+            from { opacity: 0.5; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes title-shine {
+            from { filter: drop-shadow(0 0 6px #ff99cc); }
+            to { filter: drop-shadow(0 0 22px #b81e60); }
+        }
+        /* 主体布局 */
+        .content-container {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start;
+            width: 92%;
+            max-width: 1420px;
+            margin: 45px auto;
+            gap: 40px;
+        }
+        .left-sidebar-wrap {
+            flex-shrink: 0 !important;
+            width: 230px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .sidebar-nav {
+            width: 100%;
+            padding: 32px 22px;
+            z-index: 10;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 30px 0;
+            text-decoration: none;
+            font-size: 22px;
+            color: #801048 !important;
+            font-weight: bold;
+            transition: all 0.2s;
+            padding: 8px 10px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            transform: translateX(6px);
+            color: #ff2277 !important;
+        }
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
+        .main-content-area {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+        /* About Me 窗口 */
+        .about-window-card {
+            width: 100%;
+            background: #fdf4ff;
+            border: 3px solid #e9c5ff;
+            border-radius: 18px;
+            box-shadow:
+                0 0 18px #ff99ff50,
+                0 0 35px #dd88ff35,
+                0 0 60px #bb66ff25,
+                inset 0 0 18px #ffffff80;
+            overflow: hidden;
+            position: relative;
+        }
+        .about-window-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,135,255,0.18) 0%, transparent 50%);
+            animation: neon-pulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes neon-pulse {
+            0% { transform: translate(-10%, -10%); opacity: 0.5; }
+            50% { transform: translate(10%, 10%); opacity: 1; }
+            100% { transform: translate(-10%, -10%); opacity: 0.5; }
+        }
+        .window-title-bar {
+            background: linear-gradient(90deg, #e2a8ff, #ff99cc, #e2a8ff);
+            width: 100%;
+            padding: 14px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.6),
+                0 0 12px #ff88cc80;
+        }
+        .about-window-title {
+            font-family: "Font_SiteTitle";
+            font-size: 38px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow:
+                0 0 8px #ffffff,
+                0 0 16px #ff99cc,
+                0 0 24px #cc66ff;
+        }
+        .window-control-btn {
+            display: flex;
+            gap: 12px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #fff;
+            border-radius: 6px;
+            background: rgba(255,255,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(255,255,255,0.8);
+        }
+        .window-body-wrap {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            align-items: flex-start;
+            position: relative;
+            z-index: 2;
+        }
+        .avatar-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #e9c5ff;
+            box-shadow:
+                0 0 12px #ff99ff60,
+                0 0 24px #dd88ff40;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .right-about-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+        }
+        .welcome-gif {
+            width: 80%;
+            max-height: 110px;
+            object-fit: contain;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+        .about-text-block {
+            width: 100%;
+            padding: 0 8px;
+        }
+        .about-desc-text {
+            font-size: 22px;
+            line-height: 1.9;
+            color: #6b2e82;
+            font-family: "Font_Body_CN", "Font_Body_EN";
+        }
+        .footer-time-bar {
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            background: rgba(255, 205, 228, 0.65);
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+            color: #881f4f;
+            font-size: 19px;
+            letter-spacing: 1.2px;
+            margin-top: 60px;
+            text-shadow: 0 0 5px #ffbbee;
+        }
+        .bgm-toggle-button {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border: 4px double #ff66aa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            box-shadow: 0 0 12px rgba(255,120,180,0.4);
+            transition: all 0.2s;
+        }
+        .bgm-toggle-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255,90,160,0.6);
+        }
+        .gramophone-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px #ffbbee);
+        }
+        .sparkle-particle-layer {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* 移动端适配 */
+        @media (max-width: 840px) {
+            .content-container {
+                flex-direction: column !important;
+            }
+            .left-sidebar-wrap {
+                width: 100%;
+                min-width: unset;
+            }
+            .top-cat-banner {
+                height: 320px;
+            }
+            .site-title-glitter {
+                font-size: 48px;
+                right: 10px;
+            }
+            .star-deco-left,
+            .star-deco-right {
+                font-size: 22px;
+            }
+            .gold-vintage-mirror {
+                width: 260px;
+            }
+            .sticker-butterfly {
+                width: 120px;
+            }
+            .sticker-heart {
+                width: 70px;
+            }
+            .window-body-wrap {
+                grid-template-columns: 1fr;
+            }
+            .avatar-box {
+                max-width: 220px;
+            }
+            .about-window-title {
+                font-size: 28px;
+            }
+            .about-desc-text {
+                font-size: 18px;
+            }
+            .guestbook-home-title {
+                font-size: 28px;
+            }
+            .guestbook-submit-btn {
+                align-self: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle-particle-layer"></div>
+    <!-- 开场加载 -->
+    <div class="loading-screen" id="loadScreen">
+        <img class="gold-vintage-mirror" src="./assets/images/mirror.png" alt="vintage mirror">
+        <img class="blink-rose" src="./assets/images/rose.png" alt="pink rose">
+        <p class="load-text">Loading Memories...</p>
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </div>
+    <div class="main-wrapper" id="mainPage">
+        <!-- 顶部横幅 -->
+        <div class="top-cat-banner">
+            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="floating butterfly">
+            <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="26" fill="#fff8c8" />
+                <circle cx="32" cy="14" r="14" fill="#ffdd66" />
+                <circle cx="20" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="20" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="18" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="46" r="8" fill="#fff8c8" />
+                <circle cx="18" cy="32" r="8" fill="#fff8c8" />
+                <circle cx="46" cy="32" r="8" fill="#fff8c8" />
+            </svg>
+            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="pink heart">
+            <div class="site-title-glitter">
+                <span class="star-deco-left">✦</span>
+                Lena's Mirror
+                <span class="star-deco-right">✦</span>
+            </div>
+        </div>
+        <div class="content-container">
+            <!-- 左侧导航栏 -->
+            <div class="left-sidebar-wrap">
+                <aside class="sidebar-nav y2k-neon-panel">
+                    <a href="index.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_home.gif" alt="home icon">
+                        Home 首页
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_journal.gif" alt="journal icon">
+                        Journal 随笔
+                    </a>
+                    <a href="gallery.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_gallery.gif" alt="gallery icon">
+                        Gallery 相册
+                    </a>
+                    <a href="guestbook.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_message.gif" alt="guestbook icon">
+                        Guestbook 留言板
+                    </a>
+                </aside>
+            </div>
+            <!-- 右侧主内容 -->
+            <div class="main-content-area">
+                <div class="about-window-card">
+                    <div class="window-title-bar">
+                        <h2 class="about-window-title">About me</h2>
+                        <div class="window-control-btn">
+                            <button class="win-btn">─</button>
+                            <button class="win-btn">□</button>
+                            <button class="win-btn">×</button>
+                        </div>
+                    </div>
+                    <div class="window-body-wrap">
+                        <!-- 头像 -->
+                        <div class="avatar-box">
+                            <img class="avatar-img" src="./assets/images/avatar.png" alt="Lena avatar">
+                        </div>
+                        <!-- 介绍区域 -->
+                        <div class="right-about-col">
+                            <img class="welcome-gif" src="./assets/images/welcome.gif" alt="welcome gif">
+                            <div class="about-text-block">
+                                <p class="about-desc-text">
+                                    你好，我是 Lena，00年生。我有一只猫，叫刘咪，生于2025年9月；我还有三只龟，分别叫妹妹、妞妞和弟弟，出生年月不详。欢迎你来到我的镜子前。镜子照映着我的人生，也照映着你的身影。希望通过我的镜子，你能认识到我，让我们变得不再 invisible。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-time-bar" id="timeDisplay"></div>
+    </div>
+    <!-- BGM按钮 -->
+    <button class="bgm-toggle-button" id="bgmBtn">
+        <img class="gramophone-icon" src="./assets/images/gramophone.png" alt="music toggle">
+    </button>
+    <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
+        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+    <script>
+        const loadScreen = document.getElementById("loadScreen");
+        const mainPage = document.getElementById("mainPage");
+        const bgmAudio = document.getElementById("bgmAudio");
+        function pageInit() {
+            // 首页无日历逻辑
+        }
+        let loadProgress = 0;
+        const progressBar = document.getElementById("progressBar");
+        const loadTimer = setInterval(() => {
+            loadProgress += 1.8;
+            progressBar.style.width = `${loadProgress}%`;
+            if (loadProgress >= 100) {
+                clearInterval(loadTimer);
+                setTimeout(() => {
+                    loadScreen.classList.add("hide-load");
+                    setTimeout(() => {
+                        mainPage.classList.add("show");
+                        pageInit();
+                        bgmAudio.play().then(() => {
+                            bgmAudio.muted = false;
+                        }).catch(() => {
+                            document.body.addEventListener("click", unlockAudio);
+                        });
+                    }, 1000);
+                }, 400);
+            }
+        }, 35);
+        function unlockAudio() {
+            bgmAudio.muted = false;
+            bgmAudio.play();
+            document.body.removeEventListener("click", unlockAudio);
+        }
+        // 时间函数
+        function refreshTime() {
+            const now = new Date();
+            const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
+            const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            const y = now.getFullYear();
+            const mNum = now.getMonth() + 1;
+            const d = now.getDate();
+            const wIndex = now.getDay();
+            const wCn = weekCN[wIndex];
+            const wEn = weekEN[wIndex];
+            const monthEng = monthEN[now.getMonth()];
+            const showText = `${y}年${mNum}月${d} ${wCn} ${wEn} ${monthEng} ${d} ${y}`;
+            document.getElementById("timeDisplay").innerText = showText;
+        }
+        refreshTime();
+        setInterval(refreshTime, 1000);
+        // 星光粒子
+        const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+        function createSparkle() {
+            const size = Math.random() * 14 + 4;
+            const sparkle = document.createElement("div");
+            sparkle.style.cssText = `
+                position:absolute;
+                width:${size}px;
+                height:${size}px;
+                left:${Math.random() * 100}vw;
+                top:-10px;
+                background:radial-gradient(#ffffff, #ffd0f0, #e0b8ff);
+                border-radius:50%;
+                opacity:${Math.random() * 0.65 + 0.2};
+                box-shadow:0 0 8px #ffb8e8, 0 0 18px #e8b8ff, 0 0 30px #d8a8ee;
+                animation:fall ${Math.random() * 10 + 5}s linear forwards, twinkle 1s infinite alternate;
+            `;
+            sparkleWrap.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 15000);
+        }
+        setInterval(createSparkle, 180);
+        const keyframeStyle = document.createElement("style");
+        keyframeStyle.textContent = `
+            @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+            @keyframes twinkle { from { opacity:0.2; } to { opacity:0.95; } }
+        `;
+        document.head.appendChild(keyframeStyle);
+        // BGM控制
+        const audioBtn = document.getElementById("bgmBtn");
+        let musicPlaying = true;
+        audioBtn.addEventListener("click", () => {
+            if (musicPlaying) {
+                bgmAudio.pause();
+                musicPlaying = false;
+                audioBtn.style.background = "#ffd6ec";
+            } else {
+                bgmAudio.play();
+                musicPlaying = true;
+                audioBtn.style.background = "#ffffff";
+            }
+        });
+        // 移除无效留言DOM相关JS（首页无留言框，删除冗余报错代码）
+    </script>
+</body>
+</html>
