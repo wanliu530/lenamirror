@@ -17,17 +17,22 @@ collections:
       - { label: "正文内容（支持图片插入）", name: "body", widget: "markdown" }
 
   - name: gallery
-    label: "Gallery 相册"
-    folder: "content/gallery"
+    label: Gallery 相册
+    folder: content/gallery
     create: true
-    slug: "{{albumId}}-{{date}}"
+    delete: true
     fields:
       - label: "相册分类"
-        name: albumId
+        name: album_category
         widget: select
         options:
-          - { label: "Daily Life", value: "dailylife" }
-          - { label: "这是人", value: "portrait" }
-          - { label: "刘咪", value: "liumi" }
-      - { label: "照片简介", name: "caption", widget: "text", required: false }
-      - { label: "照片文件", name: "photo", widget: "image" }
+          - { label: "Daily Life", value: "Daily Life" }
+          - { label: "这是人", value: "这是人" }
+          - { label: "刘咪", value: "刘咪" }
+      - label: "照片简介(可选)"
+        name: desc
+        widget: text
+        required: false
+      - label: "照片文件"
+        name: image
+        widget: image

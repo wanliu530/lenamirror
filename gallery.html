@@ -4,48 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✧⋆ Lena's Mirror Gallery ˚‧₊˚✧⋆</title>
-    <!-- 固定Giscus完整脚本（已填好你的仓库ID） -->
-    <script src="https://giscus.app/client.js"
-        data-repo="wanliu530/lenamirror"
-        data-repo-id="R_kgDOTm4xlw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOTm4xl84DCR17"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light_high_contrast"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-    </script>
     <style>
         /* ====================== 独立字体配置 和首页完全统一 ====================== */
         @font-face {
             font-family: "Font_Loading";
-            src: url("assets/fonts/font_loading.woff2") format("woff2");
+            src: url("assets/fonts/font_loading.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Nav";
-            src: url("assets/fonts/font_nav.woff2") format("woff2");
+            src: url("assets/fonts/font_nav.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Content_CN";
-            src: url("assets/fonts/font_body_cn.woff2") format("woff2");
+            src: url("assets/fonts/font_cn.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Content_EN";
-            src: url("assets/fonts/font_body_en.woff2");
+            src: url("assets/fonts/font_en.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -58,15 +42,13 @@
         body {
             font-family: "Font_Content_CN", "Font_Content_EN", sans-serif;
             background: #ffd6e7;
-            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
+            background-image: url("assets/bg_pattern.gif");
             color: #581845;
             overflow-x: hidden;
-            cursor: url("assets/images/cursor_pixel.gif"), auto;
+            cursor: url("assets/cursor/pinkheart.gif"), auto;
         }
-        audio {
-            display: none;
-        }
-        /* 页头 */
+        audio {display:none;}
+        /* 页头区域 */
         .page-header {
             width: 100%;
             padding: 30px 0;
@@ -76,52 +58,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap:24px;
+            gap: 24px;
         }
         .header-preview-img {
             height: 180px;
-            border:3px solid #ff77bb;
-            border-radius:12px;
+            border: 3px solid #ff77bb;
+            border-radius: 12px;
         }
         .gallery-title {
-            font-family:"Font_Loading";
-            font-size:42px;
-            color:#c42e78;
-            text-shadow: 0 0 8px #ffb8dd;
+            font-family: "Font_Loading";
+            font-size: 42px;
+            color: #c42e78;
         }
         .divider-gif {
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            margin:20px 0;
-            gap:8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 8px;
         }
-        .divider-side {height:40px;}
-        .divider-center {height:40px;}
+        .divider-side { height: 40px; }
+        .divider-center { height: 40px; }
 
         .main-wrap {
-            display:flex;
-            max-width:1400px;
-            margin:0 auto;
-            gap:30px;
-            padding:20px;
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 30px;
+            padding: 20px;
         }
-        /* 侧边导航 圆角粉色荧光边框 */
+        /* 侧边导航 圆角荧光边框 */
         .sidebar-nav {
-            min-width:220px;
-            padding:25px 16px;
-            border:2px solid #ff77cc;
-            border-radius:18px;
+            min-width: 220px;
+            padding: 25px 16px;
+            border: 2px solid #ff77cc;
+            border-radius: 18px;
             box-shadow: 0 0 12px #ff88cc;
-            background:#fff0f7;
+            background: #fff0f7;
         }
         .nav-item {
-            display:flex;
-            align-items:center;
-            gap:10px;
-            margin:22px 0;
-            font-family:"Font_Nav";
-            font-size:19px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 22px 0;
+            font-family: "Font_Nav";
+            font-size: 19px;
+        }
+        .nav-icon {
+            width:22px;
         }
         .nav-item a {
             color:#992266;
@@ -131,9 +115,7 @@
             color:#ff4499;
             text-shadow:0 0 6px #ff99cc;
         }
-        .nav-icon {
-            width:22px;
-        }
+
         /* 相册容器 */
         .album-container {
             flex: 1;
@@ -167,6 +149,7 @@
             font-weight:bold;
             color:#701e4e;
         }
+
         /* 图片弹窗 */
         .photo-modal {
             display:none;
@@ -178,13 +161,8 @@
             justify-content:center;
             padding:20px;
         }
-        .photo-modal.active {
-            display:flex;
-        }
         .modal-window {
             width:min(920px, 100%);
-            max-height:90vh;
-            overflow-y:auto;
             background:#fff0f8;
             border-radius:16px;
             overflow:hidden;
@@ -218,12 +196,10 @@
             max-width:100%;
             max-height:520px;
             border-radius:8px;
-            border:2px solid #ffcce0;
         }
         .photo-desc {
             margin-top:10px;
             color:#662244;
-            font-size:18px;
         }
         .btn-group {
             display:flex;
@@ -240,11 +216,32 @@
             font-size:16px;
             cursor:pointer;
         }
-        /* Giscus评论容器 */
-        .giscus-box {
-            padding:20px;
-            border-top:1px dashed #ffb8dd;
+        .comment-area {
+            padding:16px;
         }
+        .comment-input {
+            width:100%;
+            border:2px solid #ffb8dd;
+            border-radius:10px;
+            padding:10px;
+            background:#fff8fc;
+            margin:8px 0;
+        }
+        .send-comment-btn {
+            display:block;
+            margin-left:auto;
+            padding:8px 24px;
+            border:none;
+            border-radius:20px;
+            background:#f49cd2;
+            cursor:pointer;
+        }
+        .comment-list {
+            margin-top:12px;
+            max-height:160px;
+            overflow:auto;
+        }
+
         /* 底部时间栏 */
         footer {
             width:100%;
@@ -252,89 +249,42 @@
             padding:30px 0;
             font-size:17px;
             margin-top:40px;
-            border-top: 3px solid transparent;
-            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
-            background: rgba(255, 205, 228, 0.65);
-        }
-        /* BGM悬浮按钮 */
-        .bgm-toggle-button {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 60px;
-            height: 60px;
-            background: #fff;
-            border: 4px double #ff66aa;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            box-shadow: 0 0 12px rgba(255,120,180,0.4);
-            transition: all 0.2s;
-        }
-        .bgm-toggle-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255,90,160,0.6);
-        }
-        .gramophone-icon {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 4px #ffbbee);
-        }
-        .sparkle-particle-layer {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-        @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
-        @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
-        /* 移动端适配 */
-        @media(max-width: 840px) {
-            .content-container { flex-direction: column !important; }
-            .left-sidebar-wrap { width: 100%; }
-            .header-top-wrap { flex-direction:column; }
-            .gallery-title { font-size:32px; }
-            .album-container { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); }
         }
     </style>
 </head>
 <body>
-<div class="sparkle-particle-layer"></div>
-<audio id="bgmPlayer" loop muted preload="auto">
-    <source src="assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+<audio id="bgmPlayer" loop preload="auto">
+    <source src="assets/bgm/bgm.mp3" type="audio/mpeg">
+
 
 <div class="page-header">
     <div class="header-top-wrap">
-        <img class="header-preview-img" src="assets/images/gallery_header.png" alt="header">
+        <img class="header-preview-img" src="assets/gallery_header.png" alt="header">
         <h1 class="gallery-title">My Sweet Memories</h1>
     </div>
     <div class="divider-gif">
-        <img class="divider-side" src="assets/images/divider_1.gif">
-        <img class="divider-center" src="assets/images/divider_2.gif">
-        <img class="divider-side" src="assets/images/divider_1.gif">
+        <img class="divider-side" src="assets/gif/divider1.gif">
+        <img class="divider-center" src="assets/gif/divider2.gif">
+        <img class="divider-side" src="assets/gif/divider1.gif">
     </div>
 </div>
 
 <div class="main-wrap">
     <nav class="sidebar-nav">
         <div class="nav-item">
-            <img class="nav-icon" src="assets/images/icon_home.gif">
+            <img class="nav-icon" src="assets/pixel/home.gif">
             <a href="index.html">首页</a>
         </div>
         <div class="nav-item">
-            <img class="nav-icon" src="assets/images/icon_journal.gif">
+            <img class="nav-icon" src="assets/pixel/journal.gif">
             <a href="journal.html">随笔</a>
         </div>
         <div class="nav-item">
-            <img class="nav-icon" src="assets/images/icon_gallery.gif">
+            <img class="nav-icon" src="assets/pixel/gallery.gif">
             <a href="gallery.html">相册</a>
         </div>
         <div class="nav-item">
-            <img class="nav-icon" src="assets/images/icon_message.gif">
+            <img class="nav-icon" src="assets/pixel/guest.gif">
             <a href="guestbook.html">留言板</a>
         </div>
     </nav>
@@ -359,8 +309,12 @@
             <button class="photo-btn" id="prevBtn">上一张</button>
             <button class="photo-btn" id="nextBtn">下一张</button>
         </div>
-        <!-- Giscus评论挂载容器 -->
-        <div class="giscus-box giscus" id="giscusWrap"></div>
+        <div class="comment-area">
+            <input class="comment-input" id="nameInput" placeholder="你的昵称">
+            <textarea class="comment-input" id="msgInput" rows="3" placeholder="写下对这张照片的评论..."></textarea>
+            <button class="send-comment-btn" id="sendComment">发送评论</button>
+            <div class="comment-list" id="commentList">暂无评论，快来留下第一条吧</div>
+        </div>
     </div>
 </div>
 
@@ -368,20 +322,14 @@
     <span id="realTimeDate"></span>
 </footer>
 
-<!-- BGM悬浮按钮 -->
-<button class="bgm-toggle-button" id="bgmBtn">
-    <img class="gramophone-icon" src="./assets/images/gramophone.png">
-</button>
-
 <script>
 // ========== 全局变量 ==========
 let galleryRawData = [];
 const albumGroups = ["Daily Life","这是人","刘咪"];
 let currentAlbumPhotos = [];
 let currentPhotoIndex = 0;
-let currentImagePath = "";
 
-// 加载CMS构建生成的相册json数据
+// 1. 加载自动生成的相册数据源
 async function loadGalleryData(){
     try{
         const res = await fetch("/gallery-data.json");
@@ -389,18 +337,19 @@ async function loadGalleryData(){
         renderAlbumCards();
     }catch(err){
         console.error("相册数据加载失败：",err);
-        document.getElementById("albumWrap").innerHTML = "<p style='text-align:center;width:100%;font-size:20px;color:#c04080;'>相册加载失败，请等待Netlify部署完成后刷新页面</p>";
+        document.getElementById("albumWrap").innerHTML = "<p>相册加载失败，请稍后刷新</p>";
     }
 }
 
-// 渲染相册封面（每组最新图片做封面）
+// 2. 渲染相册窗口（每个相册取最新图片作为封面）
 function renderAlbumCards(){
     const wrap = document.getElementById("albumWrap");
     wrap.innerHTML = "";
     albumGroups.forEach(groupName=>{
         const groupImages = galleryRawData.filter(item=>item.album === groupName);
         if(groupImages.length === 0) return;
-        const newestPic = groupImages[0];
+        const newestPic = groupImages[0]; // 最新上传为封面
+
         const card = document.createElement("div");
         card.className = "album-card";
         card.innerHTML = `
@@ -412,64 +361,45 @@ function renderAlbumCards(){
     })
 }
 
-// 打开对应相册
+// 打开相册弹窗
 function openAlbum(albumName){
     currentAlbumPhotos = galleryRawData.filter(item=>item.album === albumName);
     currentPhotoIndex = 0;
     document.getElementById("modalAlbumTitle").innerText = albumName;
     renderCurrentPhoto();
-    document.getElementById("photoModal").classList.add("active");
+    document.getElementById("photoModal").style.display = "flex";
 }
 
-// 渲染当前图片并刷新Giscus评论
 function renderCurrentPhoto(){
     const pic = currentAlbumPhotos[currentPhotoIndex];
-    currentImagePath = pic.image;
     document.getElementById("modalImage").src = pic.image;
     document.getElementById("photoDesc").innerText = pic.desc;
-    // 清空旧评论，重新加载当前图片独立评论
-    const gBox = document.getElementById("giscusWrap");
-    gBox.innerHTML = "";
-    const giscusScript = document.createElement("script");
-    giscusScript.src = "https://giscus.app/client.js";
-    giscusScript.dataset.repo = "wanliu530/lenamirror";
-    giscusScript.dataset.repoId = "R_kgDOTm4xlw";
-    giscusScript.dataset.category = "Announcements";
-    giscusScript.dataset.categoryId = "DIC_kwDOTm4xl84DCR17";
-    giscusScript.dataset.mapping = "specific";
-    giscusScript.dataset.term = currentImagePath;
-    giscusScript.dataset.strict = "0";
-    giscusScript.dataset.reactionsEnabled = "1";
-    giscusScript.dataset.emitMetadata = "0";
-    giscusScript.dataset.inputPosition = "bottom";
-    giscusScript.dataset.theme = "light_high_contrast";
-    giscusScript.dataset.lang = "zh-CN";
-    giscusScript.crossOrigin = "anonymous";
-    giscusScript.async = true;
-    gBox.appendChild(giscusScript);
 }
 
-// 切换上一张
-document.getElementById("prevBtn").addEventListener("click", ()=>{
+// 切换图片
+document.getElementById("prevBtn").onclick = ()=>{
     currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
     renderCurrentPhoto();
-})
-// 切换下一张
-document.getElementById("nextBtn").addEventListener("click", ()=>{
+}
+document.getElementById("nextBtn").onclick = ()=>{
     currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
     renderCurrentPhoto();
-})
-// 关闭弹窗
-document.getElementById("closeModal").addEventListener("click", ()=>{
-    document.getElementById("photoModal").classList.remove("active");
-})
-document.getElementById("photoModal").addEventListener("click", (e)=>{
-    if(e.target === document.getElementById("photoModal")){
-        document.getElementById("photoModal").classList.remove("active");
-    }
-})
+}
+document.getElementById("closeModal").onclick = ()=>{
+    document.getElementById("photoModal").style.display = "none";
+}
 
-// 底部实时时间
+// 简易本地评论（如需持久评论后续再扩展）
+document.getElementById("sendComment").onclick = ()=>{
+    const name = document.getElementById("nameInput").value.trim();
+    const msg = document.getElementById("msgInput").value.trim();
+    if(!name || !msg) return alert("请填写昵称和评论");
+    const list = document.getElementById("commentList");
+    list.innerHTML += `<p>【${name}】：${msg}</p>`;
+    document.getElementById("msgInput").value = "";
+}
+
+// ========== 实时底部时间（和首页格式统一） ==========
 function updateTime(){
     const now = new Date();
     const weekArr = ["周日","周一","周二","周三","周四","周五","周六"];
@@ -478,62 +408,15 @@ function updateTime(){
     const month = now.getMonth()+1;
     const day = now.getDate();
     const weekCn = weekArr[now.getDay()];
-    const dateStr = `${year}年${month}月${day}日 ${weekCn} ${enWeek[now.getDay()]} ${now.toDateString()}`;
-    document.getElementById("realTimeDate").innerText = dateStr;
+    const weekEn = enWeek[now.getDay()];
+    const dateEn = now.toDateString();
+    document.getElementById("realTimeDate").innerText = `${year}年${month}月${day}日 ${weekCn} ${weekEn} ${dateEn}`;
 }
 updateTime();
 setInterval(updateTime,1000);
 
-// 飘落星光粒子
-const sparkleWrap = document.querySelector(".sparkle-particle-layer");
-function createSparkle() {
-    const size = Math.random() * 14 + 4;
-    const sparkle = document.createElement("div");
-    sparkle.style.cssText = `
-        position:absolute;
-        width:${size}px;
-        height:${size}px;
-        left:${Math.random() * 100}vw;
-        top:-10px;
-        background:radial-gradient(#ffffff, #ffd0f0, #e0b8ff);
-        border-radius:50%;
-        opacity:${Math.random() * 0.65 + 0.2};
-        box-shadow:0 0 8px #ffb8e8, 0 0 18px #e8b8ff, 0 0 30px #d8a8ee;
-        animation:fall ${Math.random() * 10 + 5}s linear forwards, twinkle 1s infinite alternate;
-    `;
-    sparkleWrap.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 15000);
-}
-setInterval(createSparkle, 180);
-const keyframeStyle = document.createElement("style");
-keyframeStyle.textContent = `
-    @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-    @keyframes twinkle { from { opacity:0.2; } to { opacity:0.95; } }
-`;
-document.head.appendChild(keyframeStyle);
-
-// BGM控制逻辑
-const bgmAudio = document.getElementById("bgmPlayer");
-const bgmBtn = document.getElementById("bgmBtn");
-let musicPlaying = true;
-bgmBtn.addEventListener("click", () => {
-    if (musicPlaying) {
-        bgmAudio.pause();
-        musicPlaying = false;
-        bgmBtn.style.background = "#ffd6ec";
-    } else {
-        bgmAudio.play();
-        musicPlaying = true;
-        bgmBtn.style.background = "#ffffff";
-    }
-});
-document.body.addEventListener("click", () => {
-    bgmAudio.muted = false;
-    bgmAudio.play();
-}, { once: true });
-
-// 页面加载完成自动拉取相册数据
-window.addEventListener("DOMContentLoaded", loadGalleryData);
+// 页面启动加载相册数据
+loadGalleryData();
 </script>
 </body>
 </html>
