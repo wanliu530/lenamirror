@@ -4,419 +4,715 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✧⋆ Lena's Mirror Gallery ˚‧₊˚✧⋆</title>
+    <!-- Netlify CMS 脚本 -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-        /* ====================== 独立字体配置 和首页完全统一 ====================== */
+        /* 字体完全复用 journal 配置，仅woff2 */
         @font-face {
             font-family: "Font_Loading";
-            src: url("assets/fonts/font_loading.ttf") format("truetype");
+            src: url("./assets/fonts/font_loading.woff2") format("woff2");
             font-weight: normal;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Nav";
-            src: url("assets/fonts/font_nav.ttf") format("truetype");
+            font-family: "Font_SiteTitle";
+            src: url("./assets/fonts/font_title.woff2") format("woff2");
             font-weight: normal;
-            font-style: normal;
+            font-style: italic;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Content_CN";
-            src: url("assets/fonts/font_cn.ttf") format("truetype");
-            font-weight: normal;
-            font-style: normal;
+            font-family: "Font_BodyEN";
+            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Content_EN";
-            src: url("assets/fonts/font_en.ttf") format("truetype");
-            font-weight: normal;
-            font-style: normal;
+            font-family: "Font_BodyCN";
+            src: url("./assets/fonts/font_body_cn.woff2");
+            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
             font-display: swap;
         }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: url("./assets/images/cursor_pixel.gif"), auto;
         }
         body {
-            font-family: "Font_Content_CN", "Font_Content_EN", sans-serif;
-            background: #ffd6e7;
-            background-image: url("assets/bg_pattern.gif");
-            color: #581845;
+            font-family: "Font_BodyEN", "Font_BodyCN", sans-serif;
             overflow-x: hidden;
-            cursor: url("assets/cursor/pinkheart.gif"), auto;
+            background: #fff5fb;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
         }
-        audio {display:none;}
-        /* 页头区域 */
-        .page-header {
-            width: 100%;
-            padding: 30px 0;
-            text-align: center;
+        a:hover, button:hover, .album-window:hover {
+            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
         }
-        .header-top-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-        }
-        .header-preview-img {
-            height: 180px;
+        .y2k-neon-panel {
             border: 3px solid #ff77bb;
-            border-radius: 12px;
+            box-shadow: 0 0 10px #ff77bb40, 0 0 20px #ffbbee30, inset 0 0 12px #ffcce020;
+            backdrop-filter: blur(3px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px !important;
+            background: transparent;
         }
-        .gallery-title {
-            font-family: "Font_Loading";
-            font-size: 42px;
-            color: #c42e78;
+        .y2k-neon-panel::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
+            animation: soft-scan 3.5s linear infinite;
         }
-        .divider-gif {
+        @keyframes soft-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        /* 子页面隐藏加载动画（和journal一致） */
+        .loading-screen, .gold-vintage-mirror, .blink-rose, .progress-container, .load-text {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .main-wrapper {
+            display: block !important;
+        }
+        /* 顶部横幅 完全和journal一致 */
+        .top-cat-banner {
+            width: 100%;
+            height: 440px;
+            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
+            position: relative;
+            padding: 30px;
+            overflow: hidden;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+        }
+        .float-sticker {
+            position: absolute;
+            pointer-events: none;
+            animation: slow-float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px #ffbbee);
+        }
+        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay:0.5s; }
+        .sticker-daisy { top:60px; left:75%; width:70px; animation-delay:1.2s; }
+        .sticker-heart { bottom:80px; left:20%; width:100px; animation-delay:2s; }
+        @keyframes slow-float {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-16px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(-3deg); }
+        }
+        .site-title-glitter {
+            position: absolute;
+            right: 40px;
+            bottom: 30px;
+            font-size: 74px;
+            font-family: "Font_SiteTitle";
+            font-weight: 950;
+            letter-spacing: 5px;
+            font-style: italic;
+            color: #b81e60;
+            animation: title-shine 1.4s infinite alternate;
+            text-shadow: 3px 3px 0 #ffffff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 0 0 14px #ff4488, 0 0 28px #c82266, 0 0 42px #a01850;
+            transform: rotate(-2deg);
+        }
+        .star-deco-left {
+            position: absolute;
+            right: calc(100% + 12px);
+            top: 10px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate;
+        }
+        .star-deco-right {
+            position: absolute;
+            left: calc(100% + 12px);
+            bottom: 8px;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 0 10px #ffdd66;
+            animation: star-blink 0.8s infinite alternate 0.4s;
+        }
+        @keyframes star-blink {
+            from { opacity:0.5; transform:scale(0.9); }
+            to { opacity:1; transform:scale(1.2); }
+        }
+        @keyframes title-shine {
+            from { filter: drop-shadow(0 0 6px #ff99cc); }
+            to { filter: drop-shadow(0 0 22px #b81e60); }
+        }
+        /* 页面布局 同源journal */
+        .content-container {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start;
+            width: 92%;
+            max-width: 1420px;
+            margin: 45px auto;
+            gap: 40px;
+        }
+        .left-sidebar-wrap {
+            flex-shrink: 0 !important;
+            width: 230px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 8px;
-        }
-        .divider-side { height: 40px; }
-        .divider-center { height: 40px; }
-
-        .main-wrap {
-            display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
+            flex-direction: column;
             gap: 30px;
-            padding: 20px;
         }
-        /* 侧边导航 圆角荧光边框 */
         .sidebar-nav {
-            min-width: 220px;
-            padding: 25px 16px;
-            border: 2px solid #ff77cc;
-            border-radius: 18px;
-            box-shadow: 0 0 12px #ff88cc;
-            background: #fff0f7;
+            width: 100%;
+            padding: 32px 22px;
+            z-index: 10;
         }
-        .nav-item {
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 22px 0;
-            font-family: "Font_Nav";
-            font-size: 19px;
+            gap: 14px;
+            margin: 30px 0;
+            text-decoration: none;
+            font-size: 22px;
+            color: #801048 !important;
+            font-weight: bold;
+            transition: all 0.2s;
+            padding: 8px 10px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            transform: translateX(6px);
+            color: #ff2277 !important;
         }
         .nav-icon {
-            width:22px;
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
         }
-        .nav-item a {
-            color:#992266;
-            text-decoration:none;
-        }
-        .nav-item a:hover {
-            color:#ff4499;
-            text-shadow:0 0 6px #ff99cc;
-        }
-
-        /* 相册容器 */
-        .album-container {
+        .main-content-area {
             flex: 1;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
-            gap:26px;
-            padding:10px;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
         }
-        .album-card {
-            background:#fff3f9;
-            border:2px solid #ff77bb;
-            border-radius:14px;
-            overflow:hidden;
-            box-shadow: 0 0 8px #ffadd2;
+        /* 相册头部区域 */
+        .gallery-head-box {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .gallery-header-img {
+            width: 70%;
+            max-width: 420px;
+            height: auto;
+            margin-bottom: 18px;
+        }
+        .gallery-title-text {
+            font-size: 46px;
+            font-family: "Font_SiteTitle";
+            color: #d03070;
+            letter-spacing: 5px;
+            text-shadow: 0 0 8px #ffb8e8;
+            margin-bottom: 16px;
+        }
+        .admin-upload-btn {
+            padding:10px 24px;
+            background:linear-gradient(90deg,#ff66aa,#cc4488);
+            color:#fff;
+            border:none;
+            border-radius:12px;
+            font-size:17px;
+            margin-bottom:20px;
             cursor:pointer;
-            transition:0.25s;
         }
-        .album-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 0 16px #ff77bb;
-        }
-        .album-cover {
+        /* 相册网格布局 */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+            gap:32px;
             width:100%;
-            height:180px;
-            object-fit:cover;
         }
-        .album-name {
-            text-align:center;
-            padding:10px;
-            font-size:18px;
-            font-weight:bold;
-            color:#701e4e;
-        }
-
-        /* 图片弹窗 */
-        .photo-modal {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,0.65);
-            z-index:999;
-            align-items:center;
-            justify-content:center;
-            padding:20px;
-        }
-        .modal-window {
-            width:min(920px, 100%);
-            background:#fff0f8;
-            border-radius:16px;
+        .album-window {
+            background:#fdf4ff;
+            border:3px solid #e9c5ff;
+            border-radius:18px;
             overflow:hidden;
-            border:2px solid #ff77cc;
+            box-shadow:0 0 18px #ff99ff50;
+            transition:transform 0.2s;
         }
-        .modal-topbar {
-            background: linear-gradient(90deg,#ffb8e0,#f7a0d8);
+        .album-window:hover {
+            transform: translateY(-6px);
+            box-shadow:0 0 24px #ff88ff70;
+        }
+        .album-title-bar {
+            background: linear-gradient(90deg,#e2a8ff,#ff99cc,#e2a8ff);
             padding:10px 16px;
             display:flex;
             justify-content:space-between;
             align-items:center;
         }
-        .modal-album-name {
-            font-family:"Font_Loading";
-            font-size:22px;
+        .album-name-text {
+            font-family:"Font_SiteTitle";
+            color:#fff;
+            font-size:20px;
+            text-shadow:0 0 6px #ff77bb;
         }
-        .close-modal {
-            width:30px;
-            height:30px;
-            background:#ffdd44;
-            border:none;
+        .dot-group {
+            display:flex;
+            gap:8px;
+        }
+        .dot-btn {
+            width:20px;
+            height:20px;
+            border:2px solid #fff;
+            border-radius:4px;
+            background:rgba(255,255,0.3);
+            color:#fff;
+            font-size:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .album-cover-img {
+            width:100%;
+            height:240px;
+            object-fit:cover;
+            display:block;
+        }
+        /* 图片弹窗样式 */
+        .photo-modal {
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.75);
+            z-index:9998;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:30px;
+        }
+        .photo-modal.active {
+            display:flex;
+        }
+        .modal-inner {
+            width:min(960px,100%);
+            max-height:90vh;
+            overflow-y:auto;
+            background:#fff8fc;
+            background-image: linear-gradient(#ffd8e8 1px, transparent 1px);
+            background-size:32px 32px;
+            border-left:16px solid #e8b8d0;
+            border-radius:16px;
+            padding:36px;
+        }
+        .modal-top-bar {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:24px;
+            padding-bottom:16px;
+            border-bottom:1px dashed #ffb8d0;
+        }
+        .modal-album-label {
+            font-size:22px;
+            font-family:"Font_SiteTitle";
+            color:#d03070;
+        }
+        .modal-close {
+            width:36px;
+            height:36px;
+            border:2px solid #ff77bb;
+            background:#ffe0ef;
             border-radius:6px;
-            font-weight:bold;
+            font-size:20px;
+            color:#a02060;
             cursor:pointer;
         }
         .modal-img-box {
-            padding:16px;
             text-align:center;
+            margin-bottom:20px;
         }
-        .modal-photo {
+        .modal-main-img {
             max-width:100%;
             max-height:520px;
-            border-radius:8px;
-        }
-        .photo-desc {
-            margin-top:10px;
-            color:#662244;
-        }
-        .btn-group {
-            display:flex;
-            gap:14px;
-            justify-content:center;
-            margin:16px 0;
-        }
-        .photo-btn {
-            padding:8px 22px;
-            border:none;
-            border-radius:30px;
-            background:linear-gradient(90deg,#ffadd2,#e890d8);
-            color:#441133;
-            font-size:16px;
-            cursor:pointer;
-        }
-        .comment-area {
-            padding:16px;
-        }
-        .comment-input {
-            width:100%;
-            border:2px solid #ffb8dd;
             border-radius:10px;
-            padding:10px;
-            background:#fff8fc;
-            margin:8px 0;
+            border:2px solid #ffcce0;
         }
-        .send-comment-btn {
-            display:block;
-            margin-left:auto;
-            padding:8px 24px;
-            border:none;
-            border-radius:20px;
-            background:#f49cd2;
+        .photo-desc-text {
+            font-size:20px;
+            color:#902050;
+            margin:12px 0 24px;
+        }
+        .switch-btn-group {
+            display:flex;
+            gap:16px;
+            justify-content:center;
+            margin-top:10px;
+        }
+        .switch-btn {
+            padding:8px 22px;
+            background:#ffe0ef;
+            border:2px solid #ff66b2;
+            border-radius:10px;
+            font-size:18px;
+            color:#a02060;
             cursor:pointer;
         }
-        .comment-list {
-            margin-top:12px;
-            max-height:160px;
-            overflow:auto;
-        }
-
         /* 底部时间栏 */
-        footer {
-            width:100%;
-            text-align:center;
-            padding:30px 0;
-            font-size:17px;
-            margin-top:40px;
+        .footer-time-bar {
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            background: rgba(205, 228, 255, 0.65);
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
+            color: #881f4f;
+            font-size: 19px;
+            letter-spacing: 1.2px;
+            margin-top: 60px;
+            text-shadow: 0 0 5px #ffbbee;
+        }
+        /* BGM悬浮按钮 */
+        .bgm-toggle-button {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border: 4px double #ff66aa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            box-shadow: 0 0 12px rgba(255,120,180,0.4);
+            transition: all 0.2s;
+        }
+        .bgm-toggle-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255,90,160,0.6);
+        }
+        .gramophone-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px #ffbbee);
+        }
+        .sparkle-particle-layer {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
+        @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
+        /* 移动端适配 和journal完全统一 */
+        @media(max-width: 840px) {
+            .content-container { flex-direction: column !important; }
+            .left-sidebar-wrap { width: 100%; }
+            .top-cat-banner { height: 320px; }
+            .site-title-glitter { font-size: 48px; right: 10px; }
+            .star-deco-left,.star-deco-right { font-size:22px; }
+            .sticker-butterfly { width: 120px; }
+            .sticker-heart { width:70px; }
+            .gallery-title-text { font-size: 28px; }
+            .modal-inner { padding:24px 18px; }
+            .album-grid { grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); }
         }
     </style>
 </head>
-<body>
-<audio id="bgmPlayer" loop preload="auto">
-    <source src="assets/bgm/bgm.mp3" type="audio/mpeg">
-
-
-<div class="page-header">
-    <div class="header-top-wrap">
-        <img class="header-preview-img" src="assets/gallery_header.png" alt="header">
-        <h1 class="gallery-title">My Sweet Memories</h1>
-    </div>
-    <div class="divider-gif">
-        <img class="divider-side" src="assets/gif/divider1.gif">
-        <img class="divider-center" src="assets/gif/divider2.gif">
-        <img class="divider-side" src="assets/gif/divider1.gif">
-    </div>
-</div>
-
-<div class="main-wrap">
-    <nav class="sidebar-nav">
-        <div class="nav-item">
-            <img class="nav-icon" src="assets/pixel/home.gif">
-            <a href="index.html">首页</a>
-        </div>
-        <div class="nav-item">
-            <img class="nav-icon" src="assets/pixel/journal.gif">
-            <a href="journal.html">随笔</a>
-        </div>
-        <div class="nav-item">
-            <img class="nav-icon" src="assets/pixel/gallery.gif">
-            <a href="gallery.html">相册</a>
-        </div>
-        <div class="nav-item">
-            <img class="nav-icon" src="assets/pixel/guest.gif">
-            <a href="guestbook.html">留言板</a>
-        </div>
-    </nav>
-
-    <div class="album-container" id="albumWrap">
-        <!-- JS动态渲染相册卡片 -->
-    </div>
-</div>
-
-<!-- 图片弹窗 -->
-<div class="photo-modal" id="photoModal">
-    <div class="modal-window">
-        <div class="modal-topbar">
-            <span class="modal-album-name" id="modalAlbumTitle"></span>
-            <button class="close-modal" id="closeModal">✕</button>
-        </div>
-        <div class="modal-img-box">
-            <img class="modal-photo" id="modalImage">
-            <p class="photo-desc" id="photoDesc"></p>
-        </div>
-        <div class="btn-group">
-            <button class="photo-btn" id="prevBtn">上一张</button>
-            <button class="photo-btn" id="nextBtn">下一张</button>
-        </div>
-        <div class="comment-area">
-            <input class="comment-input" id="nameInput" placeholder="你的昵称">
-            <textarea class="comment-input" id="msgInput" rows="3" placeholder="写下对这张照片的评论..."></textarea>
-            <button class="send-comment-btn" id="sendComment">发送评论</button>
-            <div class="comment-list" id="commentList">暂无评论，快来留下第一条吧</div>
+<body class="sub-page">
+    <div class="sparkle-particle-layer"></div>
+    <!-- 隐藏加载动画 -->
+    <div class="loading-screen" id="loadScreen">
+        <img class="gold-vintage-mirror" src="./assets/images/mirror.png" alt="mirror">
+        <img class="blink-rose" src="./assets/images/rose.png" alt="rose">
+        <p class="load-text">Loading Memories...</p>
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
         </div>
     </div>
-</div>
+    <div class="main-wrapper" id="mainPage">
+        <div class="top-cat-banner">
+            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="butterfly">
+            <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="26" fill="#fff8c8" />
+                <circle cx="32" cy="14" r="14" fill="#ffdd66" />
+                <circle cx="20" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="20" r="8" fill="#fff8c8" />
+                <circle cx="20" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="44" cy="44" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="18" r="8" fill="#fff8c8" />
+                <circle cx="32" cy="46" r="8" fill="#fff8c8" />
+                <circle cx="18" cy="32" r="8" fill="#fff8c8" />
+                <circle cx="46" cy="32" r="8" fill="#fff8c8" />
+            </svg>
+            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="heart">
+            <div class="site-title-glitter">
+                <span class="star-deco-left">✦</span>
+                Lena's Mirror
+                <span class="star-deco-right">✦</span>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="left-sidebar-wrap">
+                <aside class="sidebar-nav y2k-neon-panel">
+                    <a href="index.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_home.gif">Home 首页
+                    </a>
+                    <a href="journal.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_journal.gif">Journal 随笔
+                    </a>
+                    <a href="gallery.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_gallery.gif">Gallery 相册
+                    </a>
+                    <a href="guestbook.html" class="nav-link">
+                        <img class="nav-icon" src="./assets/images/icon_message.gif">Guestbook 留言板
+                    </a>
+                </aside>
+            </div>
+            <div class="main-content-area">
+                <div class="gallery-head-box">
+                    <img class="gallery-header-img" src="./assets/images/gallery_header.png">
+                    <h2 class="gallery-title-text">My Sweet Memories</h2>
+                    <button class="admin-upload-btn" id="uploadGalleryBtn">管理员上传相册图片</button>
+                </div>
+                <div class="album-grid" id="albumWrap"></div>
+            </div>
+        </div>
+        <div class="footer-time-bar" id="timeDisplay"></div>
+    </div>
+    <!-- 图片弹窗 -->
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-inner">
+            <div class="modal-top-bar">
+                <span class="modal-album-label" id="modalAlbumName"></span>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-img-box">
+                <img class="modal-main-img" id="modalImg">
+                <p class="photo-desc-text" id="photoDesc"></p>
+            </div>
+            <div class="switch-btn-group">
+                <button class="switch-btn" id="prevPhoto">上一张</button>
+                <button class="switch-btn" id="nextPhoto">下一张</button>
+            </div>
+        </div>
+    </div>
+    <!-- BGM按钮 -->
+    <button class="bgm-toggle-button" id="bgmBtn">
+        <img class="gramophone-icon" src="./assets/images/gramophone.png">
+    </button>
+    <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
+        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+    <script>
+// ========== 和 journal 完全一致仓库配置 ==========
+const GITHUB_USER = "wanliu530";
+const GITHUB_REPO = "lenamirror";
+const GITHUB_BRANCH = "main";
+const GALLERY_PATH = "content/gallery/";
 
-<footer>
-    <span id="realTimeDate"></span>
-</footer>
+// DOM 缓存（和journal变量命名风格统一）
+const uploadGalleryBtn = document.getElementById("uploadGalleryBtn");
+const albumWrap = document.getElementById("albumWrap");
+const photoModal = document.getElementById("photoModal");
+const closeModal = document.getElementById("closeModal");
+const modalAlbumName = document.getElementById("modalAlbumName");
+const modalImg = document.getElementById("modalImg");
+const photoDesc = document.getElementById("photoDesc");
+const prevPhoto = document.getElementById("prevPhoto");
+const nextPhoto = document.getElementById("nextPhoto");
+const bgmAudio = document.getElementById("bgmAudio");
+const bgmBtn = document.getElementById("bgmBtn");
 
-<script>
-// ========== 全局变量 ==========
-let galleryRawData = [];
-const albumGroups = ["Daily Life","这是人","刘咪"];
-let currentAlbumPhotos = [];
+// 全局数据
+let allGalleryItems = [];
+// CMS相册分类（和config.yml的select选项保持一致）
+const albumGroups = ["Daily Life","Portrait","Liu Mi"];
+let currentGroupPhotos = [];
 let currentPhotoIndex = 0;
 
-// 1. 加载自动生成的相册数据源
-async function loadGalleryData(){
-    try{
-        const res = await fetch("/gallery-data.json");
-        galleryRawData = await res.json();
-        renderAlbumCards();
-    }catch(err){
-        console.error("相册数据加载失败：",err);
-        document.getElementById("albumWrap").innerHTML = "<p>相册加载失败，请稍后刷新</p>";
+// 跳转CMS后台（逻辑完全复制journal）
+uploadGalleryBtn.addEventListener("click", () => {
+    window.open(`${window.location.origin}/admin`, "_blank");
+});
+
+// md解析函数：复刻journal的parseMarkdown，只提取相册专属字段
+function parseGalleryMd(mdRaw) {
+    let title = "无题照片";
+    let albumCategory = "";
+    let imageSrc = "";
+    let postDate = "";
+    // 匹配Netlify CMS frontmatter头部
+    const fmMatch = mdRaw.match(/^---[\s\S]*?---/);
+    if(fmMatch){
+        const fmText = fmMatch[0];
+        const titleReg = fmText.match(/title:\s*(.+?)\n/);
+        const albumReg = fmText.match(/album_category:\s*(.+?)\n/);
+        const imgReg = fmText.match(/image:\s*(.+?)\n/);
+        const dateReg = fmText.match(/date:\s*(.+?)\n/);
+        if(titleReg) title = titleReg[1].trim();
+        if(albumReg) albumCategory = albumReg[1].trim();
+        if(imgReg) imageSrc = imgReg[1].trim();
+        if(dateReg) postDate = dateReg[1].trim();
+    }
+    // 图片路径补全GitHub raw地址，和journal图片处理逻辑1:1
+    if(imageSrc && !imageSrc.startsWith("http")){
+        imageSrc = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${imageSrc}`;
+    }
+    return {
+        title,
+        album: albumCategory,
+        img: imageSrc,
+        date: postDate
+    };
+}
+
+// API读取content/gallery全部md（请求代码完全照搬journal）
+async function fetchAllGalleryItems() {
+    try {
+        const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GALLERY_PATH}?ref=${GITHUB_BRANCH}`;
+        const res = await fetch(apiUrl);
+        if(!res.ok) throw new Error("无相册文件");
+        const fileList = await res.json();
+        const tempList = [];
+        for(const file of fileList){
+            if(!file.name.endsWith(".md")) continue;
+            const mdRes = await fetch(file.download_url);
+            const mdText = await mdRes.text();
+            const parseData = parseGalleryMd(mdText);
+            // 过滤无图片、无分类的无效条目
+            if(parseData.img && parseData.album){
+                tempList.push(parseData);
+            }
+        }
+        // 按日期倒序，最新照片排在数组第一位（封面自动取第一条）
+        allGalleryItems = tempList.sort((a,b)=> new Date(b.date) - new Date(a.date));
+        renderAlbumWindows();
+    } catch(err) {
+        console.error("相册加载失败：",err);
+        albumWrap.innerHTML = `<div style="grid-column:1/-1;text-align:center;font-size:20px;color:#c04080;padding:80px 0;">相册暂无图片，点击上方按钮前往后台上传</div>`;
     }
 }
 
-// 2. 渲染相册窗口（每个相册取最新图片作为封面）
-function renderAlbumCards(){
-    const wrap = document.getElementById("albumWrap");
-    wrap.innerHTML = "";
+// 渲染相册窗口：每个分组第一张=最新上传图做封面
+function renderAlbumWindows() {
+    albumWrap.innerHTML = "";
     albumGroups.forEach(groupName=>{
-        const groupImages = galleryRawData.filter(item=>item.album === groupName);
-        if(groupImages.length === 0) return;
-        const newestPic = groupImages[0]; // 最新上传为封面
-
-        const card = document.createElement("div");
-        card.className = "album-card";
-        card.innerHTML = `
-            <img class="album-cover" src="${newestPic.image}" loading="lazy">
-            <div class="album-name">${groupName}</div>
+        // 筛选当前相册所有照片
+        const groupImgs = allGalleryItems.filter(item=> item.album === groupName);
+        if(groupImgs.length === 0) return;
+        const newestCover = groupImgs[0];
+        const albumCard = document.createElement("div");
+        albumCard.className = "album-window";
+        albumCard.dataset.group = groupName;
+        albumCard.innerHTML = `
+            <div class="album-title-bar">
+                <span class="album-name-text">${groupName}</span>
+                <div class="dot-group">
+                    <span class="dot-btn">-</span>
+                    <span class="dot-btn">□</span>
+                    <span class="dot-btn">×</span>
+                </div>
+            </div>
+            <img class="album-cover-img" src="${newestCover.img}" loading="lazy">
         `;
-        card.onclick = ()=>openAlbum(groupName);
-        wrap.appendChild(card);
+        albumCard.onclick = ()=> openAlbumGroup(groupName);
+        albumWrap.appendChild(albumCard);
     })
 }
 
-// 打开相册弹窗
-function openAlbum(albumName){
-    currentAlbumPhotos = galleryRawData.filter(item=>item.album === albumName);
+// 打开对应相册弹窗
+function openAlbumGroup(groupName) {
+    currentGroupPhotos = allGalleryItems.filter(item=> item.album === groupName);
     currentPhotoIndex = 0;
-    document.getElementById("modalAlbumTitle").innerText = albumName;
+    modalAlbumName.innerText = groupName;
     renderCurrentPhoto();
-    document.getElementById("photoModal").style.display = "flex";
+    photoModal.classList.add("active");
 }
 
-function renderCurrentPhoto(){
-    const pic = currentAlbumPhotos[currentPhotoIndex];
-    document.getElementById("modalImage").src = pic.image;
-    document.getElementById("photoDesc").innerText = pic.desc;
+// 渲染当前大图与描述
+function renderCurrentPhoto() {
+    const photo = currentGroupPhotos[currentPhotoIndex];
+    modalImg.src = photo.img;
+    photoDesc.innerText = photo.title;
 }
 
-// 切换图片
-document.getElementById("prevBtn").onclick = ()=>{
-    currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
+// 上一张
+prevPhoto.addEventListener("click", ()=>{
+    currentPhotoIndex = (currentPhotoIndex - 1 + currentGroupPhotos.length) % currentGroupPhotos.length;
     renderCurrentPhoto();
-}
-document.getElementById("nextBtn").onclick = ()=>{
-    currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
+})
+// 下一张
+nextPhoto.addEventListener("click", ()=>{
+    currentPhotoIndex = (currentPhotoIndex + 1) % currentGroupPhotos.length;
     renderCurrentPhoto();
-}
-document.getElementById("closeModal").onclick = ()=>{
-    document.getElementById("photoModal").style.display = "none";
-}
+})
+// 关闭弹窗
+closeModal.addEventListener("click", ()=>{
+    photoModal.classList.remove("active");
+})
+photoModal.addEventListener("click", (e)=>{
+    if(e.target === photoModal) photoModal.classList.remove("active");
+})
 
-// 简易本地评论（如需持久评论后续再扩展）
-document.getElementById("sendComment").onclick = ()=>{
-    const name = document.getElementById("nameInput").value.trim();
-    const msg = document.getElementById("msgInput").value.trim();
-    if(!name || !msg) return alert("请填写昵称和评论");
-    const list = document.getElementById("commentList");
-    list.innerHTML += `<p>【${name}】：${msg}</p>`;
-    document.getElementById("msgInput").value = "";
-}
-
-// ========== 实时底部时间（和首页格式统一） ==========
-function updateTime(){
+// 底部实时时间（完全复用journal）
+function refreshTime() {
     const now = new Date();
-    const weekArr = ["周日","周一","周二","周三","周四","周五","周六"];
-    const enWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-    const year = now.getFullYear();
-    const month = now.getMonth()+1;
-    const day = now.getDate();
-    const weekCn = weekArr[now.getDay()];
-    const weekEn = enWeek[now.getDay()];
-    const dateEn = now.toDateString();
-    document.getElementById("realTimeDate").innerText = `${year}年${month}月${day}日 ${weekCn} ${weekEn} ${dateEn}`;
+    const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
+    const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const y = now.getFullYear();
+    const mNum = now.getMonth() + 1;
+    const d = now.getDate();
+    const wIdx = now.getDay();
+    const show = `${y}年${mNum}月${d} ${weekCN[wIdx]} ${weekEN[wIdx]} ${monthEN[now.getMonth()]} ${d} ${y}`;
+    document.getElementById("timeDisplay").innerText = show;
 }
-updateTime();
-setInterval(updateTime,1000);
+refreshTime();
+setInterval(refreshTime, 1000);
 
-// 页面启动加载相册数据
-loadGalleryData();
+// 星光粒子（同journal）
+const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+function createSpark() {
+    const size = Math.random() * 14 + 4;
+    const div = document.createElement("div");
+    div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
+    sparkleWrap.appendChild(div);
+    setTimeout(() => sparkleWrap.removeChild(div), 15000);
+}
+setInterval(createSpark, 180);
+const keyframeStyle = document.createElement("style");
+keyframeStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
+document.head.appendChild(keyframeStyle);
+
+// BGM控制逻辑 同源journal
+let musicPlaying = true;
+bgmBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+        bgmAudio.pause();
+        musicPlaying = false;
+        bgmBtn.style.background = "#ffd6ec";
+    } else {
+        bgmAudio.play();
+        musicPlaying = true;
+        bgmBtn.style.background = "#ffffff";
+    }
+});
+document.body.addEventListener("click", () => {
+    bgmAudio.muted = false;
+    bgmAudio.play();
+}, { once: true });
+
+// 页面初始化，和journal pageInit完全对齐
+async function pageInit() {
+    await fetchAllGalleryItems();
+}
+window.addEventListener("DOMContentLoaded", pageInit);
 </script>
 </body>
 </html>

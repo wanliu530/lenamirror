@@ -1,38 +1,48 @@
 backend:
   name: git-gateway
   branch: main
-
-media_folder: "assets/upload"
-public_folder: "/assets/upload"
-
+media_folder: uploads
+public_folder: /uploads
 collections:
+  # 随笔栏目（保留你原有配置）
   - name: journal
-    label: "随笔 Journal"
-    folder: "content/journal"
+    label: Journal 随笔
+    folder: content/journal
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    delete: true
+    preview_path: /journal
     fields:
-      - { label: "标题", name: "title", widget: "string" }
-      - { label: "发布日期", name: "date", widget: "datetime" }
-      - { label: "正文内容（支持图片插入）", name: "body", widget: "markdown" }
+      - label: "标题"
+        name: title
+        widget: string
+      - label: "发布日期"
+        name: date
+        widget: datetime
+      - label: "正文内容"
+        name: body
+        widget: markdown
 
+  # 相册栏目（新增，和gallery.html解析字段完全匹配）
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
     create: true
     delete: true
+    preview_path: /gallery
     fields:
-      - label: "相册分类"
+      - label: 照片标题/描述
+        name: title
+        widget: string
+      - label: 上传日期
+        name: date
+        widget: datetime
+      - label: 相册分类
         name: album_category
         widget: select
         options:
-          - { label: "Daily Life", value: "Daily Life" }
-          - { label: "这是人", value: "这是人" }
-          - { label: "刘咪", value: "刘咪" }
-      - label: "照片简介(可选)"
-        name: desc
-        widget: text
-        required: false
-      - label: "照片文件"
+          - Daily Life
+          - Portrait
+          - Liu Mi
+      - label: 照片图片
         name: image
         widget: image
