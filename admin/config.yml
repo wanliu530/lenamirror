@@ -41,7 +41,7 @@ collections:
         widget: select
         options:
           - Daily Life
-          - 这是人
+          - Portrait
           - Liu Mi
       - label: 照片图片
         name: image
