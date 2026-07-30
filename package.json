@@ -1,9 +1,0 @@
-{
-  "name": "lena-website",
-  "scripts": {
-    "prebuild": "node generate-gallery-data.js"
-  },
-  "dependencies": {
-    "gray-matter": "^4.0.3"
-  }
-}
