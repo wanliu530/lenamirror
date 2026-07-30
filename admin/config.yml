@@ -2,30 +2,34 @@ backend:
   name: github
   repo: wanliu530/lenamirror
   branch: main
-  site_domain: lenamirror.pages.dev
+  auth_scope: repo
+
 media_folder: "assets/upload"
 public_folder: "/assets/upload"
 
 collections:
-  # 随笔模块
   - name: journal
-    label: Journal随笔
-    folder: "journal/posts"
+    label: "随笔 Journal"
+    folder: "content/journal"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{title}}"
     fields:
-      - {label: "标题", name: "title", widget: "string"}
-      - {label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm"}
-      - {label: "正文（支持插入图片）", name: "body", widget: "markdown"}
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "发布日期", name: "date", widget: "datetime" }
+      - { label: "正文内容（支持图片插入）", name: "body", widget: "markdown" }
 
-  # 相册模块（三个相册：Daily Life / 这是人 / 刘咪）
-  - name: album
-    label: 相册管理
-    folder: "album/images"
+  - name: gallery
+    label: "Gallery 相册"
+    folder: "content/gallery"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{filename}}"
+    slug: "{{albumId}}-{{date}}"
     fields:
-      - {label: "归属相册分类", name: "category", widget: "select", options: ["Daily Life", "这是人", "刘咪"]}
-      - {label: "图片标题", name: "title", widget: "string"}
-      - {label: "上传图片", name: "photo", widget: "image"}
-      - {label: "图片备注", name: "desc", widget: "text"}
+      - label: "相册分类"
+        name: albumId
+        widget: select
+        options:
+          - { label: "Daily Life", value: "dailylife" }
+          - { label: "Portrait", value: "portrait" }
+          - { label: "刘咪", value: "liumi" }
+      - { label: "照片简介", name: "caption", widget: "text", required: false }
+      - { label: "照片文件", name: "photo", widget: "image" }
