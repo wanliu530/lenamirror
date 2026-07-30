@@ -1,11 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lena's Mirror 管理后台</title>
-  <!-- Decap CMS CDN -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lena's Mirror CMS</title>
+<!-- 使用固定稳定版本CDN -->
+<script src="https://unpkg.com/decap-cms@3.3.0/dist/decap-cms.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/decap-cms@3.3.0/dist/decap-cms.css">
 </head>
-<body></body>
+<body>
+<!-- 增加挂载节点！旧代码缺少挂载容器，这是空白头号元凶！ -->
+<div id="nc-root"></div>
+<script>
+// 新版标准初始化方式
+window.CMS_MANUAL_INIT = true;
+CMS.init({
+  config: {
+    backend: {
+      name: "github",
+      repo: "wanliu530/lenamirror",
+      branch: "main",
+      site_domain: "lenamirror.pages.dev"
+    },
+    media_folder: "assets/upload",
+    public_folder: "/assets/upload",
+    collections: [
+      {
+        name: "journal",
+        label: "Journal随笔",
+        folder: "journal/posts",
+        create: true,
+        slug: "{{year}}-{{month}}-{{day}}-{{title}}",
+        fields: [
+          {"label":"标题","name":"title","widget":"string"},
+          {"label":"发布日期","name":"date","widget":"datetime","format":"YYYY-MM-DD HH:mm"},
+          {"label":"正文（支持图片）","name":"body","widget":"markdown"}
+        ]
+      },
+      {
+        name: "album",
+        label: "相册管理",
+        folder: "album/images",
+        create: true,
+        slug: "{{year}}-{{month}}-{{day}}-{{filename}}",
+        fields: [
+          {"label":"归属相册分类","name":"category","widget":"select","options":["Daily Life","这是人","刘咪"]},
+          {"label":"图片标题","name":"title","widget":"string"},
+          {"label":"上传图片","name":"photo","widget":"image"},
+          {"label":"图片备注","name":"desc","widget":"text"}
+        ]
+      }
+    ]
+  }
+});
+</script>
+</body>
 </html>
