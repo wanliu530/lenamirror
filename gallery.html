@@ -3,463 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✧⋆ Memories Gallery ˚‧₊˚✧⋆</title>
+    <title>✧⋆ Lena's Mirror Gallery ˚‧₊˚✧⋆</title>
+    <!-- 固定Giscus完整脚本（已填好你的仓库ID） -->
+    <script src="https://giscus.app/client.js"
+        data-repo="wanliu530/lenamirror"
+        data-repo-id="R_kgDOTm4xlw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOTm4xl84DCR17"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light_high_contrast"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+    </script>
     <style>
-        /* ====================== 独立字体 仅woff2 ====================== */
+        /* ====================== 独立字体配置 和首页完全统一 ====================== */
         @font-face {
-            font-family: "Font_SiteTitle";
-            src: url("./assets/fonts/font_title.woff2") format("woff2");
+            font-family: "Font_Loading";
+            src: url("assets/fonts/font_loading.woff2") format("woff2");
             font-weight: normal;
-            font-style: italic;
+            font-style: normal;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Nav_EN";
-            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
-            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-family: "Font_Nav";
+            src: url("assets/fonts/font_nav.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Nav_CN";
-            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
-            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
+            font-family: "Font_Content_CN";
+            src: url("assets/fonts/font_body_cn.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
             font-display: swap;
         }
         @font-face {
-            font-family: "Font_Body_EN";
-            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
-            unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
+            font-family: "Font_Content_EN";
+            src: url("assets/fonts/font_body_en.woff2");
+            font-weight: normal;
+            font-style: normal;
             font-display: swap;
         }
-        @font-face {
-            font-family: "Font_Body_CN";
-            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
-            unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
-            font-display: swap;
-        }
-        /* ====================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: url("./assets/images/cursor_pixel.gif"), auto;
         }
         body {
-            font-family: "Font_Body_EN", "Font_Body_CN", sans-serif;
-            overflow-x: hidden;
-            background: #fff5fb;
+            font-family: "Font_Content_CN", "Font_Content_EN", sans-serif;
+            background: #ffd6e7;
             background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
+            color: #581845;
+            overflow-x: hidden;
+            cursor: url("assets/images/cursor_pixel.gif"), auto;
         }
-        a:hover, button:hover, .album-window:hover {
-            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
+        audio {
+            display: none;
         }
-        .nav-link {
-            font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
-        }
-        .y2k-neon-panel {
-            border: 3px solid #ff77bb;
-            box-shadow:
-                0 0 10px #ff77bb40,
-                0 0 20px #ffbbee30,
-                inset 0 0 12px #ffcce020;
-            backdrop-filter: blur(3px);
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            background: transparent;
-        }
-        .y2k-neon-panel::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
+        /* 页头 */
+        .page-header {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
-            animation: soft-scan 3.5s linear infinite;
+            padding: 30px 0;
+            text-align: center;
         }
-        @keyframes soft-scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-        /* 顶部横幅 */
-        .top-cat-banner {
-            width: 100%;
-            height: 440px;
-            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
-            position: relative;
-            padding: 30px;
-            overflow: hidden;
-            border-bottom: 4px solid transparent;
-            border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
-        }
-        .float-sticker {
-            position: absolute;
-            pointer-events: none;
-            animation: slow-float 6s ease-in-out infinite;
-            filter: drop-shadow(0 0 6px #ffbbee);
-        }
-        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay: 0.5s; }
-        .sticker-daisy { top: 60px; left: 75%; width: 70px; animation-delay: 1.2s; }
-        .sticker-heart { bottom: 80px; left: 20%; width: 100px; animation-delay: 2s; }
-        @keyframes slow-float {
-            0% { transform: translateY(0) rotate(-3deg); }
-            50% { transform: translateY(-16px) rotate(3deg); }
-            100% { transform: translateY(0) rotate(-3deg); }
-        }
-        .site-title-glitter {
-            position: absolute;
-            right: 40px;
-            bottom: 30px;
-            font-size: 74px;
-            font-family: "Font_SiteTitle";
-            font-weight: 950;
-            letter-spacing: 5px;
-            font-style: italic;
-            color: #b81e60;
-            animation: title-shine 1.4s infinite alternate;
-            text-shadow:
-                3px 3px 0 #ffffff,
-                -1px -1px 0 #fff,
-                1px -1px 0 #fff,
-                -1px 1px 0 #fff,
-                0 0 14px #ff4488,
-                0 0 28px #c82266,
-                0 0 42px #a01850;
-            transform: rotate(-2deg);
-        }
-        .star-deco-left {
-            position: absolute;
-            right: calc(100% + 12px);
-            top: 10px;
-            font-size: 32px;
-            color: #fff;
-            text-shadow: 0 0 10px #ffdd66;
-            animation: star-blink 0.8s infinite alternate;
-        }
-        .star-deco-right {
-            position: absolute;
-            left: calc(100% + 12px);
-            bottom: 8px;
-            font-size: 32px;
-            color: #fff;
-            text-shadow: 0 0 10px #ffdd66;
-            animation: star-blink 0.8s infinite alternate 0.4s;
-        }
-        @keyframes star-blink {
-            from { opacity: 0.5; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes title-shine {
-            from { filter: drop-shadow(0 0 6px #ff99cc); }
-            to { filter: drop-shadow(0 0 22px #b81e60); }
-        }
-        /* 主体布局 */
-        .content-container {
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: flex-start;
-            width: 92%;
-            max-width: 1420px;
-            margin: 45px auto;
-            gap: 40px;
-        }
-        .left-sidebar-wrap {
-            flex-shrink: 0 !important;
-            width: 230px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        .sidebar-nav {
-            width: 100%;
-            padding: 32px 22px;
-            z-index: 10;
-        }
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 30px 0;
-            text-decoration: none;
-            font-size: 22px;
-            color: #801048 !important;
-            font-weight: bold;
-            transition: all 0.2s;
-            padding: 8px 10px;
-            border-radius: 6px;
-        }
-        .nav-link:hover {
-            transform: translateX(6px);
-            color: #ff2277 !important;
-        }
-        .nav-icon {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-        }
-        .main-content-area {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            width: 100%;
-        }
-        /* ========== 相册顶部标题 ========== */
-        .gallery-header-block {
+        .header-top-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 36px;
-            flex-wrap: wrap;
-            padding: 20px 0;
+            gap:24px;
         }
-        .gallery-header-img {
-            max-width: 320px;
-            max-height: 260px;
-            object-fit: contain;
-            display: block;
+        .header-preview-img {
+            height: 180px;
+            border:3px solid #ff77bb;
+            border-radius:12px;
         }
-        .gallery-main-title {
-            font-family: "Font_SiteTitle";
-            font-size: 52px;
-            color: #b81e60;
-            letter-spacing: 4px;
-            animation: title-shine 2s infinite alternate;
-        }
-        /* 分割线 */
-        .divider-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            width: 100%;
+        .gallery-title {
+            font-family:"Font_Loading";
+            font-size:42px;
+            color:#c42e78;
+            text-shadow: 0 0 8px #ffb8dd;
         }
         .divider-gif {
-            object-fit: contain;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:20px 0;
+            gap:8px;
         }
-        .divider-side {
-            width: 37%;
-            height: 60px;
+        .divider-side {height:40px;}
+        .divider-center {height:40px;}
+
+        .main-wrap {
+            display:flex;
+            max-width:1400px;
+            margin:0 auto;
+            gap:30px;
+            padding:20px;
         }
-        .divider-center {
-            width: 40%;
-            height: 68px;
+        /* 侧边导航 圆角粉色荧光边框 */
+        .sidebar-nav {
+            min-width:220px;
+            padding:25px 16px;
+            border:2px solid #ff77cc;
+            border-radius:18px;
+            box-shadow: 0 0 12px #ff88cc;
+            background:#fff0f7;
         }
-        /* 相册网格 */
-        .album-grid-wrap {
+        .nav-item {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin:22px 0;
+            font-family:"Font_Nav";
+            font-size:19px;
+        }
+        .nav-item a {
+            color:#992266;
+            text-decoration:none;
+        }
+        .nav-item a:hover {
+            color:#ff4499;
+            text-shadow:0 0 6px #ff99cc;
+        }
+        .nav-icon {
+            width:22px;
+        }
+        /* 相册容器 */
+        .album-container {
+            flex: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 32px;
-            width: 100%;
+            grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+            gap:26px;
+            padding:10px;
         }
-        .album-window {
-            background: #fdf4ff;
-            border: 3px solid #e9c5ff;
-            border-radius: 18px;
-            box-shadow:
-                0 0 18px #ff99ff50,
-                0 0 35px #dd88ff35;
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.2s ease;
+        .album-card {
+            background:#fff3f9;
+            border:2px solid #ff77bb;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow: 0 0 8px #ffadd2;
+            cursor:pointer;
+            transition:0.25s;
         }
-        .album-window:hover {
+        .album-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 0 24px #ff88ff70;
+            box-shadow: 0 0 16px #ff77bb;
         }
-        .album-win-titlebar {
-            background: linear-gradient(90deg, #e2a8ff, #ff99cc, #e2a8ff);
-            padding: 10px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .album-cover {
+            width:100%;
+            height:180px;
+            object-fit:cover;
         }
-        .album-win-name {
-            font-family: "Font_SiteTitle";
-            color: white;
-            font-size: 20px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 6px #ff77bb;
+        .album-name {
+            text-align:center;
+            padding:10px;
+            font-size:18px;
+            font-weight:bold;
+            color:#701e4e;
         }
-        .album-win-btns {
-            display: flex;
-            gap: 8px;
+        /* 图片弹窗 */
+        .photo-modal {
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.65);
+            z-index:999;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
         }
-        .album-win-btn {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-radius: 4px;
-            background: rgba(255,255,0.3);
-            color: #fff;
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            font-family: Arial, sans-serif;
+        .photo-modal.active {
+            display:flex;
         }
-        .album-preview-img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            display: block;
+        .modal-window {
+            width:min(920px, 100%);
+            max-height:90vh;
+            overflow-y:auto;
+            background:#fff0f8;
+            border-radius:16px;
+            overflow:hidden;
+            border:2px solid #ff77cc;
         }
-        /* 大图弹窗 */
-        .photo-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
-            z-index: 9998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
+        .modal-topbar {
+            background: linear-gradient(90deg,#ffb8e0,#f7a0d8);
+            padding:10px 16px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
         }
-        .photo-modal-overlay.active {
-            display: flex;
+        .modal-album-name {
+            font-family:"Font_Loading";
+            font-size:22px;
         }
-        .photo-modal-box {
-            background: #fdf4ff;
-            border: 3px solid #e9c5ff;
-            border-radius: 20px;
-            max-width: 90vw;
-            max-height: 90vh;
-            width: 100%;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+        .close-modal {
+            width:30px;
+            height:30px;
+            background:#ffdd44;
+            border:none;
+            border-radius:6px;
+            font-weight:bold;
+            cursor:pointer;
         }
-        .modal-title-bar {
-            background: linear-gradient(90deg, #e2a8ff, #ff99cc, #e2a8ff);
-            padding: 14px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .modal-img-box {
+            padding:16px;
+            text-align:center;
         }
-        .modal-close-btn {
-            width: 32px;
-            height: 32px;
-            border: 2px solid #fff;
-            border-radius: 6px;
-            background: rgba(255,255,0.35);
-            color: #fff;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
+        .modal-photo {
+            max-width:100%;
+            max-height:520px;
+            border-radius:8px;
+            border:2px solid #ffcce0;
         }
-        .modal-photo-display {
-            padding: 20px;
-            text-align: center;
+        .photo-desc {
+            margin-top:10px;
+            color:#662244;
+            font-size:18px;
         }
-        .modal-main-photo {
-            max-width: 100%;
-            max-height: 60vh;
-            border-radius: 12px;
-            border: 2px solid #ffcce0;
+        .btn-group {
+            display:flex;
+            gap:14px;
+            justify-content:center;
+            margin:16px 0;
         }
-        .photo-nav-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 16px 0;
-            flex-wrap: wrap;
+        .photo-btn {
+            padding:8px 22px;
+            border:none;
+            border-radius:30px;
+            background:linear-gradient(90deg,#ffadd2,#e890d8);
+            color:#441133;
+            font-size:16px;
+            cursor:pointer;
         }
-        .photo-nav-btn,
-        .admin-upload-btn {
-            padding: 8px 20px;
-            background: linear-gradient(90deg, #ff99cc, #cc66ff);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
-        }
-        .admin-upload-btn {
-            background: linear-gradient(90deg, #ff66aa, #cc4488);
-        }
-        .comment-input-area {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 0 20px;
-        }
-        .comment-name,
-        .comment-text {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #ff99dd;
-            border-radius: 10px;
-            background: #fff;
-            color: #6b2e82;
-            font-family: "Font_Body_CN", "Font_Body_EN";
-        }
-        .comment-text {
-            min-height: 90px;
-            resize: vertical;
-        }
-        .submit-comment-btn {
-            align-self: flex-end;
-            padding: 9px 22px;
-            background: linear-gradient(90deg, #ff99cc, #cc66ff);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: bold;
-            font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
-        }
-        .comment-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            padding: 0 20px 20px;
-        }
-        .comment-item {
-            padding: 12px 16px;
-            background: #fffafd;
-            border: 2px solid #ffcce0;
-            border-radius: 12px;
-        }
-        .comment-author {
-            font-weight: bold;
-            color: #d03070;
-            margin-bottom: 6px;
-        }
-        .comment-time {
-            font-size: 12px;
-            color: #b888a0;
-            text-align: right;
-            margin-top: 6px;
-        }
-        .empty-comment-tip {
-            text-align: center;
-            color: #b888a0;
-            padding: 30px;
+        /* Giscus评论容器 */
+        .giscus-box {
+            padding:20px;
+            border-top:1px dashed #ffb8dd;
         }
         /* 底部时间栏 */
-        .footer-time-bar {
-            width: 100%;
-            text-align: center;
-            padding: 14px;
-            background: rgba(255, 205, 228, 0.65);
+        footer {
+            width:100%;
+            text-align:center;
+            padding:30px 0;
+            font-size:17px;
+            margin-top:40px;
             border-top: 3px solid transparent;
             border-image: linear-gradient(90deg, #ff77bb, #ffbbee) 1;
-            color: #881f4f;
-            font-size: 19px;
-            letter-spacing: 1.2px;
-            margin-top: 60px;
-            text-shadow: 0 0 5px #ffbbee;
+            background: rgba(255, 205, 228, 0.65);
         }
-        /* BGM按钮 */
+        /* BGM悬浮按钮 */
         .bgm-toggle-button {
             position: fixed;
             bottom: 28px;
@@ -472,7 +269,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 999;
+            z-index: 9999;
             box-shadow: 0 0 12px rgba(255,120,180,0.4);
             transition: all 0.2s;
         }
@@ -493,378 +290,250 @@
             pointer-events: none;
             z-index: 0;
         }
+        @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
+        @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
         /* 移动端适配 */
-        @media (max-width: 840px) {
-            .content-container {
-                flex-direction: column !important;
-            }
-            .left-sidebar-wrap {
-                width: 100%;
-                min-width: unset;
-            }
-            .top-cat-banner {
-                height: 320px;
-            }
-            .site-title-glitter {
-                font-size: 48px;
-                right: 10px;
-            }
-            .star-deco-left,
-            .star-deco-right {
-                font-size: 22px;
-            }
-            .sticker-butterfly {
-                width: 120px;
-            }
-            .sticker-heart {
-                width: 70px;
-            }
-            .gallery-header-block {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-            .gallery-main-title {
-                font-size: 36px;
-            }
-            .gallery-header-img {
-                max-width: 90%;
-            }
-            .album-grid-wrap {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
+        @media(max-width: 840px) {
+            .content-container { flex-direction: column !important; }
+            .left-sidebar-wrap { width: 100%; }
+            .header-top-wrap { flex-direction:column; }
+            .gallery-title { font-size:32px; }
+            .album-container { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); }
         }
     </style>
 </head>
 <body>
-    <div class="sparkle-particle-layer"></div>
-    <!-- 相册无开场动画 -->
-    <div class="main-wrapper" id="mainPage">
-        <div class="top-cat-banner">
-            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="floating butterfly">
-            <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="26" fill="#fff8c8" />
-                <circle cx="32" cy="14" r="14" fill="#ffdd66" />
-                <circle cx="20" cy="20" r="8" fill="#fff8c8" />
-                <circle cx="44" cy="20" r="8" fill="#fff8c8" />
-                <circle cx="20" cy="44" r="8" fill="#fff8c8" />
-                <circle cx="44" cy="44" r="8" fill="#fff8c8" />
-                <circle cx="32" cy="18" r="8" fill="#fff8c8" />
-                <circle cx="32" cy="46" r="8" fill="#fff8c8" />
-                <circle cx="18" cy="32" r="8" fill="#fff8c8" />
-                <circle cx="46" cy="32" r="8" fill="#fff8c8" />
-            </svg>
-            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="pink heart">
-            <div class="site-title-glitter">
-                <span class="star-deco-left">✦</span>
-                Lena's Mirror
-                <span class="star-deco-right">✦</span>
-            </div>
-        </div>
-        <div class="content-container">
-            <div class="left-sidebar-wrap">
-                <aside class="sidebar-nav y2k-neon-panel">
-                    <a href="index.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_home.gif" alt="home icon">
-                        Home 首页
-                    </a>
-                    <a href="journal.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_journal.gif" alt="journal icon">
-                        Journal 随笔
-                    </a>
-                    <a href="gallery.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_gallery.gif" alt="gallery icon">
-                        Gallery 相册
-                    </a>
-                    <a href="guestbook.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_message.gif" alt="guestbook icon">
-                        Guestbook 留言板
-                    </a>
-                </aside>
-            </div>
-            <div class="main-content-area">
-                <div class="gallery-header-block">
-                    <img class="gallery-header-img" src="./assets/images/gallery_top_main.jpg" alt="memory header pic">
-                    <h1 class="gallery-main-title">My Sweet Memories</h1>
-                </div>
-                <div class="divider-row">
-                    <img class="divider-gif divider-side" src="./assets/images/divider_1.gif" alt="divider left">
-                    <img class="divider-gif divider-center" src="./assets/images/divider_2.gif" alt="divider middle">
-                    <img class="divider-gif divider-side" src="./assets/images/divider_1.gif" alt="divider right">
-                </div>
-                <div class="album-grid-wrap" id="albumContainer">
-                    <div class="album-window" data-album-id="album_daily" data-github-folder="assets/images/album_daily/">
-                        <div class="album-win-titlebar">
-                            <span class="album-win-name">Daily Life</span>
-                            <div class="album-win-btns">
-                                <span class="album-win-btn">-</span>
-                                <span class="album-win-btn">□</span>
-                                <span class="album-win-btn">×</span>
-                            </div>
-                        </div>
-                        <img class="album-preview-img" src="./assets/images/album_daily/cover.jpg" alt="album preview">
-                    </div>
-                    <div class="album-window" data-album-id="album_portrait" data-github-folder="assets/images/album_portrait/">
-                        <div class="album-win-titlebar">
-                            <span class="album-win-name">Portrait</span>
-                            <div class="album-win-btns">
-                                <span class="album-win-btn">-</span>
-                                <span class="album-win-btn">□</span>
-                                <span class="album-win-btn">×</span>
-                            </div>
-                        </div>
-                        <img class="album-preview-img" src="./assets/images/album_portrait/cover.jpg" alt="album preview">
-                    </div>
-                    <div class="album-window" data-album-id="album_liumi" data-github-folder="assets/images/album_liumi/">
-                        <div class="album-win-titlebar">
-                            <span class="album-win-name">Liu Mi</span>
-                            <div class="album-win-btns">
-                                <span class="album-win-btn">-</span>
-                                <span class="album-win-btn">□</span>
-                                <span class="album-win-btn">×</span>
-                            </div>
-                        </div>
-                        <img class="album-preview-img" src="./assets/images/album_liumi/cover.jpg" alt="album preview">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-time-bar" id="timeDisplay"></div>
+<div class="sparkle-particle-layer"></div>
+<audio id="bgmPlayer" loop muted preload="auto">
+    <source src="assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+
+<div class="page-header">
+    <div class="header-top-wrap">
+        <img class="header-preview-img" src="assets/images/gallery_header.png" alt="header">
+        <h1 class="gallery-title">My Sweet Memories</h1>
     </div>
-    <!-- 大图弹窗 -->
-    <div class="photo-modal-overlay" id="photoModal">
-        <div class="photo-modal-box">
-            <div class="modal-title-bar">
-                <h3 class="modal-album-title" id="modalAlbumName">相册名称</h3>
-                <button class="modal-close-btn" id="closeModalBtn">×</button>
-            </div>
-            <div class="modal-photo-display">
-                <img class="modal-main-photo" id="modalImage" src="" alt="full photo">
-                <div class="photo-nav-row">
-                    <button class="photo-nav-btn" id="prevPhotoBtn">上一张</button>
-                    <button class="photo-nav-btn" id="nextPhotoBtn">下一张</button>
-                    <button class="admin-upload-btn" id="adminUploadBtn">管理员上传图片</button>
-                </div>
-            </div>
-            <div class="photo-comment-section">
-                <div class="comment-input-area">
-                    <input class="comment-name" id="inputCommentName" placeholder="你的昵称">
-                    <textarea class="comment-text" id="inputCommentText" placeholder="写下对这张照片的评论..."></textarea>
-                    <button class="submit-comment-btn" id="sendCommentBtn">发送评论</button>
-                </div>
-                <div class="comment-list" id="photoCommentList">
-                    <div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>
-                </div>
-            </div>
-        </div>
+    <div class="divider-gif">
+        <img class="divider-side" src="assets/images/divider_1.gif">
+        <img class="divider-center" src="assets/images/divider_2.gif">
+        <img class="divider-side" src="assets/images/divider_1.gif">
     </div>
-    <!-- BGM按钮 -->
-    <button class="bgm-toggle-button" id="bgmBtn">
-        <img class="gramophone-icon" src="./assets/images/gramophone.png" alt="music toggle">
-    </button>
-    <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
-        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
-    <script>
-        const mainPage = document.getElementById("mainPage");
-        const bgmAudio = document.getElementById("bgmAudio");
-        const photoModal = document.getElementById("photoModal");
-        const closeModalBtn = document.getElementById("closeModalBtn");
-        const modalImage = document.getElementById("modalImage");
-        const modalAlbumName = document.getElementById("modalAlbumName");
-        const prevPhotoBtn = document.getElementById("prevPhotoBtn");
-        const nextPhotoBtn = document.getElementById("nextPhotoBtn");
-        const adminUploadBtn = document.getElementById("adminUploadBtn");
-        const photoCommentList = document.getElementById("photoCommentList");
-        const inputCommentName = document.getElementById("inputCommentName");
-        const inputCommentText = document.getElementById("inputCommentText");
-        const sendCommentBtn = document.getElementById("sendCommentBtn");
+</div>
 
-        const GITHUB_USER = "你的GitHub用户名";
-        const GITHUB_REPO = "你的仓库名称";
-        const GITHUB_BRANCH = "main";
+<div class="main-wrap">
+    <nav class="sidebar-nav">
+        <div class="nav-item">
+            <img class="nav-icon" src="assets/images/icon_home.gif">
+            <a href="index.html">首页</a>
+        </div>
+        <div class="nav-item">
+            <img class="nav-icon" src="assets/images/icon_journal.gif">
+            <a href="journal.html">随笔</a>
+        </div>
+        <div class="nav-item">
+            <img class="nav-icon" src="assets/images/icon_gallery.gif">
+            <a href="gallery.html">相册</a>
+        </div>
+        <div class="nav-item">
+            <img class="nav-icon" src="assets/images/icon_message.gif">
+            <a href="guestbook.html">留言板</a>
+        </div>
+    </nav>
 
-        const albumData = {
-            album_daily: {
-                name: "Daily Life",
-                folder: "./assets/images/album_daily/",
-                images: [
-                    "./assets/images/album_daily/pic1.jpg",
-                    "./assets/images/album_daily/pic2.jpg",
-                    "./assets/images/album_daily/pic3.jpg",
-                    "./assets/images/album_daily/pic4.jpg"
-                ]
-            },
-            album_portrait: {
-                name: "Portrait",
-                folder: "./assets/images/album_portrait/",
-                images: [
-                    "./assets/images/album_portrait/pic1.jpg",
-                    "./assets/images/album_portrait/pic2.jpg",
-                    "./assets/images/album_portrait/pic3.jpg"
-                ]
-            },
-            album_liumi: {
-                name: "Liu Mi",
-                folder: "./assets/images/album_liumi/",
-                images: [
-                    "./assets/images/album_liumi/pic1.jpg",
-                    "./assets/images/album_liumi/pic2.jpg"
-                ]
-            }
-        };
-        let currentAlbumId = "";
-        let currentFolderPath = "";
-        let currentPhotoIndex = 0;
+    <div class="album-container" id="albumWrap">
+        <!-- JS动态渲染相册卡片 -->
+    </div>
+</div>
 
-        function pageInit() {
-            document.body.addEventListener("click", unlockAudio);
-        }
-        function unlockAudio() {
-            bgmAudio.muted = false;
-            bgmAudio.play();
-            document.body.removeEventListener("click", unlockAudio);
-        }
-        function refreshTime() {
-            const now = new Date();
-            const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
-            const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-            const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-            const y = now.getFullYear();
-            const mNum = now.getMonth() + 1;
-            const d = now.getDate();
-            const wIndex = now.getDay();
-            const wCn = weekCN[wIndex];
-            const wEn = weekEN[wIndex];
-            const monthEng = monthEN[now.getMonth()];
-            const showText = `${y}年${mNum}月${d} ${wCn} ${wEn} ${monthEng} ${d} ${y}`;
-            document.getElementById("timeDisplay").innerText = showText;
-        }
-        refreshTime();
-        setInterval(refreshTime, 1000);
+<!-- 图片弹窗 -->
+<div class="photo-modal" id="photoModal">
+    <div class="modal-window">
+        <div class="modal-topbar">
+            <span class="modal-album-name" id="modalAlbumTitle"></span>
+            <button class="close-modal" id="closeModal">✕</button>
+        </div>
+        <div class="modal-img-box">
+            <img class="modal-photo" id="modalImage">
+            <p class="photo-desc" id="photoDesc"></p>
+        </div>
+        <div class="btn-group">
+            <button class="photo-btn" id="prevBtn">上一张</button>
+            <button class="photo-btn" id="nextBtn">下一张</button>
+        </div>
+        <!-- Giscus评论挂载容器 -->
+        <div class="giscus-box giscus" id="giscusWrap"></div>
+    </div>
+</div>
 
-        const sparkleWrap = document.querySelector(".sparkle-particle-layer");
-        function createSparkle() {
-            const size = Math.random() * 14 + 4;
-            const sparkle = document.createElement("div");
-            sparkle.style.cssText = `
-                position:absolute;
-                width:${size}px;
-                height:${size}px;
-                left:${Math.random() * 100}vw;
-                top:-10px;
-                background:radial-gradient(#ffffff, #ffd0f0, #e0b8ff);
-                border-radius:50%;
-                opacity:${Math.random() * 0.65 + 0.2};
-                box-shadow:0 0 8px #ffb8e8, 0 0 18px #e8b8ff, 0 0 30px #d8a8ee;
-                animation:fall ${Math.random() * 10 + 5}s linear forwards, twinkle 1s infinite alternate;
-            `;
-            sparkleWrap.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 15000);
-        }
-        setInterval(createSparkle, 180);
-        const keyframeStyle = document.createElement("style");
-        keyframeStyle.textContent = `
-            @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-            @keyframes twinkle { from { opacity:0.2; } to { opacity:0.95; } }
+<footer>
+    <span id="realTimeDate"></span>
+</footer>
+
+<!-- BGM悬浮按钮 -->
+<button class="bgm-toggle-button" id="bgmBtn">
+    <img class="gramophone-icon" src="./assets/images/gramophone.png">
+</button>
+
+<script>
+// ========== 全局变量 ==========
+let galleryRawData = [];
+const albumGroups = ["Daily Life","这是人","刘咪"];
+let currentAlbumPhotos = [];
+let currentPhotoIndex = 0;
+let currentImagePath = "";
+
+// 加载CMS构建生成的相册json数据
+async function loadGalleryData(){
+    try{
+        const res = await fetch("/gallery-data.json");
+        galleryRawData = await res.json();
+        renderAlbumCards();
+    }catch(err){
+        console.error("相册数据加载失败：",err);
+        document.getElementById("albumWrap").innerHTML = "<p style='text-align:center;width:100%;font-size:20px;color:#c04080;'>相册加载失败，请等待Netlify部署完成后刷新页面</p>";
+    }
+}
+
+// 渲染相册封面（每组最新图片做封面）
+function renderAlbumCards(){
+    const wrap = document.getElementById("albumWrap");
+    wrap.innerHTML = "";
+    albumGroups.forEach(groupName=>{
+        const groupImages = galleryRawData.filter(item=>item.album === groupName);
+        if(groupImages.length === 0) return;
+        const newestPic = groupImages[0];
+        const card = document.createElement("div");
+        card.className = "album-card";
+        card.innerHTML = `
+            <img class="album-cover" src="${newestPic.image}" loading="lazy">
+            <div class="album-name">${groupName}</div>
         `;
-        document.head.appendChild(keyframeStyle);
+        card.onclick = ()=>openAlbum(groupName);
+        wrap.appendChild(card);
+    })
+}
 
-        const audioBtn = document.getElementById("bgmBtn");
-        let musicPlaying = true;
-        audioBtn.addEventListener("click", () => {
-            if (musicPlaying) {
-                bgmAudio.pause();
-                musicPlaying = false;
-                audioBtn.style.background = "#ffd6ec";
-            } else {
-                bgmAudio.play();
-                musicPlaying = true;
-                audioBtn.style.background = "#ffffff";
-            }
-        });
+// 打开对应相册
+function openAlbum(albumName){
+    currentAlbumPhotos = galleryRawData.filter(item=>item.album === albumName);
+    currentPhotoIndex = 0;
+    document.getElementById("modalAlbumTitle").innerText = albumName;
+    renderCurrentPhoto();
+    document.getElementById("photoModal").classList.add("active");
+}
 
-        const albumWindows = document.querySelectorAll(".album-window");
-        albumWindows.forEach(windowEl => {
-            windowEl.addEventListener("click", () => {
-                currentAlbumId = windowEl.dataset.albumId;
-                currentFolderPath = windowEl.dataset.githubFolder;
-                currentPhotoIndex = 0;
-                renderModalPhoto();
-                renderPhotoComments();
-                photoModal.classList.add("active");
-            });
-        });
-        function renderModalPhoto() {
-            const album = albumData[currentAlbumId];
-            modalAlbumName.innerText = album.name;
-            modalImage.src = album.images[currentPhotoIndex];
-        }
-        prevPhotoBtn.addEventListener("click", () => {
-            const album = albumData[currentAlbumId];
-            currentPhotoIndex = (currentPhotoIndex - 1 + album.images.length) % album.images.length;
-            renderModalPhoto();
-            renderPhotoComments();
-        });
-        nextPhotoBtn.addEventListener("click", () => {
-            const album = albumData[currentAlbumId];
-            currentPhotoIndex = (currentPhotoIndex + 1) % album.images.length;
-            renderModalPhoto();
-            renderPhotoComments();
-        });
-        closeModalBtn.addEventListener("click", () => {
-            photoModal.classList.remove("active");
-        });
-        photoModal.addEventListener("click", (e) => {
-            if (e.target === photoModal) photoModal.classList.remove("active");
-        });
-        adminUploadBtn.addEventListener("click", () => {
-            const uploadUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/upload/${GITHUB_BRANCH}/${currentFolderPath}`;
-            window.open(uploadUrl, "_blank");
-            alert("仅仓库管理员可上传图片，上传后刷新页面");
-        });
-        function getCommentStorageKey() {
-            return `photo_comment_${currentAlbumId}_${currentPhotoIndex}`;
-        }
-        function loadPhotoComments() {
-            const saved = localStorage.getItem(getCommentStorageKey());
-            if (!saved) return [];
-            try { return JSON.parse(saved); } catch { return []; }
-        }
-        function savePhotoComments(list) {
-            localStorage.setItem(getCommentStorageKey(), JSON.stringify(list));
-        }
-        function renderPhotoComments() {
-            const list = loadPhotoComments();
-            photoCommentList.innerHTML = "";
-            if (list.length === 0) {
-                photoCommentList.innerHTML = `<div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>`;
-                return;
-            }
-            list.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "comment-item";
-                div.innerHTML = `
-                    <div class="comment-author">${item.name}</div>
-                    <div class="comment-content">${item.content}</div>
-                    <div class="comment-time">${item.time}</div>
-                `;
-                photoCommentList.appendChild(div);
-            });
-        }
-        sendCommentBtn.addEventListener("click", () => {
-            const name = inputCommentName.value.trim();
-            const content = inputCommentText.value.trim();
-            if (!name || !content) { alert("请填写昵称和评论"); return; }
-            const now = new Date();
-            const time = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-            const list = loadPhotoComments();
-            list.unshift({ name, content, time });
-            savePhotoComments(list);
-            renderPhotoComments();
-            inputCommentName.value = "";
-            inputCommentText.value = "";
-        });
-        pageInit();
-    </script>
+// 渲染当前图片并刷新Giscus评论
+function renderCurrentPhoto(){
+    const pic = currentAlbumPhotos[currentPhotoIndex];
+    currentImagePath = pic.image;
+    document.getElementById("modalImage").src = pic.image;
+    document.getElementById("photoDesc").innerText = pic.desc;
+    // 清空旧评论，重新加载当前图片独立评论
+    const gBox = document.getElementById("giscusWrap");
+    gBox.innerHTML = "";
+    const giscusScript = document.createElement("script");
+    giscusScript.src = "https://giscus.app/client.js";
+    giscusScript.dataset.repo = "wanliu530/lenamirror";
+    giscusScript.dataset.repoId = "R_kgDOTm4xlw";
+    giscusScript.dataset.category = "Announcements";
+    giscusScript.dataset.categoryId = "DIC_kwDOTm4xl84DCR17";
+    giscusScript.dataset.mapping = "specific";
+    giscusScript.dataset.term = currentImagePath;
+    giscusScript.dataset.strict = "0";
+    giscusScript.dataset.reactionsEnabled = "1";
+    giscusScript.dataset.emitMetadata = "0";
+    giscusScript.dataset.inputPosition = "bottom";
+    giscusScript.dataset.theme = "light_high_contrast";
+    giscusScript.dataset.lang = "zh-CN";
+    giscusScript.crossOrigin = "anonymous";
+    giscusScript.async = true;
+    gBox.appendChild(giscusScript);
+}
+
+// 切换上一张
+document.getElementById("prevBtn").addEventListener("click", ()=>{
+    currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
+    renderCurrentPhoto();
+})
+// 切换下一张
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+    currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
+    renderCurrentPhoto();
+})
+// 关闭弹窗
+document.getElementById("closeModal").addEventListener("click", ()=>{
+    document.getElementById("photoModal").classList.remove("active");
+})
+document.getElementById("photoModal").addEventListener("click", (e)=>{
+    if(e.target === document.getElementById("photoModal")){
+        document.getElementById("photoModal").classList.remove("active");
+    }
+})
+
+// 底部实时时间
+function updateTime(){
+    const now = new Date();
+    const weekArr = ["周日","周一","周二","周三","周四","周五","周六"];
+    const enWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const year = now.getFullYear();
+    const month = now.getMonth()+1;
+    const day = now.getDate();
+    const weekCn = weekArr[now.getDay()];
+    const dateStr = `${year}年${month}月${day}日 ${weekCn} ${enWeek[now.getDay()]} ${now.toDateString()}`;
+    document.getElementById("realTimeDate").innerText = dateStr;
+}
+updateTime();
+setInterval(updateTime,1000);
+
+// 飘落星光粒子
+const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+function createSparkle() {
+    const size = Math.random() * 14 + 4;
+    const sparkle = document.createElement("div");
+    sparkle.style.cssText = `
+        position:absolute;
+        width:${size}px;
+        height:${size}px;
+        left:${Math.random() * 100}vw;
+        top:-10px;
+        background:radial-gradient(#ffffff, #ffd0f0, #e0b8ff);
+        border-radius:50%;
+        opacity:${Math.random() * 0.65 + 0.2};
+        box-shadow:0 0 8px #ffb8e8, 0 0 18px #e8b8ff, 0 0 30px #d8a8ee;
+        animation:fall ${Math.random() * 10 + 5}s linear forwards, twinkle 1s infinite alternate;
+    `;
+    sparkleWrap.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 15000);
+}
+setInterval(createSparkle, 180);
+const keyframeStyle = document.createElement("style");
+keyframeStyle.textContent = `
+    @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+    @keyframes twinkle { from { opacity:0.2; } to { opacity:0.95; } }
+`;
+document.head.appendChild(keyframeStyle);
+
+// BGM控制逻辑
+const bgmAudio = document.getElementById("bgmPlayer");
+const bgmBtn = document.getElementById("bgmBtn");
+let musicPlaying = true;
+bgmBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+        bgmAudio.pause();
+        musicPlaying = false;
+        bgmBtn.style.background = "#ffd6ec";
+    } else {
+        bgmAudio.play();
+        musicPlaying = true;
+        bgmBtn.style.background = "#ffffff";
+    }
+});
+document.body.addEventListener("click", () => {
+    bgmAudio.muted = false;
+    bgmAudio.play();
+}, { once: true });
+
+// 页面加载完成自动拉取相册数据
+window.addEventListener("DOMContentLoaded", loadGalleryData);
+</script>
 </body>
 </html>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✧⋆ Lena's Mirror Journal ˚‧₊˚✧⋆</title>
+    <!-- Netlify CMS 脚本 -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         /* 仅woff2，移除ttf */
         @font-face {
@@ -699,227 +701,320 @@
     </button>
     <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
         <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
-    <script>
-        const GITHUB_USER = "你的GitHub用户名";
-        const GITHUB_REPO = "你的仓库名称";
-        const GITHUB_BRANCH = "main";
-        const JOURNAL_FOLDER = "assets/journal/";
-        let allJournalPosts = [];
-        const pageSize = 4;
-        let currentPage = 0;
-        let currentPostId = "";
+    
 
-        // DOM元素
-        const uploadJournalBtn = document.getElementById("uploadJournalBtn");
-        const postRenderWrap = document.getElementById("postRenderWrap");
-        const prevPage = document.getElementById("prevPage");
-        const nextPage = document.getElementById("detailModal");
-        const detailModal = document.getElementById("detailModal");
-        const closeModal = document.getElementById("closeModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalDate = document.getElementById("modalDate");
-        const modalText = document.getElementById("modalText");
-        const modalImgBox = document.getElementById("modalImgBox");
-        const cmtName = document.getElementById("cmtName");
-        const cmtText = document.getElementById("cmtText");
-        const sendCmt = document.getElementById("sendCmt");
-        const cmtList = document.getElementById("cmtList");
-        const calYearSel = document.getElementById("calYearSel");
-        const calMonthSel = document.getElementById("calMonthSel");
-        const calDayWrap = document.getElementById("calDayWrap");
-        const bgmAudio = document.getElementById("bgmAudio");
-        const bgmBtn = document.getElementById("bgmBtn");
+<script>
+// ========== 你的GitHub仓库配置 ==========
+const GITHUB_USER = "wanliu530";
+const GITHUB_REPO = "lenamirror";
+const GITHUB_BRANCH = "main";
+const JOURNAL_CONTENT_PATH = "content/journal/";
 
-        // 上传跳转
-        uploadJournalBtn.addEventListener("click", () => {
-            const uploadUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/upload/${GITHUB_BRANCH}/${JOURNAL_FOLDER}`;
-            window.open(uploadUrl, "_blank");
-            alert("仅仓库管理员可上传，访客无法操作，上传后刷新页面");
-        });
+let allJournalPosts = [];
+const pageSize = 4;
+let currentPage = 0;
+let currentPostId = "";
 
-        // ========== 修复日历核心函数（解决无日期BUG）==========
-        function renderCalendar() {
-            const year = Number(calYearSel.value);
-            const realMonth = Number(calMonthSel.value);
-            const monthIndex = realMonth - 1;
-            const lastDay = new Date(year, monthIndex + 1, 0).getDate();
-            const firstDayWeek = new Date(year, monthIndex, 1).getDay();
-            calDayWrap.innerHTML = "";
-            // 前置空白格子
-            for (let i = 0; i < firstDayWeek; i++) {
-                const empty = document.createElement("div");
-                empty.className = "cal-day-normal";
-                calDayWrap.appendChild(empty);
-            }
-            // 日期数字
-            const postDates = allJournalPosts.map(p => p.postDate);
-            for (let d = 1; d <= lastDay; d++) {
-                const dayBox = document.createElement("div");
-                dayBox.textContent = d;
-                const fullDate = `${year}-${String(realMonth).padStart(2, "-")}-${String(d).padStart(2, "0")}`;
-                dayBox.className = postDates.includes(fullDate) ? "cal-day-has-post" : "cal-day-normal";
-                calDayWrap.appendChild(dayBox);
-            }
+// DOM缓存
+const uploadJournalBtn = document.getElementById("uploadJournalBtn");
+const postRenderWrap = document.getElementById("postRenderWrap");
+const prevPage = document.getElementById("prevPage");
+const nextPage = document.getElementById("nextPage");
+const detailModal = document.getElementById("detailModal");
+const closeModal = document.getElementById("closeModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDate = document.getElementById("modalDate");
+const modalText = document.getElementById("modalText");
+const modalImgBox = document.getElementById("modalImgBox");
+const cmtName = document.getElementById("cmtName");
+const cmtText = document.getElementById("cmtText");
+const sendCmt = document.getElementById("sendCmt");
+const cmtList = document.getElementById("cmtList");
+const calYearSel = document.getElementById("calYearSel");
+const calMonthSel = document.getElementById("calMonthSel");
+const calDayWrap = document.getElementById("calDayWrap");
+const bgmAudio = document.getElementById("bgmAudio");
+const bgmBtn = document.getElementById("bgmBtn");
+
+// 跳转CMS后台
+uploadJournalBtn.addEventListener("click", () => {
+    window.open(`${window.location.origin}/admin`, "_blank");
+});
+
+// Markdown解析：优先读取CMS frontmatter标题，修复标题不显示问题
+function parseMarkdown(mdText) {
+    let title = "无标题随笔";
+    let content = mdText;
+    let imgs = [];
+
+    // 优先匹配Netlify CMS生成的frontmatter标题 --- title: xxx ---
+    const frontTitleMatch = mdText.match(/^---[\s\S]*?title:\s*(.+?)\n/);
+    if (frontTitleMatch) {
+        title = frontTitleMatch[1].trim();
+    } else {
+        // 兜底匹配一级标题 # 标题
+        const titleMatch = mdText.match(/^#\s*(.+)/m);
+        if (titleMatch) {
+            title = titleMatch[1].trim();
         }
-        // 年月切换触发重绘
-        calYearSel.addEventListener("change", renderCalendar);
-        calMonthSel.addEventListener("change", renderCalendar);
+    }
 
-        // 渲染随笔列表（修复pageData变量错误）
-        function renderJournalList() {
-            postRenderWrap.innerHTML = "";
-            const totalPages = Math.ceil(allJournalPosts.length / pageSize);
-            prevPage.disabled = currentPage <= 0;
-            nextPage.disabled = currentPage >= totalPages - 1;
-            const startIndex = currentPage * pageSize;
-            const pageData = allJournalPosts.slice(startIndex, startIndex + pageSize);
-            if (pageData.length === 0) {
-                postRenderWrap.innerHTML = `<div class="empty-journal-tip">暂无随笔，点击上方按钮前往GitHub上传</div>`;
-                return;
-            }
-            pageData.forEach(post => {
-                const card = document.createElement("div");
-                card.className = "single-journal-card";
-                card.dataset.pid = post.id;
-                card.innerHTML = `
-                    <div class="card-post-date">${post.postDate}</div>
-                    <h3 class="card-post-title">${post.title}</h3>
-                    <div class="card-preview-text">${getPreview(post.content)}</div>
-                    ${renderImgs(post.imgs)}
-                `;
-                card.onclick = () => openPost(post);
-                postRenderWrap.appendChild(card);
+    // 删除frontmatter头部，不展示在正文
+    content = content.replace(/^---[\s\S]*?---\n/, "").trim();
+    // 删除一级标题行
+    content = content.replace(/^#\s*.+/m, "").trim();
+
+    // 提取文章内图片
+    const imgReg = /!\[.*?\]\((.*?)\)/g;
+    let match;
+    while ((match = imgReg.exec(mdText)) !== null) {
+        let src = match[1];
+        if (!src.startsWith("http")) {
+            src = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${src}`;
+        }
+        imgs.push(src);
+        content = content.replace(match[0], "");
+    }
+    content = content.replace(/\r\n/g, "\n");
+    return { title, content, imgs };
+}
+
+// API拉取所有随笔md文件
+async function fetchAllJournals() {
+    try {
+        const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${JOURNAL_CONTENT_PATH}?ref=${GITHUB_BRANCH}`;
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("无随笔");
+        const fileList = await res.json();
+
+        const posts = [];
+        for (const file of fileList) {
+            if (!file.name.endsWith(".md")) continue;
+            const dateStr = file.name.slice(0, 10);
+            const rawRes = await fetch(file.download_url);
+            const mdRaw = await rawRes.text();
+            const parsed = parseMarkdown(mdRaw);
+
+            posts.push({
+                id: file.name,
+                postDate: dateStr,
+                title: parsed.title,
+                content: parsed.content,
+                imgs: parsed.imgs
             });
         }
-        function getPreview(text) {
-            return text.split("\n").slice(0, 5).join("\n");
-        }
-        function renderImgs(imgArr) {
-            if (!imgArr || imgArr.length === 0) return "";
-            let html = `<div class="post-image-wrap">`;
-            imgArr.forEach(src => html += `<img class="card-post-img" src="${src}">`);
-            return html + `</div>`;
-        }
-        // 打开随笔弹窗
-        function openPost(post) {
-            currentPostId = post.id;
-            modalTitle.innerText = post.title;
-            modalDate.innerText = post.postDate;
-            modalText.innerText = post.content;
-            modalImgBox.innerHTML = "";
-            post.imgs.forEach(src => {
-                const img = document.createElement("img");
-                img.className = "modal-img";
-                img.src = src;
-                modalImgBox.appendChild(img);
-            });
-            loadComments();
-            detailModal.classList.add("active");
-        }
-        closeModal.onclick = () => detailModal.classList.remove("active");
-        detailModal.onclick = (e) => {
-            if (e.target === detailModal) detailModal.classList.remove("active");
-        };
-        // 留言本地存储
-        function getCmtKey() {
-            return `journal_cmt_${currentPostId}`;
-        }
-        function loadComments() {
-            const raw = localStorage.getItem(getCmtKey());
-            const list = raw ? JSON.parse(raw) : [];
-            cmtList.innerHTML = "";
-            if (list.length === 0) {
-                cmtList.innerHTML = `<div class="empty-cmt">暂无留言</div>`;
-                return;
-            }
-            list.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "comment-item";
-                div.innerHTML = `
-                    <div class="cmt-name">${item.name}</div>
-                    <div class="cmt-content">${item.content}</div>
-                    <div class="cmt-time">${item.time}</div>
-                `;
-                cmtList.appendChild(div);
-            });
-        }
-        sendCmt.onclick = () => {
-            const name = cmtName.value.trim() || "Anonymous";
-            const text = cmtText.value.trim();
-            if (!text) return alert("留言不能为空");
-            const now = new Date();
-            const time = `${now.getFullYear()}-${now.getMonth()+1}-${now.getHours()}:${now.getMinutes()}`;
-            const all = JSON.parse(local.getItem(getCmtKey()) || "[]");
-            all.unshift({ name, content: text, time });
-            localStorage.setItem(getCmtKey(), JSON.stringify(all));
-            loadComments();
-            cmtText.value = "";
-        };
-        // 分页
-        prevPage.addEventListener("click", () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderJournalList();
-            }
-        });
-        nextPage.addEventListener("click", () => {
-            const total = Math.ceil(allJournalPosts.length / pageSize);
-            if (currentPage < total - 1) {
-                currentPage++;
-                renderJournalList();
-            }
-        });
-        // 底部时间
-        function refreshTime() {
-            const now = new Date();
-            const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
-            const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-            const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-            const y = now.getFullYear();
-            const mNum = now.getMonth() + 1;
-            const d = now.getDate();
-            const wIdx = now.getDay();
-            const show = `${y}年${mNum}月${d} ${weekCN[wIdx]} ${weekEN[wIdx]} ${monthEN[now.getMonth()]} ${d} ${y}`;
-            document.getElementById("timeDisplay").innerText = show;
-        }
-        refreshTime();
-        setInterval(refreshTime, 1000);
-        // 星光粒子
-        const sparkleWrap = document.querySelector(".sparkle-particle-layer");
-        function createSpark() {
-            const size = Math.random() * 14 + 4;
-            const div = document.createElement("div");
-            div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
-            sparkleWrap.appendChild(div);
-            setTimeout(()=>div.remove(),15000);
-        }
-        setInterval(createSpark, 180);
-        const keyframeStyle = document.createElement("style");
-        keyframeStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
-        document.head.appendChild(keyframeStyle);
-        // BGM控制
-        let musicPlaying = true;
-        bgmBtn.addEventListener("click", () => {
-            if (musicPlaying) {
-                bgmAudio.pause();
-                musicPlaying = false;
-                bgmBtn.style.background = "#ffd6ec";
-            } else {
-                bgmAudio.play();
-                musicPlaying = true;
-                bgmBtn.style.background = "#ffffff";
-            }
-        });
-        document.body.addEventListener("click", () => {
-            bgmAudio.muted = false;
-            bgmAudio.play();
-        }, { once: true });
-        // 页面初始化，强制渲染日历
-        function pageInit() {
-            renderCalendar();
-            renderJournalList();
-        }
-        pageInit();
-    </script>
+        // 最新文章排在最前面
+        allJournalPosts = posts.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
+        renderCalendar();
+        renderJournalList();
+    } catch (err) {
+        console.log("暂无随笔数据", err);
+        allJournalPosts = [];
+        renderJournalList();
+        renderCalendar();
+    }
+}
+
+// 渲染日历，自动标亮有随笔的日期
+function renderCalendar() {
+    const year = Number(calYearSel.value);
+    const realMonth = Number(calMonthSel.value);
+    const monthIndex = realMonth - 1;
+    const lastDay = new Date(year, monthIndex + 1, 0).getDate();
+    const firstDayWeek = new Date(year, monthIndex, 1).getDay();
+    calDayWrap.innerHTML = "";
+
+    // 前置空白格子
+    for (let i = 0; i < firstDayWeek; i++) {
+        const empty = document.createElement("div");
+        empty.className = "cal-day-normal";
+        calDayWrap.appendChild(empty);
+    }
+
+    const postDateSet = new Set(allJournalPosts.map(p => p.postDate));
+    for (let d = 1; d <= lastDay; d++) {
+        const dayBox = document.createElement("div");
+        dayBox.textContent = d;
+        const fullDate = `${year}-${String(realMonth).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        dayBox.className = postDateSet.has(fullDate) ? "cal-day-has-post" : "cal-day-normal";
+        calDayWrap.appendChild(dayBox);
+    }
+}
+
+calYearSel.addEventListener("change", renderCalendar);
+calMonthSel.addEventListener("change", renderCalendar);
+
+// 渲染随笔分页列表
+function renderJournalList() {
+    postRenderWrap.innerHTML = "";
+    const totalPages = Math.ceil(allJournalPosts.length / pageSize);
+    prevPage.disabled = currentPage <= 0;
+    nextPage.disabled = currentPage >= totalPages - 1;
+
+    const startIndex = currentPage * pageSize;
+    const pageData = allJournalPosts.slice(startIndex, startIndex + pageSize);
+
+    if (pageData.length === 0) {
+        postRenderWrap.innerHTML = `<div class="empty-journal-tip">暂无随笔，点击上方按钮进入后台发布新随笔</div>`;
+        return;
+    }
+
+    pageData.forEach(post => {
+        const card = document.createElement("div");
+        card.className = "single-journal-card";
+        card.dataset.pid = post.id;
+        card.innerHTML = `
+            <div class="card-post-date">${post.postDate}</div>
+            <h3 class="card-post-title">${post.title}</h3>
+            <div class="card-preview-text">${getPreview(post.content)}</div>
+            ${renderImgs(post.imgs)}
+        `;
+        card.onclick = () => openPost(post);
+        postRenderWrap.appendChild(card);
+    });
+}
+
+// 截取前5行文字作为预览
+function getPreview(text) {
+    return text.split("\n").slice(0, 5).join("\n");
+}
+
+// 渲染图片缩略图
+function renderImgs(imgArr) {
+    if (!imgArr || imgArr.length === 0) return "";
+    let html = `<div class="post-image-wrap">`;
+    imgArr.forEach(src => html += `<img class="card-post-img" src="${src}" loading="lazy">`);
+    return html + `</div>`;
+}
+
+// 打开随笔详情弹窗
+function openPost(post) {
+    currentPostId = post.id;
+    modalTitle.innerText = post.title;
+    modalDate.innerText = post.postDate;
+    modalText.innerText = post.content;
+    modalImgBox.innerHTML = "";
+    post.imgs.forEach(src => {
+        const img = document.createElement("img");
+        img.className = "modal-img";
+        img.src = src;
+        img.loading = "lazy";
+        modalImgBox.appendChild(img);
+    });
+    loadComments();
+    detailModal.classList.add("active");
+}
+
+// 关闭弹窗
+closeModal.onclick = () => detailModal.classList.remove("active");
+detailModal.onclick = (e) => {
+    if (e.target === detailModal) detailModal.classList.remove("active");
+};
+
+// 留言本地存储处理
+function getCmtKey() {
+    return `journal_cmt_${currentPostId}`;
+}
+function loadComments() {
+    const raw = localStorage.getItem(getCmtKey());
+    const list = raw ? JSON.parse(raw) : [];
+    cmtList.innerHTML = "";
+    if (list.length === 0) {
+        cmtList.innerHTML = `<div class="empty-cmt">暂无留言</div>`;
+        return;
+    }
+    list.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "comment-item";
+        div.innerHTML = `
+            <div class="cmt-name">${item.name}</div>
+            <div class="cmt-content">${item.content}</div>
+            <div class="cmt-time">${item.time}</div>
+        `;
+        cmtList.appendChild(div);
+    });
+}
+sendCmt.onclick = () => {
+    const name = cmtName.value.trim() || "Anonymous";
+    const text = cmtText.value.trim();
+    if (!text) return alert("留言不能为空");
+    const now = new Date();
+    const time = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,"0")}`;
+    const oldList = JSON.parse(localStorage.getItem(getCmtKey()) || "[]");
+    oldList.unshift({ name, content: text, time });
+    localStorage.setItem(getCmtKey(), JSON.stringify(oldList));
+    loadComments();
+    cmtText.value = "";
+};
+
+// 分页切换按钮
+prevPage.addEventListener("click", () => {
+    if (currentPage > 0) {
+        currentPage--;
+        renderJournalList();
+    }
+});
+nextPage.addEventListener("click", () => {
+    const total = Math.ceil(allJournalPosts.length / pageSize);
+    if (currentPage < total - 1) {
+        currentPage++;
+        renderJournalList();
+    }
+});
+
+// 底部实时时间
+function refreshTime() {
+    const now = new Date();
+    const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
+    const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const y = now.getFullYear();
+    const mNum = now.getMonth() + 1;
+    const d = now.getDate();
+    const wIdx = now.getDay();
+    const show = `${y}年${mNum}月${d} ${weekCN[wIdx]} ${weekEN[wIdx]} ${monthEN[now.getMonth()]} ${d} ${y}`;
+    document.getElementById("timeDisplay").innerText = show;
+}
+refreshTime();
+setInterval(refreshTime, 1000);
+
+// 页面飘落星光粒子
+const sparkleWrap = document.querySelector(".sparkle-particle-layer");
+function createSpark() {
+    const size = Math.random() * 14 + 4;
+    const div = document.createElement("div");
+    div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
+    sparkleWrap.appendChild(div);
+    setTimeout(()=>div.remove(),15000);
+}
+setInterval(createSpark, 180);
+const keyframeStyle = document.createElement("style");
+keyframeStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
+document.head.appendChild(keyframeStyle);
+
+// BGM音乐开关
+let musicPlaying = true;
+bgmBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+        bgmAudio.pause();
+        musicPlaying = false;
+        bgmBtn.style.background = "#ffd6ec";
+    } else {
+        bgmAudio.play();
+        musicPlaying = true;
+        bgmBtn.style.background = "#ffffff";
+    }
+});
+document.body.addEventListener("click", () => {
+    bgmAudio.muted = false;
+    bgmAudio.play();
+}, { once: true });
+
+// 页面初始化加载随笔
+async function pageInit() {
+    await fetchAllJournals();
+}
+pageInit();
+</script>
 </body>
 </html>
