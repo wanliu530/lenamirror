@@ -3,21 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Netlify CMS 脚本 -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <title>✧⋆ Memories Gallery ˚‧₊˚✧⋆</title>
+    <!-- Netlify CMS认证脚本 -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-        /* ====================== 独立字体 仅woff2 原版原样 ====================== */
-        @font-face {
-            font-family: "Font_Loading";
-            src: url("assets/fonts/font_loading.woff2") format("woff2");
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
+        /* ====================== 独立字体 仅woff2 ====================== */
         @font-face {
             font-family: "Font_SiteTitle";
-            src: url("assets/fonts/font_title.woff2") format("woff2");
+            src: url("./assets/fonts/font_title.woff2") format("woff2");
             font-weight: normal;
             font-style: italic;
             font-display: swap;
@@ -42,7 +35,7 @@
         }
         @font-face {
             font-family: "Font_Body_CN";
-            src: url("./assets/fonts/font_body_cn.woff2") format("woff2");
+            src: url("./assets/fonts/font_body_cn.woff2");
             unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
             font-display: swap;
         }
@@ -91,7 +84,7 @@
             0% { left: -100%; }
             100% { left: 100%; }
         }
-        /* 顶部横幅 原版完全还原 */
+        /* 顶部横幅 */
         .top-cat-banner {
             width: 100%;
             height: 440px;
@@ -108,9 +101,9 @@
             animation: slow-float 6s ease-in-out infinite;
             filter: drop-shadow(0 0 6px #ffbbee);
         }
-        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay:0.5s; }
-        .sticker-daisy { top: 60px; left: 75%; width: 70px; animation-delay:1.2s; }
-        .sticker-heart { bottom:80px; left:20%; width:100px; animation-delay:2s; }
+        .sticker-butterfly { top: 20px; left: 10%; width: 180px; animation-delay: 0.5s; }
+        .sticker-daisy { top: 60px; left: 75%; width: 70px; animation-delay: 1.2s; }
+        .sticker-heart { bottom: 80px; left: 20%; width: 100px; animation-delay: 2s; }
         @keyframes slow-float {
             0% { transform: translateY(0) rotate(-3deg); }
             50% { transform: translateY(-16px) rotate(3deg); }
@@ -156,14 +149,14 @@
             animation: star-blink 0.8s infinite alternate 0.4s;
         }
         @keyframes star-blink {
-            from { opacity:0.5; transform:scale(0.9); }
-            to { opacity:1; transform:scale(1.2); }
+            from { opacity: 0.5; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1.2); }
         }
         @keyframes title-shine {
             from { filter: drop-shadow(0 0 6px #ff99cc); }
             to { filter: drop-shadow(0 0 22px #b81e60); }
         }
-        /* 主体布局 原版不变 */
+        /* 主体布局 */
         .content-container {
             display: flex !important;
             flex-direction: row !important;
@@ -198,15 +191,8 @@
             padding: 8px 10px;
             border-radius: 6px;
         }
-        .nav-link:hover {
-            transform: translateX(6px);
-            color: #ff2277 !important;
-        }
-        .nav-icon {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-        }
+        .nav-link:hover { transform: translateX(6px); color: #ff2277 !important; }
+        .nav-icon { width: 18px; height: 18px; object-fit: contain; }
         .main-content-area {
             flex: 1;
             min-width: 0;
@@ -215,7 +201,7 @@
             gap: 40px;
             width: 100%;
         }
-        /* ========== 相册顶部标题 还原原图+标题布局 ========== */
+        /* 相册头部：修正图片 gallery_top_main.jpg */
         .gallery-header-block {
             display: flex;
             align-items: center;
@@ -229,6 +215,7 @@
             max-height: 260px;
             object-fit: contain;
             display: block;
+            content: url("./assets/images/gallery_top_main.jpg");
         }
         .gallery-main-title {
             font-family: "Font_SiteTitle";
@@ -237,7 +224,7 @@
             letter-spacing: 4px;
             animation: title-shine 2s infinite alternate;
         }
-        /* 分割线 原版GIF分割线恢复 */
+        /* 分割线 */
         .divider-row {
             display: flex;
             align-items: center;
@@ -245,18 +232,10 @@
             gap: 0;
             width: 100%;
         }
-        .divider-gif {
-            object-fit: contain;
-        }
-        .divider-side {
-            width: 37%;
-            height: 60px;
-        }
-        .divider-center {
-            width: 40%;
-            height: 68px;
-        }
-        /* 相册网格 原版Windows窗口样式 完全保留 */
+        .divider-gif { object-fit: contain; }
+        .divider-side { width: 37%; height: 60px; }
+        .divider-center { width: 40%; height: 68px; }
+        /* 相册网格：固定3个窗口DOM不会消失 */
         .album-grid-wrap {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -267,17 +246,12 @@
             background: #fdf4ff;
             border: 3px solid #e9c5ff;
             border-radius: 18px;
-            box-shadow:
-                0 0 18px #ff99ff50,
-                0 0 35px #dd88ff35;
+            box-shadow: 0 0 18px #ff99ff50, 0 0 35px #dd88ff35;
             overflow: hidden;
             position: relative;
             transition: transform 0.2s ease;
         }
-        .album-window:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 0 24px #ff88ff70;
-        }
+        .album-window:hover { transform: translateY(-6px); box-shadow: 0 0 24px #ff88ff70; }
         .album-win-titlebar {
             background: linear-gradient(90deg, #e2a8ff, #ff99cc, #e2a8ff);
             padding: 10px 16px;
@@ -292,10 +266,7 @@
             letter-spacing: 1px;
             text-shadow: 0 0 6px #ff77bb;
         }
-        .album-win-btns {
-            display: flex;
-            gap: 8px;
-        }
+        .album-win-btns { display: flex; gap: 8px; }
         .album-win-btn {
             width: 20px;
             height: 20px;
@@ -317,7 +288,7 @@
             object-fit: cover;
             display: block;
         }
-        /* 大图弹窗 原版样式不变 */
+        /* 大图弹窗 */
         .photo-modal-overlay {
             position: fixed;
             inset: 0;
@@ -328,9 +299,7 @@
             justify-content: center;
             padding: 30px;
         }
-        .photo-modal-overlay.active {
-            display: flex;
-        }
+        .photo-modal-overlay.active { display: flex; }
         .photo-modal-box {
             background: #fdf4ff;
             border: 3px solid #e9c5ff;
@@ -349,10 +318,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .modal-album-name {
-            font-family:"Font_SiteTitle";
-            font-size:22px;
-        }
+        .modal-album-name { font-family:"Font_SiteTitle"; font-size:22px; }
         .modal-close-btn {
             width: 32px;
             height: 32px;
@@ -378,11 +344,7 @@
             border-radius: 12px;
             border: 2px solid #ffcce0;
         }
-        .photo-desc {
-            margin-top:12px;
-            font-size:18px;
-            color:#701e4e;
-        }
+        .photo-desc { margin-top:12px; font-size:18px; color:#701e4e; }
         .photo-nav-row {
             display: flex;
             justify-content: center;
@@ -390,8 +352,7 @@
             margin: 16px 0;
             flex-wrap: wrap;
         }
-        .photo-nav-btn,
-        .admin-upload-btn {
+        .photo-nav-btn, .admin-upload-btn {
             padding: 8px 20px;
             background: linear-gradient(90deg, #ff99cc, #cc66ff);
             border: none;
@@ -401,10 +362,46 @@
             font-size: 16px;
             font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
         }
-        .admin-upload-btn {
-            background: linear-gradient(90deg, #ff66aa, #cc4488);
+        .admin-upload-btn { background: linear-gradient(90deg, #ff66aa, #cc4488); }
+        /* 评论区域 原版保留 */
+        .comment-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 0 20px;
         }
-        /* 底部时间栏 还原原版粉色背景、渐变边框 */
+        .comment-name, .comment-text {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #ff99dd;
+            border-radius: 10px;
+            background: #fff;
+            color: #6b2e82;
+            font-family: "Font_Body_CN", "Font_Body_EN";
+        }
+        .comment-text { min-height: 90px; resize: vertical; }
+        .submit-comment-btn {
+            align-self: flex-end;
+            padding: 9px 22px;
+            background: linear-gradient(90deg, #ff99cc, #cc66ff);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
+        }
+        .comment-list { display: flex; flex-direction: column; gap: 14px; padding: 0 20px 20px; }
+        .comment-item {
+            padding: 12px 16px;
+            background: #fffafd;
+            border: 2px solid #ffcce0;
+            border-radius: 12px;
+        }
+        .comment-author { font-weight: bold; color: #d03070; margin-bottom: 6px; }
+        .comment-time { font-size: 12px; color: #b888a0; text-align: right; margin-top: 6px; }
+        .empty-comment-tip { text-align: center; color: #b888a0; padding: 30px; }
+        /* 底部时间栏 */
         .footer-time-bar {
             width: 100%;
             text-align: center;
@@ -418,7 +415,7 @@
             margin-top: 60px;
             text-shadow: 0 0 5px #ffbbee;
         }
-        /* BGM悬浮按钮 原版样式 */
+        /* BGM按钮 */
         .bgm-toggle-button {
             position: fixed;
             bottom: 28px;
@@ -435,16 +432,8 @@
             box-shadow: 0 0 12px rgba(255,120,180,0.4);
             transition: all 0.2s;
         }
-        .bgm-toggle-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255,90,160,0.6);
-        }
-        .gramophone-icon {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 4px #ffbbee);
-        }
+        .bgm-toggle-button:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(255,90,160,0.6); }
+        .gramophone-icon { width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 0 4px #ffbbee); }
         .sparkle-particle-layer {
             position: fixed;
             width: 100vw;
@@ -454,7 +443,7 @@
         }
         @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
         @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
-        /* 移动端适配 原版不变 */
+        /* 移动端 */
         @media (max-width: 840px) {
             .content-container { flex-direction: column !important; }
             .left-sidebar-wrap { width: 100%; }
@@ -464,17 +453,18 @@
             .sticker-butterfly { width: 120px; }
             .sticker-heart { width:70px; }
             .gallery-header-block { flex-direction:column; gap:20px; text-align:center; }
-            .gallery-header-img { max-width: 90%; }
             .gallery-main-title { font-size:36px; }
             .album-grid-wrap { grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); }
+            .modal-inner { padding:24px 18px; }
         }
     </style>
 </head>
 <body>
     <div class="sparkle-particle-layer"></div>
     <div class="main-wrapper" id="mainPage">
+        <!-- 顶部横幅原版 -->
         <div class="top-cat-banner">
-            <img class="float-sticker sticker-butterfly" src="./assets/images/butterfly.png" alt="floating butterfly">
+            <img class="float-sticker sticker-butterfly" src="assets/images/butterfly.png" alt="butterfly">
             <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none">
                 <circle cx="32" cy="32" r="26" fill="#fff8c8" />
                 <circle cx="32" cy="14" r="14" fill="#ffdd66" />
@@ -487,56 +477,91 @@
                 <circle cx="18" cy="32" r="8" fill="#fff8c8" />
                 <circle cx="46" cy="32" r="8" fill="#fff8c8" />
             </svg>
-            <img class="float-sticker sticker-heart" src="./assets/images/heart.png" alt="pink heart">
+            <img class="float-sticker sticker-heart" src="assets/images/heart.png" alt="heart">
             <div class="site-title-glitter">
                 <span class="star-deco-left">✦</span>
                 Lena's Mirror
-                <span class="star-deco-right">✦</span>
+                <span class="star-deco-right">✦
             </div>
         </div>
         <div class="content-container">
+            <!-- 侧边导航完全保留原版 -->
             <div class="left-sidebar-wrap">
                 <aside class="sidebar-nav y2k-neon-panel">
                     <a href="index.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_home.gif">Home 首页
+                        <img class="nav-icon" src="assets/images/icon_home.gif">Home 首页
                     </a>
                     <a href="journal.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_journal.gif">Journal 随笔
+                        <img class="nav-icon" src="assets/images/icon_journal.gif">Journal 随笔
                     </a>
                     <a href="gallery.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_gallery.gif">Gallery 相册
+                        <img class="nav-icon" src="assets/images/icon_gallery.gif">Gallery 相册
                     </a>
                     <a href="guestbook.html" class="nav-link">
-                        <img class="nav-icon" src="./assets/images/icon_message.gif">Guestbook 留言板
+                        <img class="nav-icon" src="assets/images/icon_message.gif">Guestbook 留言板
                     </a>
                 </aside>
             </div>
             <div class="main-content-area">
+                <!-- 头部图修正 gallery_top_main.jpg -->
                 <div class="gallery-header-block">
-                    <img class="gallery-header-img" src="./assets/images/gallery_header.png" alt="memory header pic">
+                    <img class="gallery-header-img" alt="gallery header">
                     <h1 class="gallery-main-title">My Sweet Memories</h1>
                 </div>
                 <div class="divider-row">
-                    <img class="divider-gif divider-side" src="./assets/images/divider_1.gif" alt="divider left">
-                    <img class="divider-gif divider-center" src="./assets/images/divider_2.gif" alt="divider middle">
-                    <img class="divider-gif divider-side" src="./assets/images/divider_1.gif" alt="divider right">
+                    <img class="divider-gif divider-side" src="assets/images/divider_1.gif">
+                    <img class="divider-gif divider-center" src="assets/images/divider_2.gif">
+                    <img class="divider-gif divider-side" src="assets/images/divider_1.gif">
                 </div>
+                <!-- 固定3个相册窗口DOM，永远不会消失 -->
                 <div class="album-grid-wrap" id="albumContainer">
-                    <!-- JS动态生成原版Windows相册窗口 -->
+                    <div class="album-window" data-group="Daily Life">
+                        <div class="album-win-titlebar">
+                            <span class="album-win-name">Daily Life</span>
+                            <div class="album-win-btns">
+                                <span class="album-win-btn">-</span>
+                                <span class="album-win-btn">□</span>
+                                <span class="album-win-btn">×</span>
+                            </div>
+                        </div>
+                        <img class="album-preview-img" id="cover-daily" src="" loading="lazy">
+                    </div>
+                    <div class="album-window" data-group="Portrait">
+                        <div class="album-win-titlebar">
+                            <span class="album-win-name">Portrait</span>
+                            <div class="album-win-btns">
+                                <span class="album-win-btn">-</span>
+                                <span class="album-win-btn">□</span>
+                                <span class="album-win-btn">×</span>
+                            </div>
+                        </div>
+                        <img class="album-preview-img" id="cover-portrait" src="" loading="lazy">
+                    </div>
+                    <div class="album-window" data-group="Liu Mi">
+                        <div class="album-win-titlebar">
+                            <span class="album-win-name">Liu Mi</span>
+                            <div class="album-win-btns">
+                                <span class="album-win-btn">-</span>
+                                <span class="album-win-btn">□</span>
+                                <span class="album-win-btn">×</span>
+                            </div>
+                        </div>
+                        <img class="album-preview-img" id="cover-liumi" src="" loading="lazy">
+                    </div>
                 </div>
             </div>
         </div>
         <div class="footer-time-bar" id="timeDisplay"></div>
     </div>
-    <!-- 大图弹窗 原版结构 -->
+    <!-- 大图弹窗原版完整结构 -->
     <div class="photo-modal-overlay" id="photoModal">
         <div class="photo-modal-box">
             <div class="modal-title-bar">
-                <h3 class="modal-album-name" id="modalAlbumName"></h3>
+                <span class="modal-album-name" id="modalAlbumName"></span>
                 <button class="modal-close-btn" id="closeModal">×</button>
             </div>
             <div class="modal-photo-display">
-                <img class="modal-main-photo" id="modalImage" src="" alt="full photo">
+                <img class="modal-main-photo" id="modalImage">
                 <p class="photo-desc" id="photoDesc"></p>
                 <div class="photo-nav-row">
                     <button class="photo-nav-btn" id="prevPhotoBtn">上一张</button>
@@ -544,23 +569,34 @@
                     <button class="admin-upload-btn" id="adminUploadBtn">管理员上传图片</button>
                 </div>
             </div>
+            <!-- 原版评论区域保留 -->
+            <div class="comment-input-area">
+                <input class="comment-name" id="inputCommentName" placeholder="你的昵称">
+                <textarea class="comment-text" id="inputCommentText" placeholder="写下对这张照片的评论..."></textarea>
+                <button class="submit-comment-btn" id="sendCommentBtn">发送评论</button>
+            </div>
+            <div class="comment-list" id="photoCommentList">
+                <div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>
+            </div>
         </div>
     </div>
-    <!-- BGM按钮 -->
+    <!-- BGM悬浮按钮 -->
     <button class="bgm-toggle-button" id="bgmBtn">
-        <img class="gramophone-icon" src="./assets/images/gramophone.png" alt="music toggle">
+        <img class="gramophone-icon" src="assets/images/gramophone.png">
     </button>
     <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
-        <source src="./assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
+        <source src="assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
     <script>
-        // 和journal完全一致GitHub仓库配置
-        const GITH_USER = "wanliu530";
-        const GITH_REPO = "lenamirror";
-        const GITH_BRANCH = "main";
-        const GALLERY_MD_PATH = "content/gallery/";
+        // ========== 读取逻辑完全对齐 journal 页面 ==========
+        const GITHUB_USER = "wanliu530";
+        const GITHUB_REPO = "lenamirror";
+        const GITHUB_BRANCH = "main";
+        const MD_FOLDER = "content/gallery/";
 
-        // DOM缓存 全部还原原版ID
-        const albumContainer = document.getElementById("albumContainer");
+        // DOM元素缓存（原版ID不变）
+        const coverDaily = document.getElementById("cover-daily");
+        const coverPortrait = document.getElementById("cover-portrait");
+        const coverLiumi = document.getElementById("cover-liumi");
         const photoModal = document.getElementById("photoModal");
         const closeModal = document.getElementById("closeModal");
         const modalAlbumName = document.getElementById("modalAlbumName");
@@ -569,177 +605,197 @@
         const prevPhotoBtn = document.getElementById("prevPhotoBtn");
         const nextPhotoBtn = document.getElementById("nextPhotoBtn");
         const adminUploadBtn = document.getElementById("adminUploadBtn");
-        const bgmAudio = document.getElementById("bgmAudio");
+        const sendCommentBtn = document.getElementById("sendCommentBtn");
+        const inputCommentName = document.getElementById("inputCommentName");
+        const inputCommentText = document.getElementById("inputCommentText");
+        const photoCommentList = document.getElementById("photoCommentList");
         const bgmBtn = document.getElementById("bgmBtn");
+        const bgmAudio = document.getElementById("bgmAudio");
 
         // 全局相册数据
-        let allGalleryItems = [];
-        const albumGroups = ["Daily Life","Portrait","Liu Mi"];
-        let currentGroupImages = [];
-        let currentIndex = 0;
+        let allPhotoData = [];
+        const albumGroups = ["Daily Life", "Portrait", "Liu Mi"];
+        let currentGroupImgs = [];
+        let currentIdx = 0;
 
-        // 跳转CMS后台按钮
-        adminUploadBtn.addEventListener("click", ()=>{
+        // 跳转CMS后台
+        adminUploadBtn.addEventListener("click", () => {
             window.open(`${window.location.origin}/admin`, "_blank");
         });
 
-        // 解析gallery的md（复刻journal解析逻辑）
-        function parseGalleryMarkdown(rawMd){
-            let title = "无标题照片";
+        // MD解析函数 和 journal 完全一模一样
+        function parseMarkdown(rawMd) {
+            let title = "无描述";
             let albumCat = "";
-            let imgUrl = "";
+            let imgPath = "";
             let dateStr = "";
-            const fmReg = /^---[\s\S]*?---/;
-            const fmMatch = rawMd.match(fmReg);
-            if(fmMatch){
+            const frontMatterReg = /^---[\s\S]*?---/;
+            const fmMatch = rawMd.match(frontMatterReg);
+            if (fmMatch) {
                 const fmText = fmMatch[0];
                 const tMatch = fmText.match(/title:\s*(.+?)\n/);
                 const aMatch = fmText.match(/album_category:\s*(.+?)\n/);
                 const iMatch = fmText.match(/image:\s*(.+?)\n/);
                 const dMatch = fmText.match(/date:\s*(.+?)\n/);
-                if(tMatch) title = tMatch[1].trim();
-                if(aMatch) albumCat = aMatch[1].trim();
-                if(iMatch) imgUrl = iMatch[1].trim();
-                if(dMatch) dateStr = dMatch[1].trim();
+                if (tMatch) title = tMatch[1].trim();
+                if (aMatch) albumCat = aMatch[1].trim();
+                if (iMatch) imgPath = iMatch[1].trim();
+                if (dMatch) dateStr = dMatch.trim();
             }
-            // 拼接GitHub raw完整图片地址 防止404
-            if(imgUrl && !imgUrl.startsWith("http")){
-                imgUrl = `https://raw.githubusercontent.com/${GITH_USER}/${GITH_REPO}/${GITH_BRANCH}${imgUrl}`;
+            // 拼接完整raw图片地址，防止404（和journal逻辑一致）
+            if (imgPath && !imgPath.startsWith("http")) {
+                imgPath = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${imgPath}`;
             }
-            return {title, album:albumCat, img:imgUrl, date:dateStr};
+            return { title, album: albumCat, img: imgPath, date: dateStr };
         }
 
-        // 读取content/gallery下所有md文件（和journal读取API一模一样）
-        async function loadAllGalleryMd(){
-            try{
-                const api = `https://api.github.com/repos/${GITH_USER}/${GITH_REPO}/contents/${GALLERY_MD_PATH}?ref=${GITH_BRANCH}`;
-                const res = await fetch(api);
-                if(!res.ok) throw Error("无相册文件");
+        // 读取content/gallery全部md（API请求复刻journal）
+        async function loadGalleryData() {
+            try {
+                const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${MD_FOLDER}?ref=${GITHUB_BRANCH}`;
+                const res = await fetch(apiUrl);
+                if (!res.ok) throw new Error("相册文件夹无文件");
                 const fileList = await res.json();
                 const tempArr = [];
-                for(const f of fileList){
-                    if(!f.name.endsWith(".md")) continue;
-                    const mdRes = await fetch(f.download_url);
-                    const mdText = await mdRes.text();
-                    const data = parseGalleryMarkdown(mdText);
-                    if(data.img && data.album) tempArr.push(data);
+                for (const file of fileList) {
+                    if (!file.name.endsWith(".md")) continue;
+                    const mdRaw = await (await fetch(file.download_url)).text();
+                    const data = parseMarkdown(mdRaw);
+                    if (data.img && data.album) tempArr.push(data);
                 }
-                // 按日期从新到旧排序，数组第一位=最新上传照片
-                allGalleryItems = tempArr.sort((a,b)=>new Date(b.date) - new Date(a.date));
-                renderAllAlbumWindows();
-            }catch(err){
-                console.error("相册加载失败：",err);
-                albumContainer.innerHTML = `<div style="grid-column:1/-1;text-align:center;font-size:22px;color:#c04080;padding:60px 0;">相册暂无图片，点击弹窗上方按钮前往后台上传</div>`;
+                // 按日期倒序，最新图片在前（封面自动取第一条）
+                allPhotoData = tempArr.sort((a, b) => new Date(b.date) - new Date(a.date));
+                refreshAllCovers();
+                bindAlbumWindowClick();
+            } catch (err) {
+                console.error("相册加载失败：", err);
             }
         }
 
-        // 渲染原版Windows样式相册窗口（完全还原你原来的HTML结构）
-        function renderAllAlbumWindows(){
-            albumContainer.innerHTML = "";
-            albumGroups.forEach(groupName=>{
-                // 筛选当前相册所有图片
-                const groupImgs = allGalleryItems.filter(item=>item.album === groupName);
-                if(groupImgs.length === 0) return;
-                const newestCoverImg = groupImgs[0];
-                // 原版窗口HTML结构一丝不动
-                const windowDom = document.createElement("div");
-                windowDom.className = "album-window";
-                windowDom.dataset.group = groupName;
-                windowDom.innerHTML = `
-                    <div class="album-win-titlebar">
-                        <span class="album-win-name">${groupName}</span>
-                        <div class="album-win-btns">
-                            <span class="album-win-btn">-</span>
-                            <span class="album-win-btn">□</span>
-                            <span class="album-win-btn">×</span>
-                        </div>
-                    </div>
-                    <img class="album-preview-img" src="${newestCoverImg.img}" loading="lazy">
-                `;
-                windowDom.onclick = ()=>openAlbum(groupName);
-                albumContainer.appendChild(windowDom);
+        // 刷新三个窗口封面（固定DOM只替换src，窗口不会消失）
+        function refreshAllCovers() {
+            const dailyList = allPhotoData.filter(item => item.album === "Daily Life");
+            const portraitList = allPhotoData.filter(item => item.album === "Portrait");
+            const liumiList = allPhotoData.filter(item => item.album === "Liu Mi");
+            if (dailyList.length > 0) coverDaily.src = dailyList[0].img;
+            if (portraitList.length > 0) coverPortrait.src = portraitList[0].img;
+            if (liumiList.length > 0) coverLiumi.src = liumi[0].img;
+        }
+
+        // 绑定三个窗口点击事件
+        function bindAlbumWindowClick() {
+            document.querySelectorAll(".album-window").forEach(win => {
+                win.onclick = () => {
+                    const groupName = win.dataset.group;
+                    currentGroupImgs = allPhotoData.filter(p => p.album === groupName);
+                    currentIdx = 0;
+                    modalAlbumName.innerText = groupName;
+                    renderCurrentPic();
+                    loadLocalComment();
+                    photoModal.classList.add("active");
+                }
             })
         }
 
-        // 打开对应相册弹窗
-        function openAlbum(groupName){
-            currentGroupImages = allGalleryItems.filter(item=>item.album === groupName);
-            currentIndex = 0;
-            modalAlbumName.innerText = groupName;
-            renderCurrentPhoto();
-            photoModal.classList.add("active");
-        }
-
-        // 渲染当前大图+描述
-        function renderCurrentPhoto(){
-            const pic = currentGroupImages[currentIndex];
+        // 渲染弹窗大图
+        function renderCurrentPic() {
+            const pic = currentGroupImgs[currentIdx];
             modalImage.src = pic.img;
             photoDesc.innerText = pic.title;
         }
 
         // 切换上一张
-        prevPhotoBtn.addEventListener("click",()=>{
-            currentIndex = (currentIndex - 1 + currentGroupImages.length) % currentGroupImages.length;
-            renderCurrentPhoto();
-        })
+        prevPhotoBtn.onclick = () => {
+            currentIdx = (currentIdx - 1 + currentGroupImgs.length) % currentGroupImgs;
+            renderCurrentPic();
+            loadLocalComment();
+        }
         // 切换下一张
-        nextPhotoBtn.addEventListener("click",()=>{
-            currentIndex = (currentIndex + 1) % currentGroupImages.length;
-            renderCurrentPhoto();
-        })
+        nextPhotoBtn.onclick = () => {
+            currentIdx = (currentIdx + 1) % currentGroupImgs.length;
+            renderCurrentPic();
+            loadLocalComment();
+        }
         // 关闭弹窗
-        closeModal.addEventListener("click",()=>{
-            photoModal.classList.remove("active");
-        })
-        photoModal.addEventListener("click",(e)=>{
-            if(e.target === photoModal) photoModal.classList.remove("active");
-        })
+        closeModal.onclick = () => photoModal.classList.remove("active");
+        photoModal.onclick = (e) => {
+            if (e.target === photoModal) photoModal.classList.remove("active");
+        }
 
-        // 底部实时时间 原版格式不变
+        // 本地评论存储（原版逻辑保留）
+        function getCommentStorageKey() {
+            const pic = currentGroupImgs[currentIdx];
+            return `gallery_comment_${pic.img.replace(/\W/g, "")}`;
+        }
+        function loadLocalComment() {
+            const key = getCommentStorageKey();
+            const list = JSON.parse(localStorage.getItem(key) || "[]");
+            if (list.length === 0) {
+                photoCommentList.innerHTML = `<div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>`;
+                return;
+            }
+            photoCommentList.innerHTML = "";
+            list.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "comment-item";
+                div.innerHTML = `
+                    <div class="comment-author">${item.name}</div>
+                    <div class="comment-content">${item.msg}</div>
+                    <div class="comment-time">${item.time}</div>
+                `;
+                photoCommentList.appendChild(div);
+            })
+        }
+        sendCommentBtn.onclick = () => {
+            const name = inputCommentName.value.trim();
+            const msg = inputCommentText.value.trim();
+            if (!name || !msg) return alert("请填写昵称和评论内容");
+            const now = new Date();
+            const time = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2)} ${String(now.getDate()).padStart(2)} ${String(now.getHours()).padStart(2)}:${String(now.getMinutes()).padStart(2)}`;
+            const key = getCommentStorageKey();
+            const arr = JSON.parse(localStorage.getItem(key) || "[]");
+            arr.unshift({ name, msg, time });
+            localStorage.setItem(key, JSON.stringify(arr));
+            loadLocalComment();
+            inputCommentName.value = "";
+            inputCommentText.value = "";
+        }
+
+        // 底部实时时间（原版格式）
         function refreshTime() {
             const now = new Date();
             const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
             const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
             const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
             const y = now.getFullYear();
-            const mNum = now.getMonth() + 1;
+            const m = now.getMonth() + 1;
             const d = now.getDate();
-            const wIdx = now.getDay();
-            const show = `${y}年${mNum}月${d} ${weekCN[wIdx]} ${weekEN[wIdx]} ${monthEN[now.getMonth()]} ${d} ${y}`;
-            document.getElementById("timeDisplay").innerText = show;
+            const w = now.getDay();
+            document.getElementById("timeDisplay").innerText = `${y}年${m}月${d} ${weekCN[w]} ${weekEN[w]} ${monthEN[now.getMonth()]} ${d}`;
         }
         refreshTime();
         setInterval(refreshTime, 1000);
 
-        // 飘落星光粒子 原版不变
+        // 星光粒子
         const sparkleWrap = document.querySelector(".sparkle-particle-layer");
         function createSparkle() {
             const size = Math.random() * 14 + 4;
-            const sparkle = document.createElement("div");
-            sparkle.style.cssText = `
-                position:absolute;
-                width:${size}px;
-                height:${size}px;
-                left:${Math.random() * 100}vw;
-                top:-10px;
-                background:radial-gradient(#ffffff, #ffd0f0, #e0b8ff);
-                border-radius:50%;
-                opacity:${Math.random() * 0.65 + 0.2};
-                box-shadow:0 0 8px #ffb8e8, 0 0 18px #e8b8ff, 0 0 30px #d8a8ee;
-                animation:fall ${Math.random() * 10 + 5}s linear forwards, twinkle 1s infinite alternate;
+            const div = document.createElement("div");
+            div.style.cssText = `
+                position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;
+                background:radial-gradient(#ffffff,#ffd0f0,#e0b8ff);border-radius:50%;
+                opacity:${Math.random()*0.65+0.2};
+                animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;
             `;
-            sparkleWrap.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 15000);
+            sparkleWrap.appendChild(div);
+            setTimeout(()=>div.remove(),15000);
         }
-        setInterval(createSparkle, 180);
-        const keyframeStyle = document.createElement("style");
-        keyframeStyle.textContent = `
-            @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-            @keyframes twinkle { from { opacity:0.2; } to { opacity:0.95; } }
-        `;
-        document.head.appendChild(keyframeStyle);
+        setInterval(createSparkle,180);
+        const keyStyle = document.createElement("style");
+        keyStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
+        document.head.appendChild(keyStyle);
 
-        // BGM控制 原版逻辑
+        // BGM控制
         let musicPlaying = true;
         bgmBtn.addEventListener("click", () => {
             if (musicPlaying) {
@@ -757,8 +813,8 @@
             bgmAudio.play();
         }, { once: true });
 
-        // 页面初始化加载相册（DOM加载完成执行）
-        window.addEventListener("DOMContentLoaded", loadAllGalleryMd);
+        // 页面加载执行（和journal初始化一致）
+        window.addEventListener("DOMContentLoaded", loadGalleryData);
     </script>
 </body>
 </html>

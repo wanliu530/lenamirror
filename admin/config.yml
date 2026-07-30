@@ -4,7 +4,7 @@ backend:
 media_folder: uploads
 public_folder: /uploads
 collections:
-  # 原有随笔完整保留
+  # 保留原有随笔
   - name: journal
     label: Journal 随笔
     folder: content/journal
@@ -22,7 +22,7 @@ collections:
         name: body
         widget: markdown
 
-  # 相册集合（和页面字段严格匹配）
+  # 相册CMS上传配置
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
