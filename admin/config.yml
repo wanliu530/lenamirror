@@ -1,9 +1,6 @@
 backend:
-  name: github
-  repo: wanliu530/lenamirror
+  name: git-gateway
   branch: main
-  auth_scope: repo
-  auth_endpoint: https://decap-oauth-proxy.786001020.workers.dev/api/auth
 
 media_folder: "assets/upload"
 public_folder: "/assets/upload"
