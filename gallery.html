@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Netlify CMS 认证脚本 -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <title>✧⋆ Lena's Mirror Gallery ˚‧₊˚✧⋆</title>
     <style>
         /* 字体完全沿用原版 */
         @font-face {
@@ -54,7 +55,7 @@
             cursor: url("assets/images/cursor_pixel.gif"), pointer;
         }
         .album-window {
-            cursor: pointer !important; /* 强制鼠标手型，确认可点击 */
+            cursor: pointer !important;
         }
         .nav-link {
             font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
@@ -171,7 +172,7 @@
             font-weight: bold;
             transition: all 0.2s;
             padding: 8px 10px;
-            border-radius: 6;
+            border-radius: 6px;
         }
         .nav-link:hover { transform: translateX(6px); color: #ff2277 !important; }
         .nav-icon { width: 18px; height: 18px; object-fit: contain; }
@@ -183,7 +184,7 @@
             gap: 40px;
             width: 100%;
         }
-        /* 相册头部 图片gallery_top_main.jpg */
+        /* 相册头部 gallery_top_main.jpg */
         .gallery-header-block {
             display: flex;
             align-items: center;
@@ -217,7 +218,7 @@
         .divider-gif { object-fit: contain; }
         .divider-side { width: 37%; height: 60px; }
         .divider-center { width: 40%; height: 68px; }
-        /* 相册窗口样式 */
+        /* 相册窗口 */
         .album-grid-wrap {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -270,7 +271,7 @@
             object-fit: cover;
             display: block;
         }
-        /* 弹窗样式 */
+        /* 弹窗 */
         .photo-modal-overlay {
             position: fixed;
             inset: 0;
@@ -324,13 +325,7 @@
             border: 2px solid #ffcce0;
         }
         .photo-desc { margin-top:12px; font-size:18px; color:#701e4e; }
-        .photo-nav-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 16px 0;
-            flex-wrap: wrap;
-        }
+        .photo-nav-row { display: flex; justify-content: center; gap: 20px; margin: 16px 0; flex-wrap: wrap; }
         .photo-nav-btn, .admin-upload-btn {
             padding: 8px 20px;
             background: linear-gradient(90deg, #ff99cc, #cc66ff);
@@ -342,7 +337,7 @@
             font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
         }
         .admin-upload-btn { background: linear-gradient(90deg, #ff66aa, #cc4488); }
-        /* 评论区域 */
+        /* 评论 */
         .comment-input-area {
             display: flex;
             flex-direction: column;
@@ -380,7 +375,7 @@
         .comment-author { font-weight: bold; color: #d03070; margin-bottom: 6px; }
         .comment-time { font-size: 12px; color: #b888a0; text-align: right; margin-top: 6px; }
         .empty-comment-tip { text-align: center; color: #b888a0; padding: 30px; }
-        /* 底部时间栏 */
+        /* 底部时间 */
         .footer-time-bar {
             width: 100%;
             text-align: center;
@@ -441,7 +436,6 @@
 <body>
     <div class="sparkle-particle-layer"></div>
     <div class="main-wrapper" id="mainPage">
-        <!-- 顶部横幅 -->
         <div class="top-cat-banner">
             <img class="float-sticker sticker-butterfly" src="assets/images/butterfly.png" alt="butterfly">
             <svg class="float-sticker sticker-daisy" viewBox="0 0 64 64" fill="none">
@@ -464,7 +458,6 @@
             </div>
         </div>
         <div class="content-container">
-            <!-- 侧边导航 -->
             <div class="left-sidebar-wrap">
                 <aside class="sidebar-nav y2k-neon-panel">
                     <a href="index.html" class="nav-link">
@@ -482,9 +475,8 @@
                 </aside>
             </div>
             <div class="main-content-area">
-                <!-- 头部图 gallery_top_main.jpg -->
                 <div class="gallery-header-block">
-                    <img class="gallery-header-img" alt="gallery header">
+                    <img class="gallery-header-img" alt="memory header">
                     <h1 class="gallery-main-title">My Sweet Memories</h1>
                 </div>
                 <div class="divider-row">
@@ -492,7 +484,7 @@
                     <img class="divider-gif divider-center" src="assets/images/divider_2.gif">
                     <img class="divider-gif divider-side" src="assets/images/divider_1.gif">
                 </div>
-                <!-- 3个相册窗口，全部绑定点击 -->
+                <!-- 固定3个相册窗口DOM -->
                 <div class="album-grid-wrap" id="albumContainer">
                     <div class="album-window" data-group="Daily Life">
                         <div class="album-win-titlebar">
@@ -532,7 +524,7 @@
         </div>
         <div class="footer-time-bar" id="timeDisplay"></div>
     </div>
-    <!-- 弹窗完整交互 -->
+    <!-- 弹窗 -->
     <div class="photo-modal-overlay" id="photoModal">
         <div class="photo-modal-box">
             <div class="modal-title-bar">
@@ -565,10 +557,12 @@
     <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
         <source src="assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
     <script>
+        // 固定你的Github信息
         const GITHUB_USER = "wanliu530";
         const GITHUB_REPO = "lenamirror";
         const GITHUB_BRANCH = "main";
         const MD_FOLDER = "content/gallery/";
+        const albumGroups = ["Daily Life","Portrait","Liu Mi"];
 
         // DOM缓存
         const coverDaily = document.getElementById("cover-daily");
@@ -590,68 +584,39 @@
         const bgmAudio = document.getElementById("bgmAudio");
 
         let allPhotoData = [];
-        const albumGroups = ["Daily Life", "Portrait", "Liu Mi"];
         let currentGroupImgs = [];
         let currentIdx = 0;
 
-        // 【关键修复1】页面加载立刻绑定窗口点击，不等待接口请求
-        function bindAllAlbumClick() {
-            document.querySelectorAll(".album-window").forEach(windowDom => {
-                // 移除旧事件，防止叠加
-                windowDom.onclick = null;
-                // 直接绑定点击打开逻辑
-                windowDom.onclick = function () {
-                    const targetGroup = this.dataset.group;
-                    openAlbumByGroup(targetGroup);
-                }
-            });
-        }
-
-        // 打开相册统一函数
-        function openAlbumByGroup(groupName) {
-            currentGroupImgs = allPhotoData.filter(item => item.album === groupName);
-            if (currentGroupImgs.length === 0) {
-                alert("该相册暂无图片，请前往后台上传");
-                return;
-            }
-            currentIdx = 0;
-            modalAlbumName.innerText = groupName;
-            renderCurrentPic();
-            loadLocalComment();
-            photoModal.classList.add("active");
-        }
-
         // 跳转后台
-        adminUploadBtn.addEventListener("click", () => {
-            window.open(`${window.location.origin}/admin`, "_blank");
-        });
+        adminUploadBtn.addEventListener("click", ()=> window.open(`${location.origin}/admin`, "_blank"));
 
-        // MD解析（和journal同源）
+        // 【修复稳定解析函数】解决末尾字段读不到、路径自动转换
         function parseMarkdown(rawMd) {
             let title = "无描述";
             let albumCat = "";
             let imgPath = "";
             let dateStr = "";
-            const fmReg = /^---[\s\S]*?---/;
+            const fmReg = /^---([\s\S]*?)---/;
             const fmMatch = rawMd.match(fmReg);
-            if (fmMatch) {
-                const fmText = fmMatch[0];
-                const t = fmText.match(/title:\s*(.+?)\n/);
-                const a = fmText.match(/album_category:\s*(.+?)\n/);
-                const i = fmText.match(/image:\s*(.+?)\n/);
-                const d = fmText.match(/date:\s*(.+?)\n/);
-                if (t) title = t[1].trim();
-                if (a) albumCat = a[1].trim();
-                if (i) imgPath = i.trim();
-                if (d) dateStr = d.trim();
-            }
-            if (imgPath && !imgPath.startsWith("http")) {
-                imgPath = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${imgPath}`;
+            if (!fmMatch) return null;
+            const fmText = fmMatch[1];
+            const getValue = (key, text) => {
+                const reg = new RegExp(`${key}:\\s*(.+?)(?=\\n[\\w_]+:|$)`,"s");
+                const res = text.match(reg);
+                return res ? res[1].trim() : "";
+            };
+            title = getValue("title", fmText);
+            albumCat = getValue("album_category", fmText);
+            imgPath = getValue("image", fmText);
+            dateStr = getValue("date", fmText);
+            // CMS输出 /uploads/ 转为网站真实目录 /assets/upload/
+            if(imgPath){
+                imgPath = imgPath.replace("/uploads/","/assets/upload/");
             }
             return { title, album: albumCat, img: imgPath, date: dateStr };
         }
 
-        // 请求相册数据
+        // 拉取所有相册md
         async function loadGalleryData() {
             try {
                 const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${MD_FOLDER}?ref=${GITHUB_BRANCH}`;
@@ -663,67 +628,83 @@
                     if (!file.name.endsWith(".md")) continue;
                     const mdRaw = await (await fetch(file.download_url)).text();
                     const data = parseMarkdown(mdRaw);
-                    if (data.img && data.album) tempArr.push(data);
+                    if (data && data.img && data.album) tempArr.push(data);
                 }
-                // 日期倒序，最新封面
-                allPhotoData = tempArr.sort((a, b) => new Date(b.date) - new Date(a.date));
+                // 日期倒序，最新在前做封面
+                allPhotoData = tempArr.sort((a,b)=>new Date(b.date)-new Date(a.date));
                 refreshCovers();
             } catch (err) {
-                console.warn("相册无数据，窗口可点击但无图片：", err);
+                console.warn("相册数据加载失败：", err);
             }
         }
 
-        // 刷新封面
+        // 刷新三个窗口封面
         function refreshCovers() {
-            const daily = allPhotoData.filter(p => p.album === "Daily Life");
-            const portrait = allPhotoData.filter(p => p.album === "Portrait");
-            const liumi = allPhotoData.filter(p => p.album === "Liu Mi");
-            if (daily.length > 0) coverDaily.src = daily[0].img;
-            if (portrait.length > 0) coverPortrait.src = portrait[0].img;
-            if (liumi.length > 0) coverLiumi.src = liumi[0].img;
+            const daily = allPhotoData.filter(p=>p.album==="Daily Life");
+            const portrait = allPhotoData.filter(p=>p.album==="Portrait");
+            const liumi = allPhotoData.filter(p=>p.album==="Liu Mi");
+            if(daily.length) coverDaily.src = daily[0].img;
+            if(portrait.length) coverPortrait.src = portrait[0].img;
+            if(liumi.length) coverLiumi.src = liumi[0].img;
         }
 
-        // 渲染大图
+        // 打开指定相册
+        function openAlbumByGroup(groupName) {
+            currentGroupImgs = allPhotoData.filter(item=>item.album === groupName);
+            if(currentGroupImgs.length === 0){
+                alert("该相册暂无图片，请前往后台上传照片");
+                return;
+            }
+            currentIdx = 0;
+            modalAlbumName.innerText = groupName;
+            renderCurrentPic();
+            loadLocalComment();
+            photoModal.classList.add("active");
+        }
+
+        // 页面加载立刻绑定点击（解决点不动）
+        function bindAllWindowClick() {
+            document.querySelectorAll(".album-window").forEach(win=>{
+                win.onclick = function(){
+                    openAlbumByGroup(this.dataset.group);
+                }
+            })
+        }
+
+        // 渲染当前大图
         function renderCurrentPic() {
             const pic = currentGroupImgs[currentIdx];
             modalImage.src = pic.img;
             photoDesc.innerText = pic.title;
         }
 
-        // 切换上一张
-        prevPhotoBtn.onclick = function () {
-            currentIdx = (currentIdx - 1 + currentGroupImgs.length) % currentGroupImgs;
-            renderCurrentPic();
-            loadLocalComment();
-        }
-        // 切换下一张
-        nextPhotoBtn.onclick = function () {
-            currentIdx = (currentIdx + 1) % currentGroupImgs;
-            renderCurrentPic();
-            loadLocalComment();
-        }
+        // 切换图片
+        prevPhotoBtn.onclick = ()=>{
+            currentIdx = (currentIdx -1 + currentGroupImgs.length) % currentGroupImgs;
+            renderCurrentPic(); loadLocalComment();
+        };
+        nextPhotoBtn.onclick = ()=>{
+            currentIdx = (currentIdx +1) % currentGroupImgs.length;
+            renderCurrentPic(); loadLocalComment();
+        };
         // 关闭弹窗
-        closeModal.onclick = function () {
-            photoModal.classList.remove("active");
-        }
-        photoModal.onclick = function (e) {
-            if (e.target === photoModal) photoModal.classList.remove("active");
-        }
+        closeModal.onclick = ()=> photoModal.classList.remove("active");
+        photoModal.onclick = (e)=>{if(e.target === photoModal) photoModal.classList.remove("active");};
 
-        // 本地评论存储
-        function getCommentKey() {
+        // 本地评论
+        function getCommentKey(){
             const pic = currentGroupImgs[currentIdx];
-            return `gallery_cmt_${pic.img.replace(/\W/g, "")}`;
+            return `gallery_cmt_${pic.img.replace(/\W/g,"")}`;
         }
-        function loadLocalComment() {
+        function loadLocalComment(){
             const key = getCommentKey();
             const list = JSON.parse(localStorage.getItem(key) || "[]");
-            if (list.length === 0) {
+            if(list.length === 0){
                 photoCommentList.innerHTML = `<div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>`;
                 return;
             }
             photoCommentList.innerHTML = "";
-            list.forEach(item => {
+            list.forEach(item=>{
                 const div = document.createElement("div");
                 div.className = "comment-item";
                 div.innerHTML = `
@@ -734,29 +715,29 @@
                 photoCommentList.appendChild(div);
             })
         }
-        sendCommentBtn.onclick = function () {
+        sendCommentBtn.onclick = ()=>{
             const name = inputCommentName.value.trim();
             const msg = inputCommentText.value.trim();
-            if (!name || !msg) return alert("请填写昵称和评论");
+            if(!name || !msg) return alert("请填写昵称和评论");
             const now = new Date();
-            const time = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2)}-${String(now.getDate()).padStart(2)} ${String(now.getHours()).padStart(2)}:${String(now.getMinutes()).padStart(2)}`;
+            const time = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
             const key = getCommentKey();
             const arr = JSON.parse(localStorage.getItem(key) || "[]");
-            arr.unshift({ name, msg, time });
+            arr.unshift({name,msg,time});
             localStorage.setItem(key, JSON.stringify(arr));
             loadLocalComment();
             inputCommentName.value = "";
             inputCommentText.value = "";
-        }
+        };
 
         // 底部时间
-        function refreshTime() {
+        function refreshTime(){
             const now = new Date();
             const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
             const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
             const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
             const y = now.getFullYear();
-            const m = now.getMonth() + 1;
+            const m = now.getMonth()+1;
             const d = now.getDate();
             const w = now.getDay();
             document.getElementById("timeDisplay").innerText = `${y}年${m}月${d} ${weekCN[w]} ${weekEN[w]} ${monthEN[now.getMonth()]} ${d}`;
@@ -766,40 +747,33 @@
 
         // 星光粒子
         const sparkleWrap = document.querySelector(".sparkle-particle-layer");
-        function createSpark() {
-            const size = Math.random() * 14 + 4;
+        function createSpark(){
+            const size = Math.random()*14+4;
             const div = document.createElement("div");
             div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
             sparkleWrap.appendChild(div);
-            setTimeout(() => div.remove(), 15000);
+            setTimeout(()=>div.remove(),15000);
         }
-        setInterval(createSpark, 180);
+        setInterval(createSpark,180);
         const keyStyle = document.createElement("style");
         keyStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
         document.head.appendChild(keyStyle);
 
-        // BGM
-        let musicPlaying = true;
-        bgmBtn.addEventListener("click", () => {
-            if (musicPlaying) {
-                bgmAudio.pause();
-                musicPlaying = false;
-                bgmBtn.style.background = "#ffd6ec";
-            } else {
-                bgmAudio.play();
-                musicPlaying = true;
-                bgmBtn.style.background = "#ffffff";
-            }
+        // BGM控制
+        let musicPlay = true;
+        bgmBtn.addEventListener("click", ()=>{
+            if(musicPlay){ bgmAudio.pause(); musicPlay=false; bgmBtn.style.background="#ffd6ec"; }
+            else { bgmAudio.play(); musicPlay=true; bgmBtn.style.background="#ffffff"; }
         });
-        document.body.addEventListener("click", () => {
+        document.body.addEventListener("click", ()=>{
             bgmAudio.muted = false;
             bgmAudio.play();
-        }, { once: true });
+        }, {once:true});
 
-        // 【核心修复2】页面DOM渲染完成立刻绑定点击，不等接口
-        window.addEventListener("DOMContentLoaded", function () {
-            bindAllAlbumClick(); // 先绑定点击，保证窗口能点
-            loadGalleryData();   // 再后台异步拉取图片数据
+        // 页面初始化：先绑定点击，再异步加载图片数据
+        window.addEventListener("DOMContentLoaded", async ()=>{
+            bindAllWindowClick();
+            await loadGalleryData();
         });
     </script>
 </body>

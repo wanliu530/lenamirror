@@ -1,10 +1,10 @@
 backend:
   name: git-gateway
   branch: main
-media_folder: uploads
-public_folder: /uploads
+media_folder: assets/upload
+public_folder: /assets/upload
 collections:
-  # 原有随笔完全保留
+  # 原有随笔完整保留
   - name: journal
     label: Journal 随笔
     folder: content/journal
@@ -22,7 +22,7 @@ collections:
         name: body
         widget: markdown
 
-  # 相册上传栏目（和页面解析字段完全匹配）
+  # 相册栏目，路径统一assets/upload
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
