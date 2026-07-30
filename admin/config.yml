@@ -30,7 +30,7 @@ collections:
         widget: select
         options:
           - { label: "Daily Life", value: "dailylife" }
-          - { label: "Portrait", value: "portrait" }
+          - { label: "这是人", value: "portrait" }
           - { label: "刘咪", value: "liumi" }
       - { label: "照片简介", name: "caption", widget: "text", required: false }
       - { label: "照片文件", name: "photo", widget: "image" }
