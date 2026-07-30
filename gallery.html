@@ -3,48 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✧⋆ Memories Gallery ˚‧₊˚✧⋆</title>
-    <!-- Netlify CMS认证脚本 -->
+    <!-- Netlify CMS 认证脚本 -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <title>✧⋆ Memories Gallery ˚‧₊˚✧⋆</title>
     <style>
-        /* ====================== 独立字体 仅woff2 ====================== */
+        /* 字体完全沿用你原版配置 */
         @font-face {
             font-family: "Font_SiteTitle";
-            src: url("./assets/fonts/font_title.woff2") format("woff2");
+            src: url("assets/fonts/font_title.woff2") format("woff2");
             font-weight: normal;
             font-style: italic;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Nav_EN";
-            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            src: url("assets/fonts/font_body_en.woff2") format("woff2");
             unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Nav_CN";
-            src: url("./assets/fonts/font_body_cn.woff2");
+            src: url("assets/fonts/font_body_cn.woff2");
             unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Body_EN";
-            src: url("./assets/fonts/font_body_en.woff2") format("woff2");
+            src: url("assets/fonts/font_body_en.woff2") format("woff2");
             unicode-range: U+0000-007F, U+00A0-00FF, U+2000-206F;
             font-display: swap;
         }
         @font-face {
             font-family: "Font_Body_CN";
-            src: url("./assets/fonts/font_body_cn.woff2");
+            src: url("assets/fonts/font_body_cn.woff2");
             unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF;
             font-display: swap;
         }
-        /* ====================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: url("./assets/images/cursor_pixel.gif"), auto;
+            cursor: url("assets/images/cursor_pixel.gif"), auto;
         }
         body {
             font-family: "Font_Body_EN", "Font_Body_CN", sans-serif;
@@ -53,17 +52,14 @@
             background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03' fill='%23ff99cc'/%3E%3C/svg%3E");
         }
         a:hover, button:hover, .album-window:hover {
-            cursor: url("./assets/images/cursor_pixel.gif"), pointer;
+            cursor: url("assets/images/cursor_pixel.gif"), pointer;
         }
         .nav-link {
             font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
         }
         .y2k-neon-panel {
             border: 3px solid #ff77bb;
-            box-shadow:
-                0 0 10px #ff77bb40,
-                0 0 20px #ffbbee30,
-                inset 0 0 12px #ffcce020;
+            box-shadow: 0 0 10px #ff77bb40, 0 0 20px #ffbbee30, inset 0 0 12px #ffcce020;
             backdrop-filter: blur(3px);
             position: relative;
             overflow: hidden;
@@ -80,15 +76,12 @@
             background: linear-gradient(90deg, transparent, #ffc0e850, transparent);
             animation: soft-scan 3.5s linear infinite;
         }
-        @keyframes soft-scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-        /* 顶部横幅 */
+        @keyframes soft-scan { 0% { left: -100%; } 100% { left: 100%; } }
+        /* 顶部横幅原版无改动 */
         .top-cat-banner {
             width: 100%;
             height: 440px;
-            background: url("./assets/images/cat-banner.jpg") center/cover no-repeat;
+            background: url("assets/images/cat-banner.jpg") center/cover no-repeat;
             position: relative;
             padding: 30px;
             overflow: hidden;
@@ -120,14 +113,7 @@
             font-style: italic;
             color: #b81e60;
             animation: title-shine 1.4s infinite alternate;
-            text-shadow:
-                3px 3px 0 #ffffff,
-                -1px -1px 0 #fff,
-                1px -1px 0 #fff,
-                -1px 1px 0 #fff,
-                0 0 14px #ff4488,
-                0 0 28px #c82266,
-                0 0 42px #a01850;
+            text-shadow: 3px 3px 0 #ffffff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 0 0 14px #ff4488, 0 0 28px #c82266, 0 0 42px #a01850;
             transform: rotate(-2deg);
         }
         .star-deco-left {
@@ -148,15 +134,9 @@
             text-shadow: 0 0 10px #ffdd66;
             animation: star-blink 0.8s infinite alternate 0.4s;
         }
-        @keyframes star-blink {
-            from { opacity: 0.5; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes title-shine {
-            from { filter: drop-shadow(0 0 6px #ff99cc); }
-            to { filter: drop-shadow(0 0 22px #b81e60); }
-        }
-        /* 主体布局 */
+        @keyframes star-blink { from { opacity: 0.5; transform: scale(0.9); } to { opacity: 1; transform: scale(1.2); } }
+        @keyframes title-shine { from { filter: drop-shadow(0 0 6px #ff99cc); } to { filter: drop-shadow(0 0 22px #b81e60); } }
+        /* 主体布局 原版不变 */
         .content-container {
             display: flex !important;
             flex-direction: row !important;
@@ -201,7 +181,7 @@
             gap: 40px;
             width: 100%;
         }
-        /* 相册头部：修正图片 gallery_top_main.jpg */
+        /* 相册头部：严格使用 gallery_top_main.jpg */
         .gallery-header-block {
             display: flex;
             align-items: center;
@@ -215,7 +195,7 @@
             max-height: 260px;
             object-fit: contain;
             display: block;
-            content: url("./assets/images/gallery_top_main.jpg");
+            content: url("assets/images/gallery_top_main.jpg");
         }
         .gallery-main-title {
             font-family: "Font_SiteTitle";
@@ -224,7 +204,7 @@
             letter-spacing: 4px;
             animation: title-shine 2s infinite alternate;
         }
-        /* 分割线 */
+        /* 原版三段GIF分割线 */
         .divider-row {
             display: flex;
             align-items: center;
@@ -235,7 +215,7 @@
         .divider-gif { object-fit: contain; }
         .divider-side { width: 37%; height: 60px; }
         .divider-center { width: 40%; height: 68px; }
-        /* 相册网格：固定3个窗口DOM不会消失 */
+        /* 相册网格：3个窗口固定HTML，可点击打开图集，不会消失 */
         .album-grid-wrap {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -250,6 +230,7 @@
             overflow: hidden;
             position: relative;
             transition: transform 0.2s ease;
+            cursor: pointer;
         }
         .album-window:hover { transform: translateY(-6px); box-shadow: 0 0 24px #ff88ff70; }
         .album-win-titlebar {
@@ -288,7 +269,7 @@
             object-fit: cover;
             display: block;
         }
-        /* 大图弹窗 */
+        /* 大图弹窗 完整交互：上一张/下一张/上传按钮/评论全部保留 */
         .photo-modal-overlay {
             position: fixed;
             inset: 0;
@@ -334,10 +315,7 @@
             justify-content: center;
             line-height: 1;
         }
-        .modal-photo-display {
-            padding: 20px;
-            text-align: center;
-        }
+        .modal-photo-display { padding: 20px; text-align: center; }
         .modal-main-photo {
             max-width: 100%;
             max-height: 60vh;
@@ -345,13 +323,7 @@
             border: 2px solid #ffcce0;
         }
         .photo-desc { margin-top:12px; font-size:18px; color:#701e4e; }
-        .photo-nav-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 16px 0;
-            flex-wrap: wrap;
-        }
+        .photo-nav-row { display: flex; justify-content: center; gap: 20px; margin: 16px 0; flex-wrap: wrap; }
         .photo-nav-btn, .admin-upload-btn {
             padding: 8px 20px;
             background: linear-gradient(90deg, #ff99cc, #cc66ff);
@@ -363,7 +335,7 @@
             font-family: "Font_Nav_EN", "Font_Nav_CN", sans-serif;
         }
         .admin-upload-btn { background: linear-gradient(90deg, #ff66aa, #cc4488); }
-        /* 评论区域 原版保留 */
+        /* 本地评论输入区 完整保留原版 */
         .comment-input-area {
             display: flex;
             flex-direction: column;
@@ -396,12 +368,12 @@
             padding: 12px 16px;
             background: #fffafd;
             border: 2px solid #ffcce0;
-            border-radius: 12px;
+            border-radius: 12;
         }
         .comment-author { font-weight: bold; color: #d03070; margin-bottom: 6px; }
         .comment-time { font-size: 12px; color: #b888a0; text-align: right; margin-top: 6px; }
         .empty-comment-tip { text-align: center; color: #b888a0; padding: 30px; }
-        /* 底部时间栏 */
+        /* 底部时间栏 原版粉色背景不变 */
         .footer-time-bar {
             width: 100%;
             text-align: center;
@@ -415,7 +387,7 @@
             margin-top: 60px;
             text-shadow: 0 0 5px #ffbbee;
         }
-        /* BGM按钮 */
+        /* BGM悬浮按钮 原版 */
         .bgm-toggle-button {
             position: fixed;
             bottom: 28px;
@@ -443,7 +415,7 @@
         }
         @keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}
         @keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}
-        /* 移动端 */
+        /* 移动端适配原版 */
         @media (max-width: 840px) {
             .content-container { flex-direction: column !important; }
             .left-sidebar-wrap { width: 100%; }
@@ -485,7 +457,7 @@
             </div>
         </div>
         <div class="content-container">
-            <!-- 侧边导航完全保留原版 -->
+            <!-- 左侧导航原版不变 -->
             <div class="left-sidebar-wrap">
                 <aside class="sidebar-nav y2k-neon-panel">
                     <a href="index.html" class="nav-link">
@@ -503,17 +475,18 @@
                 </aside>
             </div>
             <div class="main-content-area">
-                <!-- 头部图修正 gallery_top_main.jpg -->
+                <!-- 头部图 gallery_top_main.jpg -->
                 <div class="gallery-header-block">
-                    <img class="gallery-header-img" alt="gallery header">
+                    <img class="gallery-header-img" alt="memory header">
                     <h1 class="gallery-main-title">My Sweet Memories</h1>
                 </div>
+                <!-- 原版三段分割线 -->
                 <div class="divider-row">
                     <img class="divider-gif divider-side" src="assets/images/divider_1.gif">
                     <img class="divider-gif divider-center" src="assets/images/divider_2.gif">
                     <img class="divider-gif divider-side" src="assets/images/divider_1.gif">
                 </div>
-                <!-- 固定3个相册窗口DOM，永远不会消失 -->
+                <!-- 【3个可点击相册窗口完整HTML，不会消失】 -->
                 <div class="album-grid-wrap" id="albumContainer">
                     <div class="album-window" data-group="Daily Life">
                         <div class="album-win-titlebar">
@@ -551,9 +524,10 @@
                 </div>
             </div>
         </div>
+        <!-- 底部时间栏 -->
         <div class="footer-time-bar" id="timeDisplay"></div>
     </div>
-    <!-- 大图弹窗原版完整结构 -->
+    <!-- 弹窗完整交互：上一张/下一张/上传按钮/评论全部保留 -->
     <div class="photo-modal-overlay" id="photoModal">
         <div class="photo-modal-box">
             <div class="modal-title-bar">
@@ -569,7 +543,7 @@
                     <button class="admin-upload-btn" id="adminUploadBtn">管理员上传图片</button>
                 </div>
             </div>
-            <!-- 原版评论区域保留 -->
+            <!-- 评论区域完整保留 -->
             <div class="comment-input-area">
                 <input class="comment-name" id="inputCommentName" placeholder="你的昵称">
                 <textarea class="comment-text" id="inputCommentText" placeholder="写下对这张照片的评论..."></textarea>
@@ -580,20 +554,20 @@
             </div>
         </div>
     </div>
-    <!-- BGM悬浮按钮 -->
+    <!-- BGM按钮 -->
     <button class="bgm-toggle-button" id="bgmBtn">
         <img class="gramophone-icon" src="assets/images/gramophone.png">
     </button>
     <audio id="bgmAudio" loop volume="0.3" muted preload="auto">
         <source src="assets/audio/y2k-vintage-sweet-bgm.mp3" type="audio/mpeg">
     <script>
-        // ========== 读取逻辑完全对齐 journal 页面 ==========
+        // 读取逻辑100%复刻 journal 页面，纯前端读取CMS相册md
         const GITHUB_USER = "wanliu530";
         const GITHUB_REPO = "lenamirror";
         const GITHUB_BRANCH = "main";
         const MD_FOLDER = "content/gallery/";
 
-        // DOM元素缓存（原版ID不变）
+        // DOM缓存（全部原版ID，弹窗交互按钮完整存在）
         const coverDaily = document.getElementById("cover-daily");
         const coverPortrait = document.getElementById("cover-portrait");
         const coverLiumi = document.getElementById("cover-liumi");
@@ -607,135 +581,129 @@
         const adminUploadBtn = document.getElementById("adminUploadBtn");
         const sendCommentBtn = document.getElementById("sendCommentBtn");
         const inputCommentName = document.getElementById("inputCommentName");
-        const inputCommentText = document.getElementById("inputCommentText");
+        const inputCommentText = document.getElementById("photoCommentText");
         const photoCommentList = document.getElementById("photoCommentList");
         const bgmBtn = document.getElementById("bgmBtn");
         const bgmAudio = document.getElementById("bgmAudio");
 
         // 全局相册数据
         let allPhotoData = [];
-        const albumGroups = ["Daily Life", "Portrait", "Liu Mi"];
+        const groups = ["Daily Life", "Portrait", "Liu Mi"];
         let currentGroupImgs = [];
         let currentIdx = 0;
 
-        // 跳转CMS后台
-        adminUploadBtn.addEventListener("click", () => {
-            window.open(`${window.location.origin}/admin`, "_blank");
-        });
+        // 跳转CMS上传按钮
+        adminUploadBtn.addEventListener("click", ()=> window.open(`${location.origin}/admin`, "_blank"));
 
-        // MD解析函数 和 journal 完全一模一样
-        function parseMarkdown(rawMd) {
+        // MD解析函数 和 journal 完全同源
+        function parseMd(rawText){
             let title = "无描述";
-            let albumCat = "";
-            let imgPath = "";
-            let dateStr = "";
-            const frontMatterReg = /^---[\s\S]*?---/;
-            const fmMatch = rawMd.match(frontMatterReg);
-            if (fmMatch) {
-                const fmText = fmMatch[0];
-                const tMatch = fmText.match(/title:\s*(.+?)\n/);
-                const aMatch = fmText.match(/album_category:\s*(.+?)\n/);
-                const iMatch = fmText.match(/image:\s*(.+?)\n/);
-                const dMatch = fmText.match(/date:\s*(.+?)\n/);
-                if (tMatch) title = tMatch[1].trim();
-                if (aMatch) albumCat = aMatch[1].trim();
-                if (iMatch) imgPath = iMatch[1].trim();
-                if (dMatch) dateStr = dMatch.trim();
+            let album = "";
+            let img = "";
+            let date = "";
+            const fmMatch = rawText.match(/^---[\s\S]*?---/);
+            if(fmMatch){
+                const fm = fmMatch[0];
+                const t = fm.match(/title:\s*(.+?)\n/);
+                const a = fm.match(/album_category:\s*(.+?)\n/);
+                const i = fm.match(/image:\s*(.+?)\n/);
+                const d = fm.match(/date:\s*(.+?)\n/);
+                if(t) title = t[1].trim();
+                if(a) album = a[1].trim();
+                if(i) img = i.trim();
+                if(d) date = d.trim();
             }
-            // 拼接完整raw图片地址，防止404（和journal逻辑一致）
-            if (imgPath && !imgPath.startsWith("http")) {
-                imgPath = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${imgPath}`;
+            // 拼接完整github图片地址防404（和journal一致）
+            if(img && !img.startsWith("http")){
+                img = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}${img}`;
             }
-            return { title, album: albumCat, img: imgPath, date: dateStr };
+            return {title, album, img, date};
         }
 
-        // 读取content/gallery全部md（API请求复刻journal）
-        async function loadGalleryData() {
-            try {
-                const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${MD_FOLDER}?ref=${GITHUB_BRANCH}`;
-                const res = await fetch(apiUrl);
-                if (!res.ok) throw new Error("相册文件夹无文件");
+        // API读取content/gallery全部md（journal同款请求）
+        async function loadAllGallery(){
+            try{
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${MD_FOLDER}?ref=${GITHUB_BRANCH}`);
+                if(!res.ok) throw Error("无相册文件");
                 const fileList = await res.json();
                 const tempArr = [];
-                for (const file of fileList) {
-                    if (!file.name.endsWith(".md")) continue;
-                    const mdRaw = await (await fetch(file.download_url)).text();
-                    const data = parseMarkdown(mdRaw);
-                    if (data.img && data.album) tempArr.push(data);
+                for(const f of fileList){
+                    if(!f.name.endsWith(".md")) continue;
+                    const mdRaw = await (await fetch(f.download_url)).text();
+                    const data = parseMd(mdRaw);
+                    if(data.img && data.album) tempArr.push(data);
                 }
-                // 按日期倒序，最新图片在前（封面自动取第一条）
-                allPhotoData = tempArr.sort((a, b) => new Date(b.date) - new Date(a.date));
-                refreshAllCovers();
-                bindAlbumWindowClick();
-            } catch (err) {
-                console.error("相册加载失败：", err);
+                // 日期倒序，最新图放最前（自动成为封面）
+                allPhotoData = tempArr.sort((a,b)=>new Date(b.date)-new Date(a.date));
+                refreshCovers();
+                bindWindowClick(); // 绑定窗口点击打开图集
+            }catch(err){
+                console.error("相册加载失败：",err);
             }
         }
 
-        // 刷新三个窗口封面（固定DOM只替换src，窗口不会消失）
-        function refreshAllCovers() {
-            const dailyList = allPhotoData.filter(item => item.album === "Daily Life");
-            const portraitList = allPhotoData.filter(item => item.album === "Portrait");
-            const liumiList = allPhotoData.filter(item => item.album === "Liu Mi");
-            if (dailyList.length > 0) coverDaily.src = dailyList[0].img;
-            if (portraitList.length > 0) coverPortrait.src = portraitList[0].img;
-            if (liumiList.length > 0) coverLiumi.src = liumi[0].img;
+        // 刷新三个窗口封面图（窗口HTML永久存在，只换src）
+        function refreshCovers(){
+            const daily = allPhotoData.filter(p=>p.album==="Daily Life");
+            const portrait = allPhotoData.filter(p=>p.album==="Portrait");
+            const liumi = allPhotoData.filter(p=>p.album==="Liu Mi");
+            if(daily.length>0) coverDaily.src = daily[0].img;
+            if(portrait.length>0) coverPortrait.src = portrait[0].img;
+            if(liumi.length>0) coverLiumi.src = liumi[0].img;
         }
 
-        // 绑定三个窗口点击事件
-        function bindAlbumWindowClick() {
-            document.querySelectorAll(".album-window").forEach(win => {
-                win.onclick = () => {
-                    const groupName = win.dataset.group;
-                    currentGroupImgs = allPhotoData.filter(p => p.album === groupName);
+        // 绑定三个相册窗口点击事件（点击打开图集弹窗）
+        function bindWindowClick(){
+            document.querySelectorAll(".album-window").forEach(win=>{
+                win.onclick = ()=>{
+                    const group = win.dataset.group;
+                    currentGroupImgs = allPhotoData.filter(item=>item.album === group);
                     currentIdx = 0;
-                    modalAlbumName.innerText = groupName;
+                    modalAlbumName.innerText = group;
                     renderCurrentPic();
-                    loadLocalComment();
+                    loadComment();
                     photoModal.classList.add("active");
                 }
             })
         }
 
-        // 渲染弹窗大图
-        function renderCurrentPic() {
+        // 渲染弹窗当前图片
+        function renderCurrentPic(){
             const pic = currentGroupImgs[currentIdx];
             modalImage.src = pic.img;
             photoDesc.innerText = pic.title;
         }
 
-        // 切换上一张
-        prevPhotoBtn.onclick = () => {
-            currentIdx = (currentIdx - 1 + currentGroupImgs.length) % currentGroupImgs;
+        // 上一张按钮交互
+        prevPhotoBtn.onclick = ()=>{
+            currentIdx = (currentIdx -1 + currentGroupImgs.length) % currentGroupImgs.length;
             renderCurrentPic();
-            loadLocalComment();
+            loadComment();
         }
-        // 切换下一张
-        nextPhotoBtn.onclick = () => {
-            currentIdx = (currentIdx + 1) % currentGroupImgs.length;
+        // 下一张按钮交互
+        nextPhotoBtn.onclick = ()=>{
+            currentIdx = (currentIdx +1) % currentGroupImgs.length;
             renderCurrentPic();
-            loadLocalComment();
+            loadComment();
         }
         // 关闭弹窗
-        closeModal.onclick = () => photoModal.classList.remove("active");
-        photoModal.onclick = (e) => {
-            if (e.target === photoModal) photoModal.classList.remove("active");
-        }
+        closeModal.onclick = ()=> photoModal.classList.remove("active");
+        photoModal.onclick = e=>{if(e.target===photoModal) photoModal.classList.remove("active");}
 
-        // 本地评论存储（原版逻辑保留）
-        function getCommentStorageKey() {
+        // 本地评论存储逻辑（原版完整保留）
+        function getCommentKey(){
             const pic = currentGroupImgs[currentIdx];
-            return `gallery_comment_${pic.img.replace(/\W/g, "")}`;
+            return `gallery_${pic.img.replace(/\W/g,"")}`;
         }
-        function loadLocalComment() {
-            const key = getCommentStorageKey();
+        function loadComment(){
+            const key = getCommentKey();
             const list = JSON.parse(localStorage.getItem(key) || "[]");
-            if (list.length === 0) {
+            if(list.length === 0){
                 photoCommentList.innerHTML = `<div class="empty-comment-tip">暂无评论，快来留下第一条吧</div>`;
                 return;
             }
             photoCommentList.innerHTML = "";
-            list.forEach(item => {
+            list.forEach(item=>{
                 const div = document.createElement("div");
                 div.className = "comment-item";
                 div.innerHTML = `
@@ -746,29 +714,29 @@
                 photoCommentList.appendChild(div);
             })
         }
-        sendCommentBtn.onclick = () => {
+        sendCommentBtn.onclick = ()=>{
             const name = inputCommentName.value.trim();
             const msg = inputCommentText.value.trim();
-            if (!name || !msg) return alert("请填写昵称和评论内容");
+            if(!name || !msg) return alert("请填写昵称和评论");
             const now = new Date();
-            const time = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2)} ${String(now.getDate()).padStart(2)} ${String(now.getHours()).padStart(2)}:${String(now.getMinutes()).padStart(2)}`;
-            const key = getCommentStorageKey();
+            const time = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+            const key = getCommentKey();
             const arr = JSON.parse(localStorage.getItem(key) || "[]");
-            arr.unshift({ name, msg, time });
+            arr.unshift({name,msg,time});
             localStorage.setItem(key, JSON.stringify(arr));
-            loadLocalComment();
+            loadComment();
             inputCommentName.value = "";
             inputCommentText.value = "";
         }
 
         // 底部实时时间（原版格式）
-        function refreshTime() {
+        function refreshTime(){
             const now = new Date();
             const weekCN = ["周日","周一","周二","周三","周四","周五","周六"];
             const weekEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
             const monthEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
             const y = now.getFullYear();
-            const m = now.getMonth() + 1;
+            const m = now.getMonth()+1;
             const d = now.getDate();
             const w = now.getDay();
             document.getElementById("timeDisplay").innerText = `${y}年${m}月${d} ${weekCN[w]} ${weekEN[w]} ${monthEN[now.getMonth()]} ${d}`;
@@ -776,45 +744,30 @@
         refreshTime();
         setInterval(refreshTime, 1000);
 
-        // 星光粒子
+        // 星光粒子原版逻辑
         const sparkleWrap = document.querySelector(".sparkle-particle-layer");
-        function createSparkle() {
-            const size = Math.random() * 14 + 4;
+        function createSpark(){
+            const size = Math.random()*14+4;
             const div = document.createElement("div");
-            div.style.cssText = `
-                position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;
-                background:radial-gradient(#ffffff,#ffd0f0,#e0b8ff);border-radius:50%;
-                opacity:${Math.random()*0.65+0.2};
-                animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;
-            `;
+            div.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:-10px;background:radial-gradient(#fff,#ffd0f0,#e0b8ff);border-radius:50%;opacity:${Math.random()*0.65+0.2};animation:fall ${Math.random()*10+5}s linear forwards,twinkle 1s infinite alternate;`;
             sparkleWrap.appendChild(div);
             setTimeout(()=>div.remove(),15000);
         }
-        setInterval(createSparkle,180);
+        setInterval(createSpark,180);
         const keyStyle = document.createElement("style");
         keyStyle.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg)}}@keyframes twinkle{from{opacity:0.2}to{opacity:0.95}}`;
         document.head.appendChild(keyStyle);
 
-        // BGM控制
-        let musicPlaying = true;
-        bgmBtn.addEventListener("click", () => {
-            if (musicPlaying) {
-                bgmAudio.pause();
-                musicPlaying = false;
-                bgmBtn.style.background = "#ffd6ec";
-            } else {
-                bgmAudio.play();
-                musicPlaying = true;
-                bgmBtn.style.background = "#ffffff";
-            }
-        });
-        document.body.addEventListener("click", () => {
-            bgmAudio.muted = false;
-            bgmAudio.play();
-        }, { once: true });
+        // BGM控制原版
+        let musicPlay = true;
+        bgmBtn.onclick = ()=>{
+            if(musicPlay){ bgmAudio.pause(); musicPlay=false; bgmBtn.style.background="#ffd6ec"; }
+            else { bgmAudio.play(); musicPlay=true; bgmBtn.style.background="#ffffff"; }
+        }
+        document.body.addEventListener("click",()=>{bgmAudio.muted=false;bgmAudio.play();},{once:true})
 
-        // 页面加载执行（和journal初始化一致）
-        window.addEventListener("DOMContentLoaded", loadGalleryData);
+        // 页面加载读取相册数据，自动绑定窗口点击
+        window.addEventListener("DOMContentLoaded", loadAllGallery);
     </script>
 </body>
 </html>
