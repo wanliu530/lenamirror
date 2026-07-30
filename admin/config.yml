@@ -4,7 +4,7 @@ backend:
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
-  # 原有随笔完整保留
+  # 随笔板块（保持原样）
   - name: journal
     label: Journal 随笔
     folder: content/journal
@@ -22,7 +22,7 @@ collections:
         name: body
         widget: markdown
 
-  # 相册栏目，路径统一assets/upload
+  # 相册板块【已修正分类名称，和网页JS完全对应】
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
@@ -41,7 +41,7 @@ collections:
         widget: select
         options:
           - Daily Life
-          - Portrait
+          - 这是人
           - Liu Mi
       - label: 照片图片
         name: image
