@@ -2,17 +2,16 @@ backend:
   name: github
   repo: wanliu530/lenamirror
   branch: main
-  base_url: https://lenamirror.pages.dev # 不要末尾斜杠
+  base_url: https://lenamirror.pages.dev
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
-  # 随笔板块不变
   - name: journal
     label: Journal 随笔
     folder: content/journal
     create: true
     delete: true
-    preview_path: /journal
+    preview_path: /journal.html #【修改】补全后缀html
     fields:
       - label: "标题"
         name: title
@@ -23,13 +22,12 @@ collections:
       - label: "正文内容"
         name: body
         widget: markdown
-  # 相册分类统一英文，匹配页面JS
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
     create: true
     delete: true
-    preview_path: /gallery
+    preview_path: /gallery.html #【修改】补全后缀html
     fields:
       - label: 照片标题/描述
         name: title

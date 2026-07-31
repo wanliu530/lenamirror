@@ -18,11 +18,16 @@ export default async function onRequest(context) {
   const token = data.access_token;
 
   return new Response(`
+<!DOCTYPE html>
+<html>
+<body>
 <script>
-window.opener.postMessage({token:"${token}"}, "${origin}");
-window.close();
+const token = "${token ?? ""}";
+const siteOrigin = "${origin}";
+// 直接重定向回到admin页面携带token
+window.location.href = siteOrigin + "/admin#token=" + token;
 </script>
-`, {
-    headers: { "Content-Type": "text/html" }
-  });
+</body>
+</html>
+`, { headers: { "Content-Type": "text/html" } });
 }
