@@ -1,18 +1,16 @@
 backend:
-  name: github
-  repo: wanliu530/lenamirror
+  name: git-gateway
   branch: main
-  base_url: https://lenamirror.pages.dev
-  oauth_callback: "/oauth-callback.html"
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
+  # 随笔板块（保持原样）
   - name: journal
     label: Journal 随笔
     folder: content/journal
     create: true
     delete: true
-    preview_path: /journal.html
+    preview_path: /journal
     fields:
       - label: "标题"
         name: title
@@ -23,12 +21,14 @@ collections:
       - label: "正文内容"
         name: body
         widget: markdown
+
+  # 相册板块【已修正分类名称，和网页JS完全对应】
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
     create: true
     delete: true
-    preview_path: /gallery.html
+    preview_path: /gallery
     fields:
       - label: 照片标题/描述
         name: title
