@@ -1,10 +1,12 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: wanliu530/lenamirror
   branch: main
+  base_url: https://你的网站域名 # 不要末尾斜杠
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
-  # 随笔板块（保持原样）
+  # 随笔板块不变
   - name: journal
     label: Journal 随笔
     folder: content/journal
@@ -21,8 +23,7 @@ collections:
       - label: "正文内容"
         name: body
         widget: markdown
-
-  # 相册板块【已修正分类名称，和网页JS完全对应】
+  # 相册分类统一英文，匹配页面JS
   - name: gallery
     label: Gallery 相册
     folder: content/gallery
