@@ -2,7 +2,7 @@ backend:
   name: github
   repo: wanliu530/lenamirror
   branch: main
-  base_url: https://你的网站域名 # 不要末尾斜杠
+  base_url: https://lenamirror.pages.dev # 不要末尾斜杠
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
