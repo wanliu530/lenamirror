@@ -24,7 +24,6 @@ export default async function onRequest(context) {
 <script>
 const token = "${token ?? ""}";
 const siteOrigin = "${origin}";
-// 直接重定向回到admin页面携带token
 window.location.href = siteOrigin + "/admin#token=" + token;
 </script>
 </body>
