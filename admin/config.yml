@@ -11,7 +11,7 @@ collections:
     folder: content/journal
     create: true
     delete: true
-    preview_path: /journal.html #【修改】补全后缀html
+    preview_path: /journal.html 
     fields:
       - label: "标题"
         name: title
@@ -27,7 +27,7 @@ collections:
     folder: content/gallery
     create: true
     delete: true
-    preview_path: /gallery.html #【修改】补全后缀html
+    preview_path: /gallery.html 
     fields:
       - label: 照片标题/描述
         name: title
