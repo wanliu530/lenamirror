@@ -3,7 +3,7 @@ backend:
   repo: wanliu530/lenamirror
   branch: main
   base_url: https://lenamirror.pages.dev
-  oauth_callback: "/oauth-callback.html"  # 新增这一行
+  oauth_callback: "/oauth-callback.html"
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:
@@ -12,7 +12,7 @@ collections:
     folder: content/journal
     create: true
     delete: true
-    preview_path: /journal.html 
+    preview_path: /journal.html
     fields:
       - label: "标题"
         name: title
@@ -28,7 +28,7 @@ collections:
     folder: content/gallery
     create: true
     delete: true
-    preview_path: /gallery.html 
+    preview_path: /gallery.html
     fields:
       - label: 照片标题/描述
         name: title
