@@ -3,6 +3,7 @@ backend:
   repo: wanliu530/lenamirror
   branch: main
   base_url: https://lenamirror.pages.dev
+  oauth_callback: "/oauth-callback.html"  # 新增这一行
 media_folder: assets/upload
 public_folder: /assets/upload
 collections:

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<body>
+<script>
+  // Decap CMS 官方标准回调页面
+  if (window.opener) {
+    window.opener.postMessage(location.hash, "*");
+  }
+  window.close();
+</script>
+</body>
+</html>
